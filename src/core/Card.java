@@ -61,6 +61,9 @@ public class Card {
 	}
 
 	static public Card getCard(CardType identifier) {
+		if (Card.cardList == null) {
+			Card.init();
+		}
 		return Card.cardList.get(identifier.ordinal());
 	}
 
