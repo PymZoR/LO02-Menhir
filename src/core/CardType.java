@@ -25,5 +25,11 @@ public enum CardType {
 	DOLMEN3,
 	FAIRY1,
 	FAIRY2,
-	FAIRY3
+	FAIRY3,
+	TAUPE1,
+	TAUPE2,
+	TAUPE3,
+	DOG1,
+	DOG2,
+	DOG3
 }
