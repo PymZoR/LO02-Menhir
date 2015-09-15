@@ -15,8 +15,8 @@ public class AlliedCard extends Card {
 		int[] dog3Values   = { 0, 1, 3, 0 };
 
 		AlliedCard.cardList.add(AlliedCardType.TAUPE1.ordinal(), new AlliedCard(taupe1Values));
-		AlliedCard.cardList.add(AlliedCardType.TAUPE2.ordinal(), new AlliedCard(taupe1Values));
-		AlliedCard.cardList.add(AlliedCardType.TAUPE3.ordinal(), new AlliedCard(taupe1Values));
+		AlliedCard.cardList.add(AlliedCardType.TAUPE2.ordinal(), new AlliedCard(taupe2Values));
+		AlliedCard.cardList.add(AlliedCardType.TAUPE3.ordinal(), new AlliedCard(taupe3Values));
 		AlliedCard.cardList.add(AlliedCardType.DOG1.ordinal(), new AlliedCard(dog1Values));
 		AlliedCard.cardList.add(AlliedCardType.DOG2.ordinal(), new AlliedCard(dog2Values));
 		AlliedCard.cardList.add(AlliedCardType.DOG3.ordinal(), new AlliedCard(dog3Values));
