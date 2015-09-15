@@ -23,6 +23,9 @@ public class AlliedCard extends Card {
 	}
 
 	static public AlliedCard getCard(AlliedCardType identifier) {
+		if (AlliedCard.cardList == null) {
+			AlliedCard.init();
+		}
 		return AlliedCard.cardList.get(identifier.ordinal());
 	}
 
