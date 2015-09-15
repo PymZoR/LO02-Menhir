@@ -18,7 +18,7 @@ public enum CardType {
 	GOLD2,
 	GOLD3,
 	RAINBOW1,
-	RAINDOW2,
+	RAINBOW2,
 	RAINBOW3,
 	DOLMEN1,
 	DOLMEN2,
