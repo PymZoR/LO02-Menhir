@@ -1,10 +1,10 @@
 package core;
 
-import java.util.List;
+import java.util.Vector;
 
 
 public class Card {
-	static private List<Card> cardList;
+	static private Vector<Card> cardList;
 
 	static private void init() {
 		int[][] moon1Values    = { {1, 1, 1, 1}, {2, 0, 1, 1}, {2, 0, 2, 0} };

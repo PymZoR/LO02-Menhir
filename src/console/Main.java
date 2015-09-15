@@ -1,4 +1,4 @@
-package core;
+package console;
 
 
 public class Main {

@@ -1,10 +1,10 @@
 package core;
 
-import java.util.List;
+import java.util.Vector;
 
 
 public class AlliedCard extends Card {
-	static private List<AlliedCard> cardList;
+	static private Vector<AlliedCard> cardList = null;
 
 	static private void init() {
 		int[] taupe1Values = { 1, 1, 1, 1 };
@@ -25,7 +25,7 @@ public class AlliedCard extends Card {
 	static public AlliedCard getCard(AlliedCardType identifier) {
 		return AlliedCard.cardList.get(identifier.ordinal());
 	}
-	
+
 	int[] values;
 
 	private AlliedCard(int[] values) {
