@@ -22,7 +22,7 @@ public class Player {
 					case FERTILIZER:
 						this.playFertilizer(card);
 						break;
-					case HOBGOBBLIN:
+					case HOBGOBLIN:
 						this.playHobgobblin(card, target);
 						break;
 				}
