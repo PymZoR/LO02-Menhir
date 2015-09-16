@@ -14,12 +14,9 @@ public class Field {
     }
 
     public void addBigRockNumber(int number) {
-        if (this.smallRockNumber <= number) {
-            throw new Error("Not enough small rocks");
-        }
-        this.smallRockNumber -= number;
         this.bigRockNumber   += number;
     }
+
 
     public int getSmallRockNumber() {
         return this.smallRockNumber;
@@ -27,5 +24,9 @@ public class Field {
 
     public void addSmallRockNumber(int number) {
         this.smallRockNumber += number;
+    }
+
+    public void setSmallRockNumber(int number) {
+        this.smallRockNumber = number;
     }
 }

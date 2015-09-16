@@ -17,15 +17,13 @@ public class Main {
 		do {
 			System.out.println("Next turn. Choose your card: ");
 
-			// TODO: Display the cards
-
 			int cardId           = 0;
 			int actionId         = 0;
 			Card card            = null;
 			ActionType action    = null;
 			int maxActionId      = ActionType.values().length;
 			Player currentPlayer = game.getCurrentPlayer();
-			
+
 			for (int i = 0; i < currentPlayer.getCards().size(); i += 2) {
 				String firstCard  = currentPlayer.getCards().get(i).toASCII(i);
 				String secondCard = currentPlayer.getCards().get(i + 1).toASCII(i + 1);
@@ -87,7 +85,6 @@ public class Main {
 						}
 					}
 				} while (player == null);
-
 			}
 
 			game.nextTurn(card, action, player);

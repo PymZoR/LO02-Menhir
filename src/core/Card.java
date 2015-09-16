@@ -6,6 +6,7 @@ import helpers.StringUtils;
 public class Card {
 	static public final int CARD_NUMBER = 24;
 	static private Vector<Card> cardList;
+
 	private int[][] valueMatrix;
 	private CardType type;
 
@@ -78,7 +79,11 @@ public class Card {
 	public CardType getType() {
 		return this.type;
 	}
-	
+
+	public int getValue(ActionType action, SeasonType season) {
+		return this.valueMatrix[action.ordinal()][season.ordinal()];
+	}
+
 	public String toASCII(int cardN) {
 		String result = "--------------\n";
 		result       += "| Carte .    |\n";
@@ -88,7 +93,7 @@ public class Card {
 		result       += "| E . . . .  |\n";
 		result       += "| F . . . .  |\n";
 		result       += "|------------|\n";
-		
+
 		result = StringUtils.replaceCharAt(result, 23, Integer.toString(cardN));
 		result = StringUtils.replaceCharAt(result, 64, Integer.toString(this.valueMatrix[0][0]));
 		result = StringUtils.replaceCharAt(result, 66, Integer.toString(this.valueMatrix[0][1]));
@@ -102,7 +107,7 @@ public class Card {
 		result = StringUtils.replaceCharAt(result, 96, Integer.toString(this.valueMatrix[2][1]));
 		result = StringUtils.replaceCharAt(result, 98, Integer.toString(this.valueMatrix[2][2]));
 		result = StringUtils.replaceCharAt(result, 100, Integer.toString(this.valueMatrix[2][3]));
-		
+
 		return result;
 	}
 }
