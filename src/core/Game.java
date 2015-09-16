@@ -34,11 +34,11 @@ public class Game {
         this.currentPlayer.playCard(card, action, player);
 
         int currentPlayerNumber = this.currentPlayer.getNumber();
-        if (currentPlayerNumber == this.playerNumber-1) {
+        if (currentPlayerNumber == this.playerNumber - 1) {
             this.currentPlayer = this.players.get(0);
         }
         else {
-            this.currentPlayer = this.players.get(currentPlayerNumber+1);
+            this.currentPlayer = this.players.get(currentPlayerNumber + 1);
         }
     }
 
