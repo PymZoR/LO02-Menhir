@@ -1,7 +1,7 @@
 package core;
 
 import java.util.Vector;
-
+import helpers.StringUtils;
 
 public class Card {
 	static public final int CARD_NUMBER = 24;
@@ -77,5 +77,32 @@ public class Card {
 
 	public CardType getType() {
 		return this.type;
+	}
+	
+	public String toASCII(int cardN) {
+		String result = "--------------\n";
+		result       += "| Carte .    |\n";
+		result       += "|------------|\n";
+		result       += "|   P E A H  |\n";
+		result       += "| G . . . .  |\n";
+		result       += "| E . . . .  |\n";
+		result       += "| F . . . .  |\n";
+		result       += "|------------|\n";
+		
+		result = StringUtils.replaceCharAt(result, 23, Integer.toString(cardN));
+		result = StringUtils.replaceCharAt(result, 64, Integer.toString(this.valueMatrix[0][0]));
+		result = StringUtils.replaceCharAt(result, 66, Integer.toString(this.valueMatrix[0][1]));
+		result = StringUtils.replaceCharAt(result, 68, Integer.toString(this.valueMatrix[0][2]));
+		result = StringUtils.replaceCharAt(result, 70, Integer.toString(this.valueMatrix[0][3]));
+		result = StringUtils.replaceCharAt(result, 79, Integer.toString(this.valueMatrix[1][0]));
+		result = StringUtils.replaceCharAt(result, 81, Integer.toString(this.valueMatrix[1][1]));
+		result = StringUtils.replaceCharAt(result, 83, Integer.toString(this.valueMatrix[1][2]));
+		result = StringUtils.replaceCharAt(result, 85, Integer.toString(this.valueMatrix[1][3]));
+		result = StringUtils.replaceCharAt(result, 94, Integer.toString(this.valueMatrix[2][0]));
+		result = StringUtils.replaceCharAt(result, 96, Integer.toString(this.valueMatrix[2][1]));
+		result = StringUtils.replaceCharAt(result, 98, Integer.toString(this.valueMatrix[2][2]));
+		result = StringUtils.replaceCharAt(result, 100, Integer.toString(this.valueMatrix[2][3]));
+		
+		return result;
 	}
 }

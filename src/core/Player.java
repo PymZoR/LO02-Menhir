@@ -45,6 +45,10 @@ public class Player {
 				}
 		}
 	}
+	
+	public Vector<Card> getCards () {
+		return this.cards;
+	}
 
 	public void playCard(Card card, ActionType action) {
 		playCard(card, action, null);
