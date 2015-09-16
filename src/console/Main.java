@@ -13,6 +13,7 @@ public class Main {
 		int playerNumber = Integer.parseInt(System.console().readLine());
 		Game game        = new Game(playerNumber);
 
+		game.start();
 		do {
 			System.out.println("Next turn. Choose your card: ");
 
@@ -37,8 +38,8 @@ public class Main {
 			} while (cardId == 0);
 
 			System.out.println("You have chosen the card " + Integer.toString(cardId));
-			card  = currentPlayer.getCardById(cardId);
 
+			card  = currentPlayer.getCardById(cardId - 1);
 			System.out.println("Choose an action number: ");
 
 			// TODO: display actions
@@ -73,7 +74,9 @@ public class Main {
 						}
 					}
 				} while (player == null);
+
 			}
+
 			game.nextTurn(card, action, player);
 		} while (game.isRunning());
 	}
