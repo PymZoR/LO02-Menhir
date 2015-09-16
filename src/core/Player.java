@@ -23,7 +23,7 @@ public class Player {
 						this.playFertilizer(card);
 						break;
 					case HOBGOBLIN:
-						this.playHobgobblin(card, target);
+						this.playHobgoblin(card, target);
 						break;
 				}
 		}
@@ -42,13 +42,14 @@ public class Player {
 	}
 	
 	private void playGiant (Card card) {
+
 	}
 	
 	private void playFertilizer (Card card) {
 		
 	}
 	
-	private void playHobgobblin (Card card, Player target) {
+	private void playHobgoblin (Card card, Player target) {
 		
 	}
 }
