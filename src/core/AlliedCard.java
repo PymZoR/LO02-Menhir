@@ -4,12 +4,13 @@ import java.util.Vector;
 
 
 public class AlliedCard extends Card {
+	static public final int ALLIED_CARD_NUMBER = 6;
 	static private Vector<AlliedCard> cardList = null;
 	private int[] values;
 	private CardType type;
 
 	static private void init() {
-		Card.cardList = new Vector<Card>();
+		AlliedCard.cardList = new Vector<AlliedCard>();
 
 		int[] taupe1Values = { 1, 1, 1, 1 };
 		int[] taupe2Values = { 0, 2, 2, 0 };
