@@ -1,20 +1,47 @@
 package core;
 
+import java.util.Vector;
+
 
 public class Game {
-    private boolean running = false;
+    public static final int CARDS_IN_HAND = 4;
+	private boolean running = false;
+	private Player currentPlayer = null;
+	private Vector<Player> players;
+	private int playerNumber = 0;
 
 
-    public void Game() {
+	public Game(int playerNumber) {
+		this.players = new Vector<Player>();
+    	this.playerNumber = playerNumber;
 
+    	for (int i = 0; i < playerNumber; i++) {
+    		players.add(new Player());
+    	}
+
+    	this.currentPlayer = this.players.get(0);
     }
 
 
-    void nextTurn(CardType card, ActionType action) {
-
+    public void nextTurn(Card card, ActionType action, Player player) {
+        this.currentPlayer.playCard();
     }
 
-    boolean isRunning() {
+	public Player getPlayer(int playerId) {
+		return players.get(playerId);
+	}
+
+    public boolean isRunning() {
         return this.running;
     }
+
+
+	public Player getCurrentPlayer() {
+		return this.currentPlayer;
+	}
+
+
+	public int getPlayerNumber() {
+		return this.playerNumber;
+	}
 }
