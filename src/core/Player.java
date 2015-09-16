@@ -6,9 +6,13 @@ import java.util.Vector;
 
 public class Player {
 	private Vector<Card> cards;
+	private Field field;
+	private int number;
 
-	public Player() {
-		this.cards = new Vector();
+	public Player(int number) {
+		this.cards  = new Vector<Card>();
+		this.field  = new Field();
+		this.number = number;
 	}
 
 	public void drawCard(int cardNumber) {
@@ -50,10 +54,6 @@ public class Player {
 		return this.cards;
 	}
 
-	public void playCard(Card card, ActionType action) {
-		playCard(card, action, null);
-	}
-
 	public Card getCardById(int cardId) {
 		return this.cards.get(cardId);
 	}
@@ -76,5 +76,13 @@ public class Player {
 
 	private void playHobgoblin (Card card, Player target) {
 
+	}
+
+	public Field getField() {
+		return this.field;
+	}
+
+	public int getNumber() {
+		return this.number;
 	}
 }
