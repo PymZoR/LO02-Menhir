@@ -6,6 +6,7 @@ import java.util.Vector;
 public class Card {
 	static public final int CARD_NUMBER = 24;
 	static private Vector<Card> cardList;
+
 	private int[][] valueMatrix;
 	private CardType type;
 
@@ -77,5 +78,9 @@ public class Card {
 
 	public CardType getType() {
 		return this.type;
+	}
+
+	public int getValue(ActionType action, SeasonType season) {
+		return this.valueMatrix[action.ordinal()][season.ordinal()];
 	}
 }

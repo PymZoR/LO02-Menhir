@@ -8,11 +8,13 @@ public class Player {
 	private Vector<Card> cards;
 	private Field field;
 	private int number;
+	private Game game;
 
-	public Player(int number) {
+	public Player(Game game, int number) {
 		this.cards  = new Vector<Card>();
 		this.field  = new Field();
 		this.number = number;
+		this.game = game;
 	}
 
 	public void drawCard(int cardNumber) {
@@ -24,54 +26,25 @@ public class Player {
 	}
 
 	public void playCard(Card card, ActionType action, Player target) {
-		switch (card.getType()) {
-			case TAUPE1:
-			case TAUPE2:
-			case TAUPE3:
-				this.playTaupe(target);
+		int actionValue = card.getValue(action, this.game.getActualSeason());
+
+		switch (action) {
+			case GIANT:
+				this.game.playGiant(this, actionValue);
 				break;
-			case DOG1:
-			case DOG2:
-			case DOG3:
-				this.playDog();
+
+			case FERTILIZER:
+				this.game.playFertilizer(this, actionValue);
 				break;
-			default:
-				switch (action) {
-					case GIANT:
-						this.playGiant(card);
-						break;
-					case FERTILIZER:
-						this.playFertilizer(card);
-						break;
-					case HOBGOBLIN:
-						this.playHobgoblin(card, target);
-						break;
-				}
+
+			case HOBGOBLIN:
+				this.game.playHobgoblin(target, actionValue);
+				break;
 		}
 	}
 
 	public Card getCardById(int cardId) {
 		return this.cards.get(cardId);
-	}
-
-	private void playTaupe(Player target) {
-
-	}
-
-	private void playDog() {
-
-	}
-
-	private void playGiant (Card card) {
-
-	}
-
-	private void playFertilizer (Card card) {
-
-	}
-
-	private void playHobgoblin (Card card, Player target) {
-
 	}
 
 	public Field getField() {
@@ -80,5 +53,9 @@ public class Player {
 
 	public int getNumber() {
 		return this.number;
+	}
+
+	public Game getGame() {
+		return this.game;
 	}
 }

@@ -74,7 +74,6 @@ public class Main {
 						}
 					}
 				} while (player == null);
-
 			}
 
 			game.nextTurn(card, action, player);
