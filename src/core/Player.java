@@ -6,13 +6,15 @@ import java.util.Vector;
 
 public class Player {
 	private Vector<Card> cards;
+	private Vector<AlliedCard> alliedCards;
 	private Field field;
 	private int number;
 
 	public Player(int number) {
-		this.cards  = new Vector<Card>();
-		this.field  = new Field();
-		this.number = number;
+		this.cards       = new Vector<Card>();
+		this.alliedCards = new Vector<AlliedCard>();
+		this.field       = new Field();
+		this.number      = number;
 	}
 
 	public void drawCard(int cardNumber) {
@@ -50,8 +52,12 @@ public class Player {
 		}
 	}
 	
-	public Vector<Card> getCards () {
+	public Vector<Card> getCards() {
 		return this.cards;
+	}
+	
+	public Vector<AlliedCard> getAlliedCards() {
+		return this.alliedCards;
 	}
 
 	public Card getCardById(int cardId) {
