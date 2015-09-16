@@ -1,7 +1,24 @@
 package core;
 
+import java.util.Random;
+import java.util.Vector;
+
 
 public class Player {
+	private Vector<Card> cards;
+
+	public Player() {
+		this.cards = new Vector();
+	}
+
+	public void drawCard(int cardNumber) {
+		for (int i = 0; i < cardNumber; i++) {
+			CardType randomType = CardType.values()[new Random().nextInt(Card.CARD_NUMBER)];
+			Card newCard = Card.getCard(randomType);
+			this.cards.add(newCard);
+		}
+	}
+
 	public void playCard(Card card, ActionType action, Player target) {
 		switch (card.getType()) {
 			case TAUPE1:
@@ -28,28 +45,32 @@ public class Player {
 				}
 		}
 	}
-	
+
 	public void playCard(Card card, ActionType action) {
 		playCard(card, action, null);
 	}
-	
+
+	public Card getCardById(int cardId) {
+		return this.cards.get(cardId);
+	}
+
 	private void playTaupe(Player target) {
-		
+
 	}
-	
+
 	private void playDog() {
-		
+
 	}
-	
+
 	private void playGiant (Card card) {
 
 	}
-	
+
 	private void playFertilizer (Card card) {
-		
+
 	}
-	
+
 	private void playHobgoblin (Card card, Player target) {
-		
+
 	}
 }
