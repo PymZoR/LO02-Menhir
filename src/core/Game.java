@@ -14,10 +14,13 @@ public class Game {
     	this.players = new Vector<Player>();
     	this.playerNumber = playerNumber;
 
+        // Init players
     	for (int i = 0; i < playerNumber; i++) {
-    		Player newPlayer = new Player();
-    		newPlayer.drawCard(4);
-    		players.add(newPlayer);
+            Player newPlayer = new Player(i);
+            newPlayer.drawCard(4);
+            newPlayer.getField().addSmallRockNumber(2);
+
+            players.add(newPlayer);
     	}
 
     	this.currentPlayer = this.players.get(0);
@@ -26,9 +29,17 @@ public class Game {
     public void start() {
     	this.running = true;
     }
-    
+
     public void nextTurn(Card card, ActionType action, Player player) {
         this.currentPlayer.playCard(card, action, player);
+
+        int currentPlayerNumber = this.currentPlayer.getNumber();
+        if (currentPlayerNumber == this.playerNumber-1) {
+            this.currentPlayer = this.players.get(0);
+        }
+        else {
+            this.currentPlayer = this.players.get(currentPlayerNumber+1);
+        }
     }
 
     public Player getPlayer(int playerId) {
