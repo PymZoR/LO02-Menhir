@@ -42,6 +42,10 @@ public class Player {
 				break;
 		}
 	}
+	
+	public Vector<Card> getCards () {
+		return this.cards;
+	}
 
 	public Card getCardById(int cardId) {
 		return this.cards.get(cardId);
