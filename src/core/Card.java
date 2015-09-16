@@ -9,6 +9,8 @@ public class Card {
 	private CardType type;
 
 	static private void init() {
+		Card.cardList = new Vector<Card>();
+
 		int[][] moon1Values    = { {1, 1, 1, 1}, {2, 0, 1, 1}, {2, 0, 2, 0} };
 		int[][] moon2Values    = { {2, 0, 1, 1}, {1, 3, 0, 0}, {0, 1, 2, 1} };
 		int[][] moon3Values    = { {0, 0, 4, 0}, {0, 2, 2, 0}, {0, 0, 1, 3} };

@@ -9,6 +9,8 @@ public class AlliedCard extends Card {
 	private CardType type;
 
 	static private void init() {
+		Card.cardList = new Vector<Card>();
+
 		int[] taupe1Values = { 1, 1, 1, 1 };
 		int[] taupe2Values = { 0, 2, 2, 0 };
 		int[] taupe3Values = { 0, 1, 2, 1 };
@@ -37,7 +39,7 @@ public class AlliedCard extends Card {
 		this.values = values;
 		this.type   = type;
 	}
-	
+
 	public CardType getType() {
 		return this.type;
 	}
