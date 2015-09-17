@@ -90,11 +90,11 @@ public class Card {
 		result       += "|------------|\n";
 		result       += "|   P E A H  |\n";
 		result       += "| G . . . .  |\n";
-		result       += "| E . . . .  |\n";
 		result       += "| F . . . .  |\n";
+		result       += "| H . . . .  |\n";
 		result       += "|------------|\n";
 
-		result = StringUtils.replaceCharAt(result, 23, Integer.toString(cardN));
+		result = StringUtils.replaceCharAt(result, 23, Integer.toString(cardN + 1));
 		result = StringUtils.replaceCharAt(result, 64, Integer.toString(this.valueMatrix[0][0]));
 		result = StringUtils.replaceCharAt(result, 66, Integer.toString(this.valueMatrix[0][1]));
 		result = StringUtils.replaceCharAt(result, 68, Integer.toString(this.valueMatrix[0][2]));
