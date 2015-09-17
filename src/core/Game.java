@@ -39,7 +39,7 @@ public class Game {
             this.currentPlayer = this.players.get(0);
 
             if (this.actualSeason.ordinal() == SeasonType.values().length - 1) {
-            	this.actualSeason = SeasonType.values()[0];
+            	this.running = false;
             }
             else {
             	this.actualSeason = SeasonType.values()[this.actualSeason.ordinal() + 1];
@@ -67,8 +67,8 @@ public class Game {
 	public void playFertilizer(Player source, int fertilizeNumber) {
         Field field = source.getField();
 
-        if (field.getSmallRockNumber() <= fertilizeNumber) {
-            throw new Error("Not enough small rocks");
+        if (field.getSmallRockNumber() < fertilizeNumber) {
+            fertilizeNumber = field.getSmallRockNumber();
         }
 
         field.addSmallRockNumber(-fertilizeNumber);
