@@ -5,6 +5,8 @@ import core.Card;
 import core.AlliedCard;
 import core.Player;
 import core.ActionType;
+import core.Field;
+import core.SeasonType;
 import helpers.StringUtils;
 
 public class Main {
@@ -13,16 +15,24 @@ public class Main {
 		int playerNumber = Integer.parseInt(System.console().readLine());
 		Game game        = new Game(playerNumber);
 
+		System.out.println("\nStart new game !");
+		System.out.println("--------------------------------\n");
 		game.start();
 		do {
-			System.out.println("Next turn. Choose your card: ");
-
 			int cardId           = 0;
 			int actionId         = 0;
 			Card card            = null;
 			ActionType action    = null;
 			int maxActionId      = ActionType.values().length;
 			Player currentPlayer = game.getCurrentPlayer();
+			Field currentField   = currentPlayer.getField();
+			String seasonName    = Main.getSeasonName(game.getActualSeason());
+
+			System.out.println("Next turn. Player " + (currentPlayer.getNumber()+1) + ":");
+			System.out.println("    Current season: " + seasonName);
+			System.out.println("    You have " + currentField.getSmallRockNumber() + " small rocks.");
+			System.out.println("    You have " + currentField.getBigRockNumber() + " big rocks.\n");
+			System.out.println("Choose your card: ");
 
 			for (int i = 0; i < currentPlayer.getCards().size(); i += 2) {
 				String firstCard  = currentPlayer.getCards().get(i).toASCII(i);
@@ -37,7 +47,7 @@ public class Main {
 				System.out.println(StringUtils.getLine(firstCard, 7) + "    " + StringUtils.getLine(secondCard, 7));
 			}
 
-			System.out.println("Choose a card number");
+			System.out.println("\nChoose a card number:");
 			do {
 				cardId = Integer.parseInt(System.console().readLine());
 
@@ -47,14 +57,9 @@ public class Main {
 					cardId = 0;
 				}
 			} while (cardId == 0);
-
-			System.out.println("You have chosen the card " + Integer.toString(cardId));
-
 			card  = currentPlayer.getCardById(cardId - 1);
-			System.out.println("Choose an action number: ");
 
-			// TODO: display actions
-
+			System.out.println("\nChoose an action Number(1 for Giant...):");
 			do {
 				actionId = Integer.parseInt(System.console().readLine());
 
@@ -70,7 +75,7 @@ public class Main {
 
 			if (action == ActionType.HOBGOBLIN) {
 				do {
-					System.out.println("Choose an other player: ");
+					System.out.println("\nChoose an other player: ");
 					int playerId = Integer.parseInt(System.console().readLine());
 					if (playerId > playerNumber) {
 						System.out.println("There is only " + playerNumber +
@@ -89,5 +94,29 @@ public class Main {
 
 			game.nextTurn(card, action, player);
 		} while (game.isRunning());
+
+		System.out.println("\n Game is finished");
+	}
+
+	static private String getSeasonName(SeasonType season) {
+		String seasonName = "";
+
+		switch (season) {
+			case SPRING:
+				seasonName = "spring";
+				break;
+			case SUMMER:
+				seasonName = "Summer";
+				break;
+			case FALL:
+				seasonName = "Fall";
+				break;
+			case WINTER:
+				seasonName = "Winter";
+				break;
+			default:
+		}
+
+		return seasonName;
 	}
 }
