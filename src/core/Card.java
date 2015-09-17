@@ -88,7 +88,7 @@ public class Card {
 		String result = "--------------\n";
 		result       += "| Carte .    |\n";
 		result       += "|------------|\n";
-		result       += "|   P E A H  |\n";
+		result       += "|   s S F W  |\n";
 		result       += "| G . . . .  |\n";
 		result       += "| F . . . .  |\n";
 		result       += "| H . . . .  |\n";
