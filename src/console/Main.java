@@ -34,16 +34,21 @@ public class Main {
 			System.out.println("Choose your card: ");
 
 			for (int i = 0; i < currentPlayer.getCards().size(); i += 2) {
-				String firstCard  = currentPlayer.getCards().get(i).toASCII(i);
-				String secondCard = currentPlayer.getCards().get(i + 1).toASCII(i + 1);
-				System.out.println(StringUtils.getLine(firstCard, 0) + "    " + StringUtils.getLine(secondCard, 0));
-				System.out.println(StringUtils.getLine(firstCard, 1) + "    " + StringUtils.getLine(secondCard, 1));
-				System.out.println(StringUtils.getLine(firstCard, 2) + "    " + StringUtils.getLine(secondCard, 2));
-				System.out.println(StringUtils.getLine(firstCard, 3) + "    " + StringUtils.getLine(secondCard, 3));
-				System.out.println(StringUtils.getLine(firstCard, 4) + "    " + StringUtils.getLine(secondCard, 4));
-				System.out.println(StringUtils.getLine(firstCard, 5) + "    " + StringUtils.getLine(secondCard, 5));
-				System.out.println(StringUtils.getLine(firstCard, 6) + "    " + StringUtils.getLine(secondCard, 6));
-				System.out.println(StringUtils.getLine(firstCard, 7) + "    " + StringUtils.getLine(secondCard, 7));
+				if (currentPlayer.getCards().size() <= i + 1) {
+					String firstCard  = currentPlayer.getCards().get(i).toASCII(i);
+					System.out.print(firstCard);
+				} else {
+					String firstCard  = currentPlayer.getCards().get(i).toASCII(i);
+					String secondCard = currentPlayer.getCards().get(i + 1).toASCII(i + 1);
+					System.out.println(StringUtils.getLine(firstCard, 0) + "    " + StringUtils.getLine(secondCard, 0));
+					System.out.println(StringUtils.getLine(firstCard, 1) + "    " + StringUtils.getLine(secondCard, 1));
+					System.out.println(StringUtils.getLine(firstCard, 2) + "    " + StringUtils.getLine(secondCard, 2));
+					System.out.println(StringUtils.getLine(firstCard, 3) + "    " + StringUtils.getLine(secondCard, 3));
+					System.out.println(StringUtils.getLine(firstCard, 4) + "    " + StringUtils.getLine(secondCard, 4));
+					System.out.println(StringUtils.getLine(firstCard, 5) + "    " + StringUtils.getLine(secondCard, 5));
+					System.out.println(StringUtils.getLine(firstCard, 6) + "    " + StringUtils.getLine(secondCard, 6));
+					System.out.println(StringUtils.getLine(firstCard, 7) + "    " + StringUtils.getLine(secondCard, 7));
+				}
 			}
 
 			System.out.println("\nChoose a card number:");

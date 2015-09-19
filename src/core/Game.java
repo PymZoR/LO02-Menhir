@@ -10,7 +10,7 @@ public class Game {
 	/**
 	 * The total cards a player can have
 	 */
-	public static final int CARDS_IN_HAND = 4;
+	public static final int CARDS_IN_HAND = 3;
 
 	/**
 	 * Game state (started, playing player, all players, playing player index and actual season)
@@ -32,7 +32,7 @@ public class Game {
 		// Init players
 		for (int i = 0; i < playerNumber; i++) {
 			Player newPlayer = new Player(this, i);
-			newPlayer.drawCard(4);
+			newPlayer.drawCard(this.CARDS_IN_HAND);
 			newPlayer.getField().addSmallRockNumber(2);
 
 			players.add(newPlayer);
