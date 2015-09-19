@@ -1,32 +1,59 @@
 package core;
 
-
+/**
+ * Field management
+ */
 public class Field {
-    private int bigRockNumber   = 0;
-    private int smallRockNumber = 0;
+	/**
+	 * Big and small rocks amounts
+	 */
+	private int bigRockNumber   = 0;
+	private int smallRockNumber = 0;
 
-    public Field() {
+	/**
+	 * Create a field
+	 */
+	public Field() {
 
-    }
+	}
 
-    public int getBigRockNumber() {
-        return this.bigRockNumber;
-    }
+	/**
+	 * Get the big rock amount
+	 * @return The big rock amount
+	 */
+	public int getBigRockNumber() {
+		return this.bigRockNumber;
+	}
 
-    public void addBigRockNumber(int number) {
-        this.bigRockNumber   += number;
-    }
+	/**
+	 * Add big rocks to the field
+	 * @param number Big rocks to add
+	 */
+	public void addBigRockNumber(int number) {
+		this.bigRockNumber += number;
+	}
 
+	/**
+	 * Get the small rocks amount
+	 * @return The small rocks amount
+	 */
+	public int getSmallRockNumber() {
+		return this.smallRockNumber;
+	}
 
-    public int getSmallRockNumber() {
-        return this.smallRockNumber;
-    }
+	/**
+	 * Add small rocks to the field
+	 * @param number Small rocks to add
+	 */
+	public void addSmallRockNumber(int number) {
+		this.smallRockNumber += number;
+	}
 
-    public void addSmallRockNumber(int number) {
-        this.smallRockNumber += number;
-    }
-
-    public void setSmallRockNumber(int number) {
-        this.smallRockNumber = number;
-    }
+	/**
+	 * Set the small rocks amount
+	 * @param number The small rocks amount
+	 */
+	public void setSmallRockNumber(int number) {
+		this.smallRockNumber = number;
+	}
 }

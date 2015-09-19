@@ -1,12 +1,21 @@
 package core;
 
+
 import java.util.Vector;
 
 public class HarassStrategy extends Strategy {
+	/**
+	 * Create a new strategy for a given player
+	 * @param self       The actual player
+	 * @param allPlayers All the players
+	 */
 	public HarassStrategy(Player self, Vector<Player> allPlayers) {
 		super(self, allPlayers);
 	}
 
+	/**
+	 * Make the choice
+	 */
 	@Override
 	public void makeChoice() {
 		this.action = null;
@@ -30,7 +39,7 @@ public class HarassStrategy extends Strategy {
 			}
 
 			if (this.target.getField().getBigRockNumber() == p.getField().getBigRockNumber() &&
-				this.target.getField().getSmallRockNumber() < p.getField().getSmallRockNumber()) {
+					this.target.getField().getSmallRockNumber() < p.getField().getSmallRockNumber()) {
 				this.target = p;
 				continue;
 			}
@@ -71,13 +80,13 @@ public class HarassStrategy extends Strategy {
 			Vector<AlliedCard> alliedCards = this.self.getAlliedCards();
 			for (int i = 0; i < alliedCards.size(); i++) {
 				switch(alliedCards.get(i).getType()) {
-					case TAUPE1:
-					case TAUPE2:
-					case TAUPE3:
-						this.alliedCard = alliedCards.get(i).getType();
-						break;
-					default:
-						break;
+				case TAUPE1:
+				case TAUPE2:
+				case TAUPE3:
+					this.alliedCard = alliedCards.get(i).getType();
+					break;
+				default:
+					break;
 				}
 			}
 		}

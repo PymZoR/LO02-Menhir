@@ -1,14 +1,31 @@
 package core;
 
+
 import java.util.Vector;
 
-
+/**
+ * Allied card (taupe or dog) representation
+ */
 public class AlliedCard extends Card {
+	/**
+	 * Maximum number of allied cards
+	 */
 	static public final int ALLIED_CARD_NUMBER = 6;
+
+	/**
+	 * Allied cards are singletons
+	 */
 	static private Vector<AlliedCard> cardList = null;
+
+	/**
+	 * Allied cards properties (values and type)
+	 */
 	private int[] values;
 	private CardType type;
 
+	/**
+	 * Create all the allied cards
+	 */
 	static private void init() {
 		AlliedCard.cardList = new Vector<AlliedCard>();
 
@@ -27,6 +44,11 @@ public class AlliedCard extends Card {
 		AlliedCard.cardList.add(CardType.DOG3.ordinal(), new AlliedCard(dog3Values, CardType.DOG3));
 	}
 
+	/**
+	 * Get an allied card by its identifier
+	 * @param identifier The identifier
+	 * @return The card
+	 */
 	static public AlliedCard getCard(CardType identifier) {
 		if (AlliedCard.cardList == null) {
 			AlliedCard.init();
@@ -35,12 +57,22 @@ public class AlliedCard extends Card {
 		return AlliedCard.cardList.get(identifier.ordinal());
 	}
 
+	/**
+	 * Create an allied card
+	 * @param values The allied card values
+	 * @param type The card type
+	 */
 	private AlliedCard(int[] values, CardType type) {
 		super(null, null);
 		this.values = values;
 		this.type   = type;
 	}
 
+	/**
+	 * Get the card type
+	 * @return The card type
+	 */
+	@Override
 	public CardType getType() {
 		return this.type;
 	}

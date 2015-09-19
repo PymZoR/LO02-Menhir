@@ -1,15 +1,33 @@
 package core;
 
+
 import java.util.Vector;
+
 import helpers.StringUtils;
 
+/**
+ * Card representation
+ */
 public class Card {
+	/**
+	 * Maximum number of cards
+	 */
 	static public final int CARD_NUMBER = 24;
+
+	/**
+	 * Cards are singletons
+	 */
 	static private Vector<Card> cardList;
 
+	/**
+	 * Card properties (values and type)
+	 */
 	private int[][] valueMatrix;
 	private CardType type;
 
+	/**
+	 * Create all the cards
+	 */
 	static private void init() {
 		Card.cardList = new Vector<Card>();
 
@@ -64,6 +82,11 @@ public class Card {
 		Card.cardList.add(CardType.FAIRY3.ordinal(), new Card(fairy3Values, CardType.FAIRY3));
 	}
 
+	/**
+	 * Get a card by its identifier
+	 * @param identifier The identifier
+	 * @return The card
+	 */
 	static public Card getCard(CardType identifier) {
 		if (Card.cardList == null) {
 			Card.init();
@@ -71,19 +94,39 @@ public class Card {
 		return Card.cardList.get(identifier.ordinal());
 	}
 
+	/**
+	 * Create a card
+	 * @param valueMatrix The card values
+	 * @param type The card type
+	 */
 	protected Card(int[][] valueMatrix, CardType type) {
 		this.valueMatrix = valueMatrix;
 		this.type        = type;
 	}
 
+	/**
+	 * Get the card type
+	 * @return The card type
+	 */
 	public CardType getType() {
 		return this.type;
 	}
 
+	/**
+	 * Get the card value
+	 * @param action The action (equivalent to the row)
+	 * @param season The season (equivalent to the column)
+	 * @return The amount of the matrix
+	 */
 	public int getValue(ActionType action, SeasonType season) {
 		return this.valueMatrix[action.ordinal()][season.ordinal()];
 	}
 
+	/**
+	 * Render a card
+	 * @param cardN The card index
+	 * @return A string representation
+	 */
 	public String toASCII(int cardN) {
 		String result = "--------------\n";
 		result       += "| Carte .    |\n";

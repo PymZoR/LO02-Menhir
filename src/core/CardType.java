@@ -1,6 +1,8 @@
 package core;
 
-
+/**
+ * Every possible card
+ */
 public enum CardType {
 	MOON1,
 	MOON2,
