@@ -1,11 +1,10 @@
 package console;
 
-import core.Game;
-import core.Card;
-import core.AlliedCard;
-import core.Player;
 import core.ActionType;
+import core.Card;
 import core.Field;
+import core.Game;
+import core.Player;
 import core.SeasonType;
 import helpers.StringUtils;
 
@@ -53,7 +52,7 @@ public class Main {
 
 				if (cardId > Game.CARDS_IN_HAND) {
 					System.out.println("Card number must be between 1 and " +
-						Integer.toString(Game.CARDS_IN_HAND) + " included");
+							Integer.toString(Game.CARDS_IN_HAND) + " included");
 					cardId = 0;
 				}
 			} while (cardId == 0);
@@ -65,7 +64,7 @@ public class Main {
 
 				if (actionId > maxActionId) {
 					System.out.println("Action number must be between 1 and " +
-						Integer.toString(maxActionId) + " included");
+							Integer.toString(maxActionId) + " included");
 					actionId = 0;
 				}
 			} while (actionId == 0);
@@ -79,7 +78,7 @@ public class Main {
 					int playerId = Integer.parseInt(System.console().readLine());
 					if (playerId > playerNumber) {
 						System.out.println("There is only " + playerNumber +
-							" players");
+								" players");
 					}
 					else {
 						player = game.getPlayer(playerId - 1);
@@ -102,19 +101,19 @@ public class Main {
 		String seasonName = "";
 
 		switch (season) {
-			case SPRING:
-				seasonName = "spring";
-				break;
-			case SUMMER:
-				seasonName = "Summer";
-				break;
-			case FALL:
-				seasonName = "Fall";
-				break;
-			case WINTER:
-				seasonName = "Winter";
-				break;
-			default:
+		case SPRING:
+			seasonName = "spring";
+			break;
+		case SUMMER:
+			seasonName = "Summer";
+			break;
+		case FALL:
+			seasonName = "Fall";
+			break;
+		case WINTER:
+			seasonName = "Winter";
+			break;
+		default:
 		}
 
 		return seasonName;
