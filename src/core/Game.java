@@ -32,7 +32,7 @@ public class Game {
 		// Init players
 		for (int i = 0; i < playerNumber; i++) {
 			Player newPlayer = new Player(this, i);
-			newPlayer.drawCard(this.CARDS_IN_HAND);
+			newPlayer.drawCard(Game.CARDS_IN_HAND);
 			newPlayer.getField().addSmallRockNumber(2);
 
 			players.add(newPlayer);
