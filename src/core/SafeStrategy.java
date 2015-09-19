@@ -13,7 +13,27 @@ public class SafeStrategy extends Strategy {
 		this.card   = null;
 		this.target = null;
 		
-		// If can convert >2 rocks => convert maximum possible
-		// Else get from giant maximum possible
+		int smallRocks = this.self.getField().getSmallRockNumber();
+		
+		if (smallRocks < 2) {
+			this.card   = this.self.getCards().firstElement().getType();
+			this.action = ActionType.GIANT;
+		} else {
+			Vector<Card> selfCards = this.self.getCards();
+			
+			int max = 0;
+			Card maxCard = null;
+			for (int i = 0; i < selfCards.size(); i++) {
+				Card c     = selfCards.get(i);
+				int amount = c.getValue(ActionType.FERTILIZER, this.self.getGame().getActualSeason());
+				
+				if (amount > max) {
+					maxCard = c;
+				}
+			}
+			
+			this.card   = maxCard.getType();
+			this.action = ActionType.FERTILIZER; 
+		}
 	}
 }
