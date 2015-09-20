@@ -1,5 +1,6 @@
 package gui;
 
+
 import java.awt.Component;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -21,8 +22,9 @@ public class MainWindow extends JDialog {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setVisible(true);
+		this.setResizable(false);
 
-		this.switchPanel("InitPanel", 400, 100);
+		this.switchPanel("InitPanel", 400, 140);
 	}
 
 	/**

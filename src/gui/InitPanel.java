@@ -1,13 +1,14 @@
 package gui;
 
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 public class InitPanel extends JPanel {
@@ -16,36 +17,70 @@ public class InitPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 5634460867122728913L;
 
-	JLabel numberOfPlayersLabel   = new JLabel("Nombre de joueurs :");
-	JTextField numberOfPlayers    = new JTextField("0", 10);
-	JToggleButton rapidGameButton = new JToggleButton("Partie rapide");
+	private String[] playerChoices = { "2 joueurs", "3 joueurs", "4 joueurs", "5 joueurs", "6 joueurs" };
+	private String[] iaChoices = { "1 ordinateur" };
 
+	/**
+	 * Panel components
+	 */
+	JLabel numberOfPlayersLabel       = new JLabel("Nombre de joueurs :");
+	JLabel numberOfIAsLabel           = new JLabel("Nombre d'ordinateurs :");
+	JComboBox<String> numberOfPlayers = new JComboBox<String>(playerChoices);
+	JComboBox<String> numberOfIAs     = new JComboBox<String>(iaChoices);
+	JToggleButton rapidGameButton     = new JToggleButton("Partie rapide");
+
+	/**
+	 * Parent window
+	 */
 	MainWindow parentWindow;
 
 	/**
-	 * Create the panel.
+	 * Create the panel
 	 */
 	public InitPanel(MainWindow parent) {
 		this.parentWindow = parent;
 
-		GridLayout gl = new GridLayout(2, 2, 10, 10);
+		GridLayout gl = new GridLayout(3, 3, 10, 10);
 		this.setLayout(gl);
 
 		this.add(this.numberOfPlayersLabel);
 		this.add(this.numberOfPlayers);
+		this.add(this.numberOfIAsLabel);
+		this.add(this.numberOfIAs);
 		this.add(this.rapidGameButton);
 
+		// On number of players choice => update number of computer choices
+		numberOfPlayers.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				numberOfIAs.removeAllItems();
+
+				int players = numberOfPlayers.getSelectedIndex() + 2;
+				for (int i = 1; i < players; i++) {
+					if (i == 1) {
+						System.out.println(Integer.toString(i) + " ordinateur");
+						numberOfIAs.addItem(Integer.toString(i) + " ordinateur");
+					} else {
+						System.out.println(Integer.toString(i) + " ordinateurs");
+						numberOfIAs.addItem(Integer.toString(i) + " ordinateurs");
+					}
+				}
+			}
+		});
+
+		// On game start
 		JButton validateButton = new JButton("Valider");
 		validateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int players       = Integer.parseInt(numberOfPlayers.getText());
+				int players       = (numberOfPlayers.getSelectedIndex() + 2);
 				boolean rapidGame = rapidGameButton.isSelected();
 				System.out.print("Go ");
 				System.out.print(players);
 				System.out.print(" players and rapid: ");
 				System.out.println(rapidGame);
 
+				parentWindow.switchPanel("GamePanel", 800, 600);
 			}
 		});
 		this.add(validateButton);
