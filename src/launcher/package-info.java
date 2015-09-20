@@ -3,4 +3,4 @@
  * @author Gabriel Juchault <gabriel.juchault@utt.fr>
  *
  */
-package console;
+package launcher;
