@@ -8,8 +8,14 @@ import core.Player;
 import core.SeasonType;
 import helpers.StringUtils;
 
-public class Main {
-	static public void main(String[] argv) {
+/**
+ * Console-based game
+ */
+public class ConsoleGame {
+	/**
+	 * Start the game; console based
+	 */
+	public ConsoleGame() {
 		System.out.println("Choose the player number: ");
 		int playerNumber = Integer.parseInt(System.console().readLine());
 		Game game        = new Game(playerNumber);
@@ -25,7 +31,7 @@ public class Main {
 			int maxActionId      = ActionType.values().length;
 			Player currentPlayer = game.getCurrentPlayer();
 			Field currentField   = currentPlayer.getField();
-			String seasonName    = Main.getSeasonName(game.getActualSeason());
+			String seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
 
 			System.out.println("Next turn. Player " + (currentPlayer.getNumber()+1) + ":");
 			System.out.println("    Current season: " + seasonName);
@@ -102,6 +108,11 @@ public class Main {
 		System.out.println("\n Game is finished");
 	}
 
+	/**
+	 * Get SeasonType as human string
+	 * @param season The season
+	 * @return Its string value
+	 */
 	static private String getSeasonName(SeasonType season) {
 		String seasonName = "";
 
