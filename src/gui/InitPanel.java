@@ -46,8 +46,6 @@ public class InitPanel extends JPanel {
 				System.out.print(" players and rapid: ");
 				System.out.println(rapidGame);
 
-				parentWindow.setSize(800, 600);
-
 			}
 		});
 		this.add(validateButton);

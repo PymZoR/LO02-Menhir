@@ -18,15 +18,22 @@ public class MainWindow extends JDialog {
 	 */
 	public MainWindow() {
 		this.setTitle("Menhir");
-		this.setSize(400, 100);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 
-		this.switchPanel("InitPanel");
+		this.switchPanel("InitPanel", 400, 100);
 	}
 
-	public void switchPanel(String panelClass) {
+	/**
+	 * Load a JPanel on the window and change the viewport size
+	 * @param panelClass The name of the class (prefixed with "gui.")
+	 * @param w The new window width
+	 * @param h The new window height
+	 */
+	public void switchPanel(String panelClass, int w, int h) {
+		this.setSize(w, h);
+
 		// Using reflect API to instantiate class by name
 		Class<?> T                 = null;
 		Constructor<?> constructor = null;
@@ -46,7 +53,7 @@ public class MainWindow extends JDialog {
 			eConstructor.printStackTrace();
 		}
 
-		// Instanciate with the constructor
+		// Instantiate with the constructor
 		try {
 			c = (Component) constructor.newInstance(this);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
