@@ -7,7 +7,7 @@ import java.util.Vector;
 /**
  * Represent a player (alive or not)
  */
-public class Player {
+public class Player implements Comparable<Player> {
 	/**
 	 * Player cards and field
 	 */
@@ -44,8 +44,14 @@ public class Player {
 	 */
 	public void drawCard(int cardNumber) {
 		for (int i = 0; i < cardNumber; i++) {
-			CardType randomType = CardType.values()[new Random().nextInt(Card.CARD_NUMBER)];
-			Card newCard = Card.getCard(randomType);
+			CardType randomType;
+			Card newCard;
+
+			do {
+				randomType = CardType.values()[new Random().nextInt(Card.CARD_NUMBER)];
+				newCard = Card.getCard(randomType);
+			} while (newCard.isDrawed() == true);
+
 			this.cards.add(newCard);
 		}
 	}
@@ -69,9 +75,11 @@ public class Player {
 			break;
 
 		case HOBGOBLIN:
-			this.game.playHobgoblin(target, actionValue);
+			this.game.playHobgoblin(this, target, actionValue);
 			break;
 		}
+
+		this.cards.remove(card);
 	}
 
 	/**
@@ -121,5 +129,14 @@ public class Player {
 	 */
 	public Game getGame() {
 		return this.game;
+	}
+
+	public int compareTo(Player comparePlayer) {
+		return this.getField().compareTo(comparePlayer.getField());
+	}
+
+	@Override
+	public String toString() {
+		return "Player " + (this.number+1);
 	}
 }

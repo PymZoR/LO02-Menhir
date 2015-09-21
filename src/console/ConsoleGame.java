@@ -1,5 +1,7 @@
 package console;
 
+import java.util.Vector;
+import java.util.Collections;
 import core.ActionType;
 import core.Card;
 import core.Field;
@@ -17,8 +19,19 @@ public class ConsoleGame {
 	 */
 	public ConsoleGame() {
 		System.out.println("Choose the player number: ");
-		int playerNumber = Integer.parseInt(System.console().readLine());
-		Game game        = new Game(playerNumber);
+		int playerNumber = 2;
+		Game game        = null;
+
+		do {
+			playerNumber = ConsoleGame.getIntInput();
+
+			try {
+				game  = new Game(playerNumber);
+			}
+			catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+		} while (game == null);
 
 		System.out.println("\nStart new game !");
 		System.out.println("--------------------------------\n");
@@ -33,7 +46,7 @@ public class ConsoleGame {
 			Field currentField   = currentPlayer.getField();
 			String seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
 
-			System.out.println("Next turn. Player " + (currentPlayer.getNumber()+1) + ":");
+			System.out.println("\nNext turn. Player " + (currentPlayer.getNumber()+1) + ":");
 			System.out.println("    Current season: " + seasonName);
 			System.out.println("    You have " + currentField.getSmallRockNumber() + " small rocks.");
 			System.out.println("    You have " + currentField.getBigRockNumber() + " big rocks.\n");
@@ -59,7 +72,7 @@ public class ConsoleGame {
 
 			System.out.println("\nChoose a card number:");
 			do {
-				cardId = Integer.parseInt(System.console().readLine());
+				cardId = ConsoleGame.getIntInput();
 
 				if (cardId > Game.CARDS_IN_HAND) {
 					System.out.println("Card number must be between 1 and " +
@@ -71,7 +84,7 @@ public class ConsoleGame {
 
 			System.out.println("\nChoose an action Number(1 for Giant...):");
 			do {
-				actionId = Integer.parseInt(System.console().readLine());
+				actionId = ConsoleGame.getIntInput();
 
 				if (actionId > maxActionId) {
 					System.out.println("Action number must be between 1 and " +
@@ -86,7 +99,7 @@ public class ConsoleGame {
 			if (action == ActionType.HOBGOBLIN) {
 				do {
 					System.out.println("\nChoose an other player: ");
-					int playerId = Integer.parseInt(System.console().readLine());
+					int playerId = ConsoleGame.getIntInput();
 					if (playerId > playerNumber) {
 						System.out.println("There is only " + playerNumber +
 								" players");
@@ -105,7 +118,15 @@ public class ConsoleGame {
 			game.nextTurn(card, action, player);
 		} while (game.isRunning());
 
-		System.out.println("\n Game is finished");
+		Vector<Player> scores = game.getPlayers();
+		Collections.sort(scores);
+		Collections.reverse(scores);
+
+		System.out.println("\nGame is finished");
+		System.out.println("Rankings:");
+		for (int i = 0; i < game.getPlayerNumber(); i++) {
+			System.out.println("  " + (i+1) + " - " + scores.get(i).toString());
+		}
 	}
 
 	/**
@@ -133,5 +154,24 @@ public class ConsoleGame {
 		}
 
 		return seasonName;
+	}
+
+	static private int getIntInput() {
+		int input = 0;
+		Exception error = null;
+
+		do {
+			try {
+				input = Integer.parseInt(System.console().readLine());
+				error = null;
+			}
+			catch (NumberFormatException e) {
+				System.out.println("Input must be an integer");
+				error = e;
+			}
+
+		} while (error != null);
+
+		return input;
 	}
 }

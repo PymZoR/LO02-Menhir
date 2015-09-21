@@ -24,6 +24,7 @@ public class Card {
 	 */
 	private int[][] valueMatrix;
 	private CardType type;
+	private boolean drawed = false;
 
 	/**
 	 * Create all the cards
@@ -94,6 +95,12 @@ public class Card {
 		return Card.cardList.get(identifier.ordinal());
 	}
 
+	static public void resetCards() {
+		for (int i = 0; i < Card.CARD_NUMBER; i++) {
+			Card.cardList.get(i).setDrawed(false);
+		}
+	}
+
 	/**
 	 * Create a card
 	 * @param valueMatrix The card values
@@ -137,7 +144,7 @@ public class Card {
 	 */
 	public String toASCII(int cardN) {
 		String result = "--------------\n";
-		result       += "| Carte .    |\n";
+		result       += "| Card  .    |\n";
 		result       += "|------------|\n";
 		result       += "|   s S F W  |\n";
 		result       += "| G . . . .  |\n";
@@ -160,5 +167,13 @@ public class Card {
 		result = StringUtils.replaceCharAt(result, 100, Integer.toString(this.valueMatrix[2][3]));
 
 		return result;
+	}
+
+	public boolean isDrawed() {
+		return this.drawed;
+	}
+
+	public void setDrawed(boolean drawed) {
+		this.drawed = drawed;
 	}
 }

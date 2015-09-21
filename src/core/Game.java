@@ -1,7 +1,7 @@
 package core;
 
-
 import java.util.Vector;
+
 
 /**
  * The game
@@ -25,7 +25,14 @@ public class Game {
 	 * Create a new game with given player count
 	 * @param playerNumber The amount of players
 	 */
-	public Game(int playerNumber) {
+	public Game(int playerNumber) throws Exception {
+		if (playerNumber <= 1) {
+			throw new Exception("You can't play alone");
+		}
+		if (playerNumber > 6) {
+			throw new Exception("Too many players !");
+		}
+
 		this.players = new Vector<Player>();
 		this.playerNumber = playerNumber;
 
@@ -123,15 +130,20 @@ public class Game {
 	 * @param target          The target
 	 * @param hobgoblinNumber Amount of rocks to steal
 	 */
-	public void playHobgoblin(Player target, int hobgoblinNumber) {
-		Field field = target.getField();
+	public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
+		Field targetField = target.getField();
+		Field sourceField = source.getField();
 
-		if (field.getSmallRockNumber() <= hobgoblinNumber) {
-			field.setSmallRockNumber(0);
+		if (targetField.getSmallRockNumber() <= hobgoblinNumber) {
+			targetField.setSmallRockNumber(0);
+			sourceField.addSmallRockNumber(targetField.getSmallRockNumber());
 		}
 		else {
-			field.addSmallRockNumber(-hobgoblinNumber);
+			targetField.addSmallRockNumber(-hobgoblinNumber);
+			sourceField.addSmallRockNumber(hobgoblinNumber);
 		}
+
+
 	}
 
 	/**
@@ -173,5 +185,9 @@ public class Game {
 	 */
 	public SeasonType getActualSeason() {
 		return this.actualSeason;
+	}
+
+	public Vector<Player> getPlayers() {
+		return this.players;
 	}
 }

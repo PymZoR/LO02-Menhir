@@ -3,7 +3,7 @@ package core;
 /**
  * Field management
  */
-public class Field {
+public class Field implements Comparable<Field> {
 	/**
 	 * Big and small rocks amounts
 	 */
@@ -55,5 +55,18 @@ public class Field {
 	 */
 	public void setSmallRockNumber(int number) {
 		this.smallRockNumber = number;
+	}
+
+	/**
+	 * Compare a Field to another to find which is bigger
+	 * @param  compareField field to compare
+	 */
+	public int compareTo(Field compareField) {
+		if (compareField.getBigRockNumber() == this.getBigRockNumber()) {
+			return this.getSmallRockNumber() - compareField.getSmallRockNumber();
+		}
+		else {
+			return this.getBigRockNumber() - compareField.getBigRockNumber();
+		}
 	}
 }
