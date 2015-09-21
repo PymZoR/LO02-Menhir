@@ -136,7 +136,7 @@ public class Card {
 	 */
 	public String toASCII(int cardN) {
 		String result = "--------------\n";
-		result       += "| Carte .    |\n";
+		result       += "| Card  .    |\n";
 		result       += "|------------|\n";
 		result       += "|   s S F W  |\n";
 		result       += "| G . . . .  |\n";
