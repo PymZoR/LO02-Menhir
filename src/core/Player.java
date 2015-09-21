@@ -78,6 +78,8 @@ public class Player {
 			this.game.playHobgoblin(target, actionValue);
 			break;
 		}
+
+		this.cards.remove(card);
 	}
 
 	/**
