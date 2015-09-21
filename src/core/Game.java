@@ -1,7 +1,7 @@
 package core;
 
-
 import java.util.Vector;
+
 
 /**
  * The game
@@ -29,7 +29,7 @@ public class Game {
 		if (playerNumber <= 1) {
 			throw new Exception("You can't play alone");
 		}
-		if (playerNumber >= 6) {
+		if (playerNumber > 6) {
 			throw new Exception("Too many players !");
 		}
 
@@ -185,5 +185,9 @@ public class Game {
 	 */
 	public SeasonType getActualSeason() {
 		return this.actualSeason;
+	}
+
+	public Vector<Player> getPlayers() {
+		return this.players;
 	}
 }
