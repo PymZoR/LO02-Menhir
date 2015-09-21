@@ -29,6 +29,9 @@ public class Game {
 		if (playerNumber <= 1) {
 			throw new Exception("You can't play alone");
 		}
+		if (playerNumber >= 6) {
+			throw new Exception("Too many players !");
+		}
 
 		this.players = new Vector<Player>();
 		this.playerNumber = playerNumber;
