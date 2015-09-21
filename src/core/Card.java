@@ -130,6 +130,14 @@ public class Card {
 	}
 
 	/**
+	 * Get the card values
+	 * @return The card values
+	 */
+	public int[][] getValueMatrix() {
+		return this.valueMatrix;
+	}
+
+	/**
 	 * Render a card
 	 * @param cardN The card index
 	 * @return A string representation

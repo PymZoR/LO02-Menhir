@@ -8,11 +8,18 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import core.Game;
+
 public class MainWindow extends JDialog {
 	/**
 	 * Java UID
 	 */
 	private static final long serialVersionUID = 3059170629543738819L;
+
+	/**
+	 * Game reference
+	 */
+	Game game;
 
 	/**
 	 * Create the dialog.
@@ -25,6 +32,14 @@ public class MainWindow extends JDialog {
 		this.setResizable(false);
 
 		this.switchPanel("InitPanel", 400, 140);
+	}
+
+	/**
+	 * Set the game reference
+	 * @param game The game
+	 */
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 	/**
@@ -67,6 +82,8 @@ public class MainWindow extends JDialog {
 		jp.add(c);
 
 		this.setContentPane(jp);
+
+		this.setLocationRelativeTo(null);
 	}
 
 }
