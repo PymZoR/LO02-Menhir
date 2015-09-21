@@ -26,6 +26,10 @@ public class Game {
 	 * @param playerNumber The amount of players
 	 */
 	public Game(int playerNumber) {
+		if (playerNumber <= 1) {
+			throw new Error("You can't play alone");
+		}
+
 		this.players = new Vector<Player>();
 		this.playerNumber = playerNumber;
 

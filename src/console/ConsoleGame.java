@@ -17,8 +17,22 @@ public class ConsoleGame {
 	 */
 	public ConsoleGame() {
 		System.out.println("Choose the player number: ");
-		int playerNumber = Integer.parseInt(System.console().readLine());
-		Game game        = new Game(playerNumber);
+		int playerNumber = 0;
+		Game game        = null;
+		Error error      = null;
+
+		do {
+			playerNumber = Integer.parseInt(System.console().readLine());
+
+			try {
+				game  = new Game(playerNumber);
+				error = null;
+			}
+			catch(Error e) {
+			 	error = e;
+				System.out.println(e.getMessage());
+			}
+		} while (error != null);
 
 		System.out.println("\nStart new game !");
 		System.out.println("--------------------------------\n");
@@ -33,7 +47,7 @@ public class ConsoleGame {
 			Field currentField   = currentPlayer.getField();
 			String seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
 
-			System.out.println("Next turn. Player " + (currentPlayer.getNumber()+1) + ":");
+			System.out.println("\nNext turn. Player " + (currentPlayer.getNumber()+1) + ":");
 			System.out.println("    Current season: " + seasonName);
 			System.out.println("    You have " + currentField.getSmallRockNumber() + " small rocks.");
 			System.out.println("    You have " + currentField.getBigRockNumber() + " big rocks.\n");
