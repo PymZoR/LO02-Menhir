@@ -8,7 +8,9 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import core.Game;
+import core.Round;
+import core.Playable;
+
 
 public class MainWindow extends JDialog {
 	/**
@@ -19,7 +21,7 @@ public class MainWindow extends JDialog {
 	/**
 	 * Game reference
 	 */
-	Game game;
+	Playable game;
 
 	/**
 	 * Create the dialog.
@@ -38,7 +40,7 @@ public class MainWindow extends JDialog {
 	 * Set the game reference
 	 * @param game The game
 	 */
-	public void setGame(Game game) {
+	public void setGame(Playable game) {
 		this.game = game;
 	}
 

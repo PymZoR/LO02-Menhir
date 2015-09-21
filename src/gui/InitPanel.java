@@ -11,7 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
-import core.Game;
+import core.Playable;
+import core.Round;
+
 
 public class InitPanel extends JPanel {
 	/**
@@ -83,10 +85,14 @@ public class InitPanel extends JPanel {
 				System.out.print(" players and rapid: ");
 				System.out.println(rapidGame);
 
-				Game game = new Game(players);
-
-				parentWindow.setGame(game);
-				parentWindow.switchPanel("GamePanel", 800, 600);
+				try {
+					Playable game = new Round(players);
+					parentWindow.setGame(game);
+					parentWindow.switchPanel("GamePanel", 800, 600);
+				}
+				catch (Exception err) {
+					// TODO handle err
+				}
 			}
 		});
 		this.add(validateButton);
