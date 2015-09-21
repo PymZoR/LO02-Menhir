@@ -11,12 +11,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
+import core.Game;
+
 public class InitPanel extends JPanel {
 	/**
 	 * Java UID
 	 */
 	private static final long serialVersionUID = 5634460867122728913L;
 
+	/**
+	 * Combo-box choices
+	 */
 	private String[] playerChoices = { "2 joueurs", "3 joueurs", "4 joueurs", "5 joueurs", "6 joueurs" };
 	private String[] iaChoices = { "1 ordinateur" };
 
@@ -58,10 +63,8 @@ public class InitPanel extends JPanel {
 				int players = numberOfPlayers.getSelectedIndex() + 2;
 				for (int i = 1; i < players; i++) {
 					if (i == 1) {
-						System.out.println(Integer.toString(i) + " ordinateur");
 						numberOfIAs.addItem(Integer.toString(i) + " ordinateur");
 					} else {
-						System.out.println(Integer.toString(i) + " ordinateurs");
 						numberOfIAs.addItem(Integer.toString(i) + " ordinateurs");
 					}
 				}
@@ -80,6 +83,9 @@ public class InitPanel extends JPanel {
 				System.out.print(" players and rapid: ");
 				System.out.println(rapidGame);
 
+				Game game = new Game(players);
+
+				parentWindow.setGame(game);
 				parentWindow.switchPanel("GamePanel", 800, 600);
 			}
 		});
