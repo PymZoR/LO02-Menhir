@@ -22,7 +22,7 @@ public class HarassStrategy extends Strategy {
 		this.card   = null;
 		this.target = null;
 
-		Game game = this.self.getGame();
+		Playable game = this.self.game;
 
 		// Detect best player
 		for (int i = 0; i < this.allPlayers.size(); i++) {

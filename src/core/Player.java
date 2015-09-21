@@ -1,8 +1,8 @@
 package core;
 
-
 import java.util.Random;
 import java.util.Vector;
+
 
 /**
  * Represent a player (alive or not)
@@ -23,14 +23,14 @@ public class Player implements Comparable<Player> {
 	/**
 	 * Reference to the game
 	 */
-	private Game game;
+	protected Playable game;
 
 	/**
 	 * Create a new player
-	 * @param game   Game reference
+	 * @param game   Playable reference
 	 * @param number Player index
 	 */
-	public Player(Game game, int number) {
+	public Player(Playable game, int number) {
 		this.cards       = new Vector<Card>();
 		this.alliedCards = new Vector<AlliedCard>();
 		this.field       = new Field();
@@ -127,7 +127,7 @@ public class Player implements Comparable<Player> {
 	 * Get the ref game
 	 * @return The ref game
 	 */
-	public Game getGame() {
+	public Playable getGame() {
 		return this.game;
 	}
 
