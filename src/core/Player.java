@@ -44,8 +44,14 @@ public class Player {
 	 */
 	public void drawCard(int cardNumber) {
 		for (int i = 0; i < cardNumber; i++) {
-			CardType randomType = CardType.values()[new Random().nextInt(Card.CARD_NUMBER)];
-			Card newCard = Card.getCard(randomType);
+			CardType randomType;
+			Card newCard;
+
+			do {
+				randomType = CardType.values()[new Random().nextInt(Card.CARD_NUMBER)];
+				newCard = Card.getCard(randomType);
+			} while (newCard.isDrawed() == true);
+
 			this.cards.add(newCard);
 		}
 	}

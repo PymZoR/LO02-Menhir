@@ -10,7 +10,7 @@ public class Game {
 	/**
 	 * The total cards a player can have
 	 */
-	public static final int CARDS_IN_HAND = 3;
+	public static final int CARDS_IN_HAND = 4;
 
 	/**
 	 * Game state (started, playing player, all players, playing player index and actual season)
