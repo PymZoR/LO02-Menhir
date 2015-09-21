@@ -28,16 +28,16 @@ public class InitPanel extends JPanel {
 	/**
 	 * Panel components
 	 */
-	JLabel numberOfPlayersLabel       = new JLabel("Nombre de joueurs :");
-	JLabel numberOfIAsLabel           = new JLabel("Nombre d'ordinateurs :");
-	JComboBox<String> numberOfPlayers = new JComboBox<String>(playerChoices);
-	JComboBox<String> numberOfIAs     = new JComboBox<String>(iaChoices);
-	JToggleButton rapidGameButton     = new JToggleButton("Partie rapide");
+	private JLabel numberOfPlayersLabel       = new JLabel("Nombre de joueurs :");
+	private JLabel numberOfIAsLabel           = new JLabel("Nombre d'ordinateurs :");
+	private JComboBox<String> numberOfPlayers = new JComboBox<String>(playerChoices);
+	private JComboBox<String> numberOfIAs     = new JComboBox<String>(iaChoices);
+	private JToggleButton rapidGameButton     = new JToggleButton("Partie rapide");
 
 	/**
 	 * Parent window
 	 */
-	MainWindow parentWindow;
+	private MainWindow parentWindow;
 
 	/**
 	 * Create the panel
@@ -78,12 +78,13 @@ public class InitPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int players       = (numberOfPlayers.getSelectedIndex() + 2);
 				boolean rapidGame = rapidGameButton.isSelected();
-				System.out.print("Go ");
-				System.out.print(players);
-				System.out.print(" players and rapid: ");
-				System.out.println(rapidGame);
 
-				Game game = new Game(players);
+				Game game = null;
+				try {
+					game = new Game(players);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 
 				parentWindow.setGame(game);
 				parentWindow.switchPanel("GamePanel", 800, 600);

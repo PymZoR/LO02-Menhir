@@ -19,7 +19,7 @@ public class MainWindow extends JDialog {
 	/**
 	 * Game reference
 	 */
-	Game game;
+	private Game game;
 
 	/**
 	 * Create the dialog.
@@ -40,6 +40,14 @@ public class MainWindow extends JDialog {
 	 */
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+	/**
+	 * Get the game reference
+	 * @return The game
+	 */
+	public Game getGame() {
+		return this.game;
 	}
 
 	/**

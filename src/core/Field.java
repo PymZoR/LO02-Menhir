@@ -61,6 +61,7 @@ public class Field implements Comparable<Field> {
 	 * Compare a Field to another to find which is bigger
 	 * @param  compareField field to compare
 	 */
+	@Override
 	public int compareTo(Field compareField) {
 		if (compareField.getBigRockNumber() == this.getBigRockNumber()) {
 			return this.getSmallRockNumber() - compareField.getSmallRockNumber();

@@ -9,8 +9,10 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import core.Game;
 import core.Player;
 
 /**
@@ -25,42 +27,60 @@ public class GamePanel extends JPanel {
 	/**
 	 * Panel components
 	 */
-	Card card1 = null;
-	Card card2 = null;
-	Card card3 = null;
-	Card card4 = null;
+	private Card card1 = null;
+	private Card card2 = null;
+	private Card card3 = null;
+	private Card card4 = null;
+
+	private Field selfField = null;
+
+	private JLabel actualSeason  = new JLabel("Saison actuelle : Printemps");
+	private JLabel totalBigRocks = new JLabel("Score total : 0");
 
 	/**
 	 * Player reference
 	 */
-	Player player;
+	private Player player;
 
 	/**
 	 * Parent window
 	 */
 	private MainWindow parentWindow;
+	private Game game;
 
 	/**
 	 * Create the panel
 	 */
 	public GamePanel(MainWindow parentWindow) {
 		this.parentWindow = parentWindow;
+		this.game         = parentWindow.getGame();
 		this.setLayout(null);
 		this.setPreferredSize(this.parentWindow.getSize());
 
-		this.player = this.parentWindow.game.getCurrentPlayer();
+		this.player = this.game.getCurrentPlayer();
 
-		this.card1  = new Card(this.player.getCards().get(0).getValueMatrix());
-		this.card2  = new Card(this.player.getCards().get(1).getValueMatrix());
-		this.card3  = new Card(this.player.getCards().get(2).getValueMatrix());
-		this.card4  = new Card(this.player.getCards().get(3).getValueMatrix());
+		this.card1 = new Card(this, this.player.getCards().get(0).getValueMatrix());
+		this.card2 = new Card(this, this.player.getCards().get(1).getValueMatrix());
+		this.card3 = new Card(this, this.player.getCards().get(2).getValueMatrix());
+		this.card4 = new Card(this, this.player.getCards().get(3).getValueMatrix());
 
-		this.addAbsolute(this.card1, 10, 10);
-		this.addAbsolute(this.card2, 110, 10);
-		this.addAbsolute(this.card3, 210, 10);
-		this.addAbsolute(this.card4, 310, 10);
+		this.selfField = new Field(this, "Votre terrain");
+
+		this.addAbsolute(this.card1, 10, 30);
+		this.addAbsolute(this.card2, 120, 30);
+		this.addAbsolute(this.card3, 230, 30);
+		this.addAbsolute(this.card4, 340, 30);
+		this.addAbsolute(this.actualSeason, 10, 10);
+		this.addAbsolute(this.selfField, 10, 140);
+		this.addAbsolute(this.totalBigRocks, 350, 10);
 	}
 
+	/**
+	 * Add an absolute component to the panel
+	 * @param c The component
+	 * @param x X coordinate
+	 * @param y Y coordinate
+	 */
 	private void addAbsolute(Component c, int x, int y) {
 		Insets i       = this.getInsets();
 		Dimension size = c.getPreferredSize();
@@ -71,6 +91,17 @@ public class GamePanel extends JPanel {
 		c.setBounds(i.left + x, i.top + y, size.width, size.height);
 	}
 
+	/**
+	 * Get the game reference
+	 * @return The game
+	 */
+	public Game getGame() {
+		return this.game;
+	}
+
+	/**
+	 * Draw the panel
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
@@ -80,8 +111,8 @@ public class GamePanel extends JPanel {
 	    g2.setRenderingHints(rh);
 
 		g2.setColor(Color.black);
-		g2.drawLine(420, 5, 420, 100);
+		g2.drawLine(445, 25, 445, 120);
 
-	    g2.drawString("Pas de cartes alliées en partie rapide", 430, 20);
+	    g2.drawString("Pas de cartes alliées en partie rapide", 460, 70);
 	}
 }
