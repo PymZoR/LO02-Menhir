@@ -7,7 +7,7 @@ import java.util.Vector;
 /**
  * Represent a player (alive or not)
  */
-public class Player {
+public class Player implements Comparable<Player> {
 	/**
 	 * Player cards and field
 	 */
@@ -129,5 +129,14 @@ public class Player {
 	 */
 	public Game getGame() {
 		return this.game;
+	}
+
+	public int compareTo(Player comparePlayer) {
+		return this.getField().compareTo(comparePlayer.getField());
+	}
+
+	@Override
+	public String toString() {
+		return "Player " + (this.number+1);
 	}
 }

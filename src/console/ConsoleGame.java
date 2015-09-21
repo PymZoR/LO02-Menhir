@@ -1,5 +1,7 @@
 package console;
 
+import java.util.Vector;
+import java.util.Collections;
 import core.ActionType;
 import core.Card;
 import core.Field;
@@ -116,7 +118,15 @@ public class ConsoleGame {
 			game.nextTurn(card, action, player);
 		} while (game.isRunning());
 
-		System.out.println("\n Game is finished");
+		Vector<Player> scores = game.getPlayers();
+		Collections.sort(scores);
+		Collections.reverse(scores);
+
+		System.out.println("\nGame is finished");
+		System.out.println("Rankings:");
+		for (int i = 0; i < game.getPlayerNumber(); i++) {
+			System.out.println("  " + (i+1) + " - " + scores.get(i).toString());
+		}
 	}
 
 	/**
