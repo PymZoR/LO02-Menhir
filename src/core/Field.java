@@ -70,4 +70,10 @@ public class Field implements Comparable<Field> {
 			return this.getBigRockNumber() - compareField.getBigRockNumber();
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Field : "+ this.bigRockNumber +  " big rocks; " +
+			this.smallRockNumber + " small rocks.";
+	}
 }

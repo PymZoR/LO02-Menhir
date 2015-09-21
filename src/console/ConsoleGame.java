@@ -7,6 +7,9 @@ import core.Card;
 import core.Field;
 import core.Game;
 import core.Player;
+import core.Round;
+import core.Game;
+import core.Playable;
 import core.SeasonType;
 import helpers.StringUtils;
 
@@ -18,15 +21,31 @@ public class ConsoleGame {
 	 * Start the game; console based
 	 */
 	public ConsoleGame() {
-		System.out.println("Choose the player number: ");
 		int playerNumber = 2;
-		Game game        = null;
+		Playable game    = null;
 
+		System.out.println("Type 1 for a simple game, 2 for enhanced: ");
+		int choice = 0;
+		do {
+			choice = ConsoleGame.getIntInput();
+
+			if (choice < 1 || choice > 2) {
+				System.out.println("Choice must be either 1 or 2");
+				choice = 0;
+			}
+		} while (choice == 0);
+
+		System.out.println("Choose the player number: ");
 		do {
 			playerNumber = ConsoleGame.getIntInput();
 
 			try {
-				game  = new Game(playerNumber);
+				if (choice == 1) {
+					game = new Round(playerNumber);
+				}
+				else if (choice == 2 ){
+					game  = new Game(playerNumber);
+				}
 			}
 			catch(Exception e) {
 				System.out.println(e.getMessage());
@@ -74,9 +93,9 @@ public class ConsoleGame {
 			do {
 				cardId = ConsoleGame.getIntInput();
 
-				if (cardId > Game.CARDS_IN_HAND) {
+				if (cardId > currentPlayer.getCards().size()) {
 					System.out.println("Card number must be between 1 and " +
-							Integer.toString(Game.CARDS_IN_HAND) + " included");
+							Integer.toString(currentPlayer.getCards().size()) + " included");
 					cardId = 0;
 				}
 			} while (cardId == 0);

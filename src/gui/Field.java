@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import core.Game;
+import core.Playable;
 
 public class Field extends JPanel {
 	/**
@@ -32,7 +32,7 @@ public class Field extends JPanel {
 	 * Parent panel reference
 	 */
 	private GamePanel parentPanel;
-	private Game game;
+	private Playable game;
 
 	public Field(final GamePanel parentPanel, String playerName)  {
 		super();

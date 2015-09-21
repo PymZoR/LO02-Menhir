@@ -11,7 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
-import core.Game;
+import core.Playable;
+import core.Round;
+
 
 public class InitPanel extends JPanel {
 	/**
@@ -79,15 +81,12 @@ public class InitPanel extends JPanel {
 				int players       = (numberOfPlayers.getSelectedIndex() + 2);
 				boolean rapidGame = rapidGameButton.isSelected();
 
-				Game game = null;
 				try {
-					game = new Game(players);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+					Playable game = new Round(players);
+					parentWindow.setGame(game);
+					parentWindow.switchPanel("GamePanel", 800, 600);
 				}
-
-				parentWindow.setGame(game);
-				parentWindow.switchPanel("GamePanel", 800, 600);
+				catch (Exception err) {}
 			}
 		});
 		this.add(validateButton);

@@ -12,7 +12,7 @@ import java.awt.RenderingHints;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import core.Game;
+import core.Playable;
 import core.Player;
 
 /**
@@ -46,7 +46,7 @@ public class GamePanel extends JPanel {
 	 * Parent window
 	 */
 	private MainWindow parentWindow;
-	private Game game;
+	private Playable game;
 
 	/**
 	 * Create the panel
@@ -95,7 +95,7 @@ public class GamePanel extends JPanel {
 	 * Get the game reference
 	 * @return The game
 	 */
-	public Game getGame() {
+	public Playable getGame() {
 		return this.game;
 	}
 
