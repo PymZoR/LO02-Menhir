@@ -93,9 +93,9 @@ public class ConsoleGame {
 			do {
 				cardId = ConsoleGame.getIntInput();
 
-				if (cardId > Round.CARDS_IN_HAND) {
+				if (cardId > currentPlayer.getCards().size()) {
 					System.out.println("Card number must be between 1 and " +
-							Integer.toString(Round.CARDS_IN_HAND) + " included");
+							Integer.toString(currentPlayer.getCards().size()) + " included");
 					cardId = 0;
 				}
 			} while (cardId == 0);
