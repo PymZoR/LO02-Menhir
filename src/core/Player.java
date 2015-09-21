@@ -75,7 +75,7 @@ public class Player {
 			break;
 
 		case HOBGOBLIN:
-			this.game.playHobgoblin(target, actionValue);
+			this.game.playHobgoblin(this, target, actionValue);
 			break;
 		}
 

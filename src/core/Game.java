@@ -127,15 +127,20 @@ public class Game {
 	 * @param target          The target
 	 * @param hobgoblinNumber Amount of rocks to steal
 	 */
-	public void playHobgoblin(Player target, int hobgoblinNumber) {
-		Field field = target.getField();
+	public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
+		Field targetField = target.getField();
+		Field sourceField = source.getField();
 
-		if (field.getSmallRockNumber() <= hobgoblinNumber) {
-			field.setSmallRockNumber(0);
+		if (targetField.getSmallRockNumber() <= hobgoblinNumber) {
+			targetField.setSmallRockNumber(0);
+			sourceField.addSmallRockNumber(targetField.getSmallRockNumber());
 		}
 		else {
-			field.addSmallRockNumber(-hobgoblinNumber);
+			targetField.addSmallRockNumber(-hobgoblinNumber);
+			sourceField.addSmallRockNumber(hobgoblinNumber);
 		}
+
+
 	}
 
 	/**
