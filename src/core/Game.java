@@ -25,9 +25,9 @@ public class Game {
 	 * Create a new game with given player count
 	 * @param playerNumber The amount of players
 	 */
-	public Game(int playerNumber) {
+	public Game(int playerNumber) throws Exception {
 		if (playerNumber <= 1) {
-			throw new Error("You can't play alone");
+			throw new Exception("You can't play alone");
 		}
 
 		this.players = new Vector<Player>();

@@ -17,22 +17,19 @@ public class ConsoleGame {
 	 */
 	public ConsoleGame() {
 		System.out.println("Choose the player number: ");
-		int playerNumber = 0;
+		int playerNumber = 2;
 		Game game        = null;
-		Error error      = null;
 
 		do {
-			playerNumber = Integer.parseInt(System.console().readLine());
+			playerNumber = ConsoleGame.getIntInput();
 
 			try {
 				game  = new Game(playerNumber);
-				error = null;
 			}
-			catch(Error e) {
-			 	error = e;
+			catch(Exception e) {
 				System.out.println(e.getMessage());
 			}
-		} while (error != null);
+		} while (game == null);
 
 		System.out.println("\nStart new game !");
 		System.out.println("--------------------------------\n");
@@ -73,7 +70,7 @@ public class ConsoleGame {
 
 			System.out.println("\nChoose a card number:");
 			do {
-				cardId = Integer.parseInt(System.console().readLine());
+				cardId = ConsoleGame.getIntInput();
 
 				if (cardId > Game.CARDS_IN_HAND) {
 					System.out.println("Card number must be between 1 and " +
@@ -85,7 +82,7 @@ public class ConsoleGame {
 
 			System.out.println("\nChoose an action Number(1 for Giant...):");
 			do {
-				actionId = Integer.parseInt(System.console().readLine());
+				actionId = ConsoleGame.getIntInput();
 
 				if (actionId > maxActionId) {
 					System.out.println("Action number must be between 1 and " +
@@ -100,7 +97,7 @@ public class ConsoleGame {
 			if (action == ActionType.HOBGOBLIN) {
 				do {
 					System.out.println("\nChoose an other player: ");
-					int playerId = Integer.parseInt(System.console().readLine());
+					int playerId = ConsoleGame.getIntInput();
 					if (playerId > playerNumber) {
 						System.out.println("There is only " + playerNumber +
 								" players");
@@ -147,5 +144,24 @@ public class ConsoleGame {
 		}
 
 		return seasonName;
+	}
+
+	static private int getIntInput() {
+		int input = 0;
+		Exception error = null;
+
+		do {
+			try {
+				input = Integer.parseInt(System.console().readLine());
+				error = null;
+			}
+			catch (NumberFormatException e) {
+				System.out.println("Input must be an integer");
+				error = e;
+			}
+
+		} while (error != null);
+
+		return input;
 	}
 }
