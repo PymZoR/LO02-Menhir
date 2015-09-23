@@ -11,7 +11,7 @@ import gui.GUIGame;
  */
 public class Main {
 	/**
-	 * Start the application. Automatically detect wether it is console based or gui
+	 * Start the application. Automatically detect whether it is console based or GUI
 	 * @param args Application arguments
 	 */
 	public static void main(String[] args) {
