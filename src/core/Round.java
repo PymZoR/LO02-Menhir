@@ -37,7 +37,6 @@ public class Round implements Playable {
 
 		this.players = new Vector<Player>();
 		this.playerNumber = playerNumber;
-
 		for (int i = 0; i < playerNumber; i++) {
 			Player newPlayer = new Player(this, i);
 			this.players.add(newPlayer);
@@ -48,7 +47,6 @@ public class Round implements Playable {
 		this.players       = players;
 		this.playerNumber  = this.players.size();
 		this.number        = number;
-
 	}
 
 	public int getNumber() {
@@ -86,6 +84,7 @@ public class Round implements Playable {
 		this.currentPlayer.playCard(card, action, player);
 
 		int currentPlayerNumber = this.currentPlayer.getNumber();
+
 		if (currentPlayerNumber == this.playerNumber - 1) {
 			this.currentPlayer = this.players.get(0);
 

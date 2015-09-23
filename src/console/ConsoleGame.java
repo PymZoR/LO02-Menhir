@@ -23,6 +23,15 @@ public class ConsoleGame {
 	public ConsoleGame() {
 		int playerNumber = 2;
 		Playable game    = null;
+		int cardId           = 0;
+		int actionId         = 0;
+		Card card            = null;
+		ActionType action    = null;
+		int maxActionId      = ActionType.values().length;
+		Round currentRound   = null;
+		Player currentPlayer = null;
+		Field currentField   = null;
+		String seasonName    = null;
 
 		System.out.println("Type 1 for a simple game, 2 for enhanced: ");
 		int gameType = 0;
@@ -57,18 +66,19 @@ public class ConsoleGame {
 		game.start();
 
 		do {
-			int cardId           = 0;
-			int actionId         = 0;
-			Card card            = null;
-			ActionType action    = null;
-			int maxActionId      = ActionType.values().length;
-			Round currentRound   = null;
-			Player currentPlayer = game.getCurrentPlayer();
-			Field currentField   = currentPlayer.getField();
-			String seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
+			seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
+			currentPlayer = game.getCurrentPlayer();
+			currentField  = currentPlayer.getField();
+			seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
 
 			if ((game instanceof Game) && (((Game)game).getCurrentRound() != currentRound)) {
-				currentRound = ((Game)game).getCurrentRound();
+				int previousRoundNumber = (currentRound == null) ? 0 : currentRound.getNumber();
+				currentRound = (((Game)game).getCurrentRound());
+
+				if (currentRound.getNumber() != previousRoundNumber) {
+					System.out.println("\nTurn is finished");
+					ConsoleGame.printRankings(game);
+				}
 				System.out.print("\nRound " + (currentRound.getNumber()+1) + "/" + playerNumber);
 			}
 
@@ -146,15 +156,8 @@ public class ConsoleGame {
 
 		} while (game.isRunning());
 
-		Vector<Player> scores = game.getPlayers();
-		Collections.sort(scores);
-		Collections.reverse(scores);
-
 		System.out.println("\nGame is finished");
-		System.out.println("Rankings:");
-		for (int i = 0; i < game.getPlayerNumber(); i++) {
-			System.out.println("  " + (i+1) + " - " + scores.get(i).toString());
-		}
+		ConsoleGame.printRankings(game);
 	}
 
 	/**
@@ -201,5 +204,18 @@ public class ConsoleGame {
 		} while (error != null);
 
 		return input;
+	}
+
+	static private void printRankings(Playable game) {
+		Vector<Player> scores = new Vector<Player>(game.getPlayers());
+		Collections.sort(scores);
+		Collections.reverse(scores);
+
+		System.out.println("Rankings:");
+		for (int i = 0; i < game.getPlayerNumber(); i++) {
+			Field field = scores.get(i).getField();
+			System.out.println("    Player " + (i+1) + ". Field: "+ field.getBigRockSum() +
+				" big rocks; " + field.getSmallRockSum() + " small rocks;");
+		}
 	}
 }
