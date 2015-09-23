@@ -14,7 +14,6 @@ import javax.swing.JToggleButton;
 import core.Playable;
 import core.Round;
 
-
 public class InitPanel extends JPanel {
 	/**
 	 * Java UID

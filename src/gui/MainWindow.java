@@ -2,6 +2,8 @@ package gui;
 
 
 import java.awt.Component;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -16,6 +18,11 @@ public class MainWindow extends JDialog {
 	 * Java UID
 	 */
 	private static final long serialVersionUID = 3059170629543738819L;
+
+	/**
+	 * Actual component
+	 */
+	private Component component;
 
 	/**
 	 * Game reference
@@ -33,6 +40,31 @@ public class MainWindow extends JDialog {
 		this.setResizable(false);
 
 		this.switchPanel("InitPanel", 400, 140);
+
+		this.setFocusable(true);
+		this.addKeyListener(new KeyListener() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == 27) {
+					if (component.getClass().getName() == "gui.GamePanel") {
+						GamePanel gp = (GamePanel) component;
+						gp.choosingTarget = false;
+						gp.revalidate();
+						gp.repaint();
+						Card[] cards = gp.getCards();
+						for (int i = 0; i < cards.length; i++) {
+							cards[i].clearRowFixed();
+						}
+					}
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {}
+			@Override
+			public void keyTyped(KeyEvent e) {}
+
+		});
 	}
 
 	/**
@@ -91,6 +123,7 @@ public class MainWindow extends JDialog {
 		jp.add(c);
 
 		this.setContentPane(jp);
+		this.component = c;
 
 		this.setLocationRelativeTo(null);
 	}

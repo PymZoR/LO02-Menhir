@@ -14,7 +14,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import core.ActionType;
+import core.CardType;
 
 /**
  * Card GUI representation
@@ -39,17 +43,18 @@ public class Card extends JPanel implements MouseMotionListener {
 	 * Selection
 	 */
 	private int rowSelected = -1;
+	private int rowFixed    = -1;
 
 	/**
 	 * Create a card representation
 	 * @param parentPanel The game panel reference
 	 * @param valueMatrix The values of the card
 	 */
-	public Card(final GamePanel parentPanel, int[][] valueMatrix)  {
+	public Card(final GamePanel parentPanel, final CardType type)  {
 		super();
 
 		this.parentPanel = parentPanel;
-		this.valueMatrix = valueMatrix;
+		this.valueMatrix = core.Card.getCard(type).getValueMatrix();
 
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(100, 100));
@@ -61,7 +66,13 @@ public class Card extends JPanel implements MouseMotionListener {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (rowSelected > -1) {
-					System.out.println("Chosen " + String.valueOf(rowSelected));
+					rowFixed = rowSelected;
+					CardType cType     = type;
+					ActionType cAction = ActionType.values()[rowSelected];
+					if (cAction == ActionType.HOBGOBLIN) {
+						parentPanel.chooseTarget();
+						JOptionPane.showMessageDialog(parentPanel, "Veuillez choisir une cible");
+					}
 				}
 			}
 
@@ -100,10 +111,21 @@ public class Card extends JPanel implements MouseMotionListener {
 	}
 
 	/**
+	 * Remove fixed row border (escape pressed)
+	 */
+	public void clearRowFixed() {
+		this.rowFixed = -1;
+	}
+
+	/**
 	 * Detect mouse position and update selection rect
 	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		if (this.parentPanel.choosingTarget) {
+			return;
+		}
+
 		if (e.getY() >= 38 && e.getY() < 58) {
 			this.rowSelected = 0;
 		} else if (e.getY() >= 58 && e.getY() < 78) {
@@ -145,10 +167,15 @@ public class Card extends JPanel implements MouseMotionListener {
 	             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 	    g2.setRenderingHints(rh);
 
+	    // Draw background first
+	    g2.setColor(getBackground());
+	    g2.fillRect(0, 0, getPreferredSize().width, getPreferredSize().height);
+
 		g2.setColor(Color.black);
 		g2.drawRect(0, 0, 95, 95);
 
-		g2.setColor(Color.white);
+		int opacity = (this.parentPanel.choosingTarget) ? 100 : 255;
+		g2.setColor(new Color(255, 255, 255, opacity));
 		g2.fillRect(1, 1, 94, 94);
 
 		g2.setColor(Color.black);
@@ -166,6 +193,13 @@ public class Card extends JPanel implements MouseMotionListener {
 
 			int startY = 33;
 			g2.drawRect(5, startY + this.rowSelected * 19, 80, 15);
+		}
+
+		if (this.rowFixed >= 0) {
+			g.setColor(Color.red);
+
+			int startY = 33;
+			g2.drawRect(5, startY + this.rowFixed * 19, 80, 15);
 		}
 	}
 

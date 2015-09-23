@@ -13,7 +13,7 @@ public class AlliedCard extends Card {
 	static public final int ALLIED_CARD_NUMBER = 6;
 
 	/**
-	 * Allied cards are singletons
+	 * Allied cards are unique
 	 */
 	static private Vector<AlliedCard> cardList = null;
 

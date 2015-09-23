@@ -34,6 +34,11 @@ public class Field extends JPanel {
 	private GamePanel parentPanel;
 	private Playable game;
 
+	/**
+	 * Create a field
+	 * @param parentPanel Parent reference
+	 * @param playerName Player name
+	 */
 	public Field(final GamePanel parentPanel, String playerName)  {
 		super();
 
@@ -72,6 +77,9 @@ public class Field extends JPanel {
 		c.setBounds(i.left + x, i.top + y, size.width, size.height);
 	}
 
+	/**
+	 * Draw the field
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
