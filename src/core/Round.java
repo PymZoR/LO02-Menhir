@@ -10,16 +10,18 @@ public class Round implements Playable {
 	/**
 	 * The total cards a player can have
 	 */
-	public static final int CARDS_IN_HAND = 4;
+	public static final int CARDS_IN_HAND          = 4;
+	public static final int INIT_SMALL_ROCK_NUMBER = 2;
 
 	/**
 	 * Round state (started, playing player, all players, playing player index and actual season)
 	 */
-	private boolean running = false;
-	private Player currentPlayer = null;
+	private boolean running         = false;
+	private Player currentPlayer    = null;
 	private Vector<Player> players;
-	private int playerNumber = 0;
+	private int playerNumber        = 0;
 	private SeasonType actualSeason = SeasonType.values()[0];
+	private int number              = 0;
 
 	/**
 	 * Create a new game with given player count
@@ -36,16 +38,26 @@ public class Round implements Playable {
 		this.players = new Vector<Player>();
 		this.playerNumber = playerNumber;
 
-		// Init players
 		for (int i = 0; i < playerNumber; i++) {
 			Player newPlayer = new Player(this, i);
-			newPlayer.drawCard(Round.CARDS_IN_HAND);
-			newPlayer.getField().addSmallRockNumber(2);
-
-			players.add(newPlayer);
+			this.players.add(newPlayer);
 		}
+	}
 
+	public Round(Vector<Player> players, int number) throws Exception {
+		this.players       = players;
+		this.playerNumber  = this.players.size();
+		this.number        = number;
 		this.currentPlayer = this.players.get(0);
+
+	}
+
+	public int getNumber() {
+		return this.number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 	/**
@@ -53,7 +65,15 @@ public class Round implements Playable {
 	 */
 	@Override
 	public void start() {
-		this.running = true;
+	    Card.resetCards();
+
+		for (int i = 0; i < playerNumber; i++) {
+			Player player = this.players.get(i);
+			player.reset();
+		}
+
+		this.currentPlayer = this.players.get(0);
+		this.running       = true;
 	}
 
 	/**

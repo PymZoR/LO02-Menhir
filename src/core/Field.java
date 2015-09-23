@@ -9,12 +9,28 @@ public class Field implements Comparable<Field> {
 	 */
 	private int bigRockNumber   = 0;
 	private int smallRockNumber = 0;
+	private int bigRockSum      = 0;
+	private int smallRockSum    = 0;
 
 	/**
 	 * Create a field
 	 */
 	public Field() {
 
+	}
+
+	public void reset() {
+		this.smallRockNumber = Round.INIT_SMALL_ROCK_NUMBER;
+		this.smallRockSum   += this.smallRockNumber;
+		this.bigRockNumber   = 0;
+	}
+
+	public int getBigRockSum() {
+		return this.bigRockSum;
+	}
+
+	public int getSmallRockSum() {
+		return this.smallRockSum;
 	}
 
 	/**
@@ -31,6 +47,7 @@ public class Field implements Comparable<Field> {
 	 */
 	public void addBigRockNumber(int number) {
 		this.bigRockNumber += number;
+		this.bigRockSum    += number;
 	}
 
 	/**
@@ -47,6 +64,7 @@ public class Field implements Comparable<Field> {
 	 */
 	public void addSmallRockNumber(int number) {
 		this.smallRockNumber += number;
+		this.smallRockSum    += number;
 	}
 
 	/**
@@ -54,6 +72,7 @@ public class Field implements Comparable<Field> {
 	 * @param number The small rocks amount
 	 */
 	public void setSmallRockNumber(int number) {
+		this.smallRockSum   += (number - this.smallRockNumber);
 		this.smallRockNumber = number;
 	}
 
@@ -64,16 +83,16 @@ public class Field implements Comparable<Field> {
 	@Override
 	public int compareTo(Field compareField) {
 		if (compareField.getBigRockNumber() == this.getBigRockNumber()) {
-			return this.getSmallRockNumber() - compareField.getSmallRockNumber();
+			return this.getSmallRockSum() - compareField.getSmallRockSum();
 		}
 		else {
-			return this.getBigRockNumber() - compareField.getBigRockNumber();
+			return this.getBigRockSum() - compareField.getBigRockSum();
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "Field : "+ this.bigRockNumber +  " big rocks; " +
-			this.smallRockNumber + " small rocks.";
+		return "Field : "+ this.bigRockSum +  " big rocks; " +
+			this.smallRockSum + " small rocks.";
 	}
 }
