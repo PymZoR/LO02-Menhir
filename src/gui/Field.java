@@ -8,12 +8,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import core.Playable;
+import core.Player;
 
 public class Field extends JPanel {
 	/**
@@ -35,30 +37,38 @@ public class Field extends JPanel {
 	private Playable game;
 
 	/**
+	 * URLs
+	 */
+	private static URL rockURL   = Field.class.getResource("/images/rock.png");
+	private static URL menhirURL = Field.class.getResource("/images/menhir.png");
+
+	/**
 	 * Create a field
 	 * @param parentPanel Parent reference
 	 * @param playerName Player name
 	 */
-	public Field(final GamePanel parentPanel, String playerName)  {
+	public Field(final GamePanel parentPanel, Player player, String playerName)  {
 		super();
 
 		this.game            = parentPanel.getGame();
 		this.parentPanel     = parentPanel;
 		this.playerName      = playerName;
-		this.bigRockNumber   = this.game.getCurrentPlayer().getField().getBigRockNumber();
-		this.smallRockNumber = this.game.getCurrentPlayer().getField().getSmallRockNumber();
+		this.bigRockNumber   = player.getField().getBigRockNumber();
+		this.smallRockNumber = player.getField().getSmallRockNumber();
 
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(100, 100));
 
-		ImageIcon rockImage   = new ImageIcon(Field.class.getResource("/images/rock.png"));
-		ImageIcon menhirImage = new ImageIcon(Field.class.getResource("/images/menhir.png"));
+		if (Field.rockURL != null && Field.menhirURL != null) {
+			ImageIcon rockImage   = new ImageIcon(Field.rockURL);
+			ImageIcon menhirImage = new ImageIcon(Field.menhirURL);
 
-		JLabel rock   = new JLabel(String.valueOf(this.smallRockNumber), rockImage, JLabel.LEFT);
-		JLabel menhir = new JLabel(String.valueOf(this.bigRockNumber), menhirImage, JLabel.LEFT);
+			JLabel rock   = new JLabel(String.valueOf(this.smallRockNumber), rockImage, JLabel.LEFT);
+			JLabel menhir = new JLabel(String.valueOf(this.bigRockNumber), menhirImage, JLabel.LEFT);
 
-		this.addAbsolute(rock, 22, 30);
-		this.addAbsolute(menhir, 22, 60);
+			this.addAbsolute(rock, 22, 30);
+			this.addAbsolute(menhir, 22, 60);
+		}
 	}
 
 	/**

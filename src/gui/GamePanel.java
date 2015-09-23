@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -66,6 +67,9 @@ public class GamePanel extends JPanel {
 		this.parentWindow = parentWindow;
 		this.game         = parentWindow.getGame();
 
+		Vector<Player> players = this.game.getPlayers();
+		players.remove(this.game.getCurrentPlayer());
+
 		this.setLayout(null);
 		this.setPreferredSize(this.parentWindow.getSize());
 
@@ -76,7 +80,15 @@ public class GamePanel extends JPanel {
 		this.card3 = new Card(this, this.player.getCards().get(2).getType());
 		this.card4 = new Card(this, this.player.getCards().get(3).getType());
 
-		this.selfField = new Field(this, "Votre terrain");
+		this.selfField = new Field(this, this.player, "Votre terrain");
+
+		int startX = 10;
+		int stepX  = 100;
+		for (int i = 0; i < players.size(); i++) {
+			String playerN    = String.valueOf(players.get(i).getNumber() + 1);
+			Field playerField = new Field(this, players.get(i), "Joueur " + playerN);
+			this.addAbsolute(playerField, startX + i * stepX, 260);
+		}
 
 		this.addAbsolute(this.card1, 10, 30);
 		this.addAbsolute(this.card2, 120, 30);
