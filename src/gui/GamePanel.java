@@ -32,8 +32,14 @@ public class GamePanel extends JPanel {
 	private Card card3 = null;
 	private Card card4 = null;
 
+	/**
+	 * Player field
+	 */
 	private Field selfField = null;
 
+	/**
+	 * Game information
+	 */
 	private JLabel actualSeason  = new JLabel("Saison actuelle : Printemps");
 	private JLabel totalBigRocks = new JLabel("Score total : 0");
 
@@ -41,6 +47,11 @@ public class GamePanel extends JPanel {
 	 * Player reference
 	 */
 	private Player player;
+
+	/**
+	 * Action management
+	 */
+	public boolean choosingTarget = false;
 
 	/**
 	 * Parent window
@@ -54,15 +65,16 @@ public class GamePanel extends JPanel {
 	public GamePanel(MainWindow parentWindow) {
 		this.parentWindow = parentWindow;
 		this.game         = parentWindow.getGame();
+
 		this.setLayout(null);
 		this.setPreferredSize(this.parentWindow.getSize());
 
 		this.player = this.game.getCurrentPlayer();
 
-		this.card1 = new Card(this, this.player.getCards().get(0).getValueMatrix());
-		this.card2 = new Card(this, this.player.getCards().get(1).getValueMatrix());
-		this.card3 = new Card(this, this.player.getCards().get(2).getValueMatrix());
-		this.card4 = new Card(this, this.player.getCards().get(3).getValueMatrix());
+		this.card1 = new Card(this, this.player.getCards().get(0).getType());
+		this.card2 = new Card(this, this.player.getCards().get(1).getType());
+		this.card3 = new Card(this, this.player.getCards().get(2).getType());
+		this.card4 = new Card(this, this.player.getCards().get(3).getType());
 
 		this.selfField = new Field(this, "Votre terrain");
 
@@ -97,6 +109,31 @@ public class GamePanel extends JPanel {
 	 */
 	public Playable getGame() {
 		return this.game;
+	}
+
+	/**
+	 * Disable cards and fields
+	 */
+	public void chooseTarget() {
+		this.choosingTarget = true;
+		revalidate();
+		repaint();
+	}
+
+	/**
+	 * Get all cards
+	 * @return All four cards
+	 */
+	public Card[] getCards() {
+		Card[] cards = { this.card1, this.card2, this.card3, this.card4 };
+		return cards;
+	}
+
+	/**
+	 * Choose a card
+	 */
+	public void chooseCard() {
+
 	}
 
 	/**
