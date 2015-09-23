@@ -1,15 +1,15 @@
 package console;
 
-import java.util.Vector;
 import java.util.Collections;
+import java.util.Vector;
+
 import core.ActionType;
 import core.Card;
 import core.Field;
 import core.Game;
+import core.Playable;
 import core.Player;
 import core.Round;
-import core.Game;
-import core.Playable;
 import core.SeasonType;
 import helpers.StringUtils;
 
