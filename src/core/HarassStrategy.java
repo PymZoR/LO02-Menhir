@@ -45,19 +45,19 @@ public class HarassStrategy extends Strategy {
 			}
 		}
 
-		// Try farfadet
+		// Try hobgoblin
 		Vector<Card> selfCards = this.self.getCards();
 		for (int i = 0; i < selfCards.size(); i++) {
 			int hobgoblinPower = selfCards.get(i).getValue(ActionType.HOBGOBLIN, game.getActualSeason());
 
-			// Try farfadet against best player
+			// Try hobgoblin against best player
 			if (hobgoblinPower <= this.target.getField().getSmallRockNumber()) {
 				this.card   = selfCards.get(i).getType();
 				this.action = ActionType.HOBGOBLIN;
 				break;
 			}
 
-			// Try farfadet against other
+			// Try hobgoblin against other
 			for (int j = 0; j < this.allPlayers.size(); j++) {
 				if (hobgoblinPower <= this.allPlayers.get(j).getField().getSmallRockNumber()) {
 					this.card   = selfCards.get(i).getType();
@@ -67,7 +67,7 @@ public class HarassStrategy extends Strategy {
 			}
 		}
 
-		// If can't play farfadet, back to Safe
+		// If can't play hobgoblin, back to Safe
 		if (this.action != ActionType.HOBGOBLIN) {
 			SafeStrategy ss = new SafeStrategy(this.self, this.allPlayers);
 			ss.makeChoice();
