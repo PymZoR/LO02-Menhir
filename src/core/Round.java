@@ -48,7 +48,6 @@ public class Round implements Playable {
 		this.players       = players;
 		this.playerNumber  = this.players.size();
 		this.number        = number;
-		this.currentPlayer = this.players.get(0);
 
 	}
 

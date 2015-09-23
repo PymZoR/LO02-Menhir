@@ -97,7 +97,7 @@ public class Card {
 
 	static public void resetCards() {
 		if (Card.cardList == null) {
-			return;
+			Card.init();
 		}
 
 		for (int i = 0; i < Card.CARD_NUMBER; i++) {
