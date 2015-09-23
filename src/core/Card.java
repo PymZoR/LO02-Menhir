@@ -96,6 +96,10 @@ public class Card {
 	}
 
 	static public void resetCards() {
+		if (Card.cardList == null) {
+			return;
+		}
+
 		for (int i = 0; i < Card.CARD_NUMBER; i++) {
 			Card.cardList.get(i).setDrawed(false);
 		}

@@ -38,11 +38,16 @@ public class Player implements Comparable<Player> {
 		this.game        = game;
 	}
 
+	public void reset() {
+		this.drawCard(Round.CARDS_IN_HAND);
+		this.field.reset();
+	}
+
 	/**
 	 * Make the player get random cards
 	 * @param cardNumber Amount of cards to get
 	 */
-	public void drawCard(int cardNumber) {
+	private void drawCard(int cardNumber) {
 		for (int i = 0; i < cardNumber; i++) {
 			CardType randomType;
 			Card newCard;

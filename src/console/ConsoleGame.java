@@ -25,25 +25,25 @@ public class ConsoleGame {
 		Playable game    = null;
 
 		System.out.println("Type 1 for a simple game, 2 for enhanced: ");
-		int choice = 0;
+		int gameType = 0;
 		do {
-			choice = ConsoleGame.getIntInput();
+			gameType = ConsoleGame.getIntInput();
 
-			if (choice < 1 || choice > 2) {
+			if (gameType < 1 || gameType > 2) {
 				System.out.println("Choice must be either 1 or 2");
-				choice = 0;
+				gameType = 0;
 			}
-		} while (choice == 0);
+		} while (gameType == 0);
 
 		System.out.println("Choose the player number: ");
 		do {
 			playerNumber = ConsoleGame.getIntInput();
 
 			try {
-				if (choice == 1) {
+				if (gameType == 1) {
 					game = new Round(playerNumber);
 				}
-				else if (choice == 2 ){
+				else if (gameType == 2 ){
 					game  = new Game(playerNumber);
 				}
 			}
@@ -53,17 +53,24 @@ public class ConsoleGame {
 		} while (game == null);
 
 		System.out.println("\nStart new game !");
-		System.out.println("--------------------------------\n");
+		System.out.println("--------------------------------");
 		game.start();
+
 		do {
 			int cardId           = 0;
 			int actionId         = 0;
 			Card card            = null;
 			ActionType action    = null;
 			int maxActionId      = ActionType.values().length;
+			Round currentRound   = null;
 			Player currentPlayer = game.getCurrentPlayer();
 			Field currentField   = currentPlayer.getField();
 			String seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
+
+			if ((game instanceof Game) && (((Game)game).getCurrentRound() != currentRound)) {
+				currentRound = ((Game)game).getCurrentRound();
+				System.out.print("\nRound " + (currentRound.getNumber()+1) + "/" + playerNumber);
+			}
 
 			System.out.println("\nNext turn. Player " + (currentPlayer.getNumber()+1) + ":");
 			System.out.println("    Current season: " + seasonName);
@@ -135,6 +142,8 @@ public class ConsoleGame {
 			}
 
 			game.nextTurn(card, action, player);
+
+
 		} while (game.isRunning());
 
 		Vector<Player> scores = game.getPlayers();
