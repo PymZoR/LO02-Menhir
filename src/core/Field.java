@@ -82,7 +82,7 @@ public class Field implements Comparable<Field> {
 	 */
 	@Override
 	public int compareTo(Field compareField) {
-		if (compareField.getBigRockNumber() == this.getBigRockNumber()) {
+		if (compareField.getBigRockSum() == this.getBigRockSum()) {
 			return this.getSmallRockSum() - compareField.getSmallRockSum();
 		}
 		else {
