@@ -39,7 +39,7 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 	/**
 	 * Parent panel reference
 	 */
-	private GamePanel parentPanel;
+	private RoundPanel parentPanel;
 	private Playable game;
 
 	/**
@@ -53,7 +53,7 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 	 * @param parentPanel Parent reference
 	 * @param playerName Player name
 	 */
-	public Field(final GamePanel parentPanel, Player player, String playerName)  {
+	public Field(final RoundPanel parentPanel, Player player, String playerName)  {
 		super();
 
 		this.game            = parentPanel.getGame();

@@ -29,7 +29,7 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 	/**
 	 * Parent panel reference
 	 */
-	private GamePanel parentPanel;
+	private RoundPanel parentPanel;
 
 	/**
 	 * Card value
@@ -48,7 +48,7 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 	 * @param parentPanel The game panel reference
 	 * @param valueMatrix The values of the card
 	 */
-	public Card(final GamePanel parentPanel, final CardType type)  {
+	public Card(final RoundPanel parentPanel, final CardType type)  {
 		super();
 
 		this.parentPanel = parentPanel;
