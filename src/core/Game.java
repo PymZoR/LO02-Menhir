@@ -61,7 +61,6 @@ public class Game implements Playable {
 	@Override
 	public void nextTurn(Card card, ActionType action, Player player) {
 		this.currentRound.nextTurn(card, action, player);
-		System.out.println(this.roundNumber);
 		int currentRoundNumber = this.rounds.indexOf(this.currentRound);
 
 		if (!this.currentRound.isRunning()) {

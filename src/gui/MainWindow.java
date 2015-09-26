@@ -129,6 +129,9 @@ public class MainWindow extends JDialog {
 		this.setContentPane(jp);
 		this.component = c;
 
+		this.revalidate();
+		this.repaint();
+
 		this.setLocationRelativeTo(null);
 	}
 

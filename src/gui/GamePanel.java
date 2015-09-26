@@ -77,15 +77,18 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 
 			String message = "Rankings:\n";
 
-			System.out.println("Rankings:");
 			for (int i = 0; i < game.getPlayerNumber(); i++) {
 				core.Field field = scores.get(i).getField();
 
 				message += "    Player " + (i+1) + ". Field: "+ field.getBigRockSum() +
-						" big rocks; " + field.getSmallRockSum() + " small rocks;";
+						" big rocks; " + field.getSmallRockSum() + " small rocks;\n";
 			}
 
 			JOptionPane.showMessageDialog(this, message, "Partie terminée", JOptionPane.INFORMATION_MESSAGE);
+
+			// Start again
+			this.parentWindow.dispose();
+			new MainWindow();
 
 			return;
 		}
@@ -97,7 +100,6 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 
 		this.setPreferredSize(this.parentWindow.getSize());
 
-		System.out.println(this.game.getPlayers().size());
 		this.player = this.game.getCurrentPlayer();
 
 		for (int i = 0; i < this.player.getCards().size(); i++) {
@@ -224,7 +226,5 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 		this.game.nextTurn(selectedCoreCard, action, target);
 
 		parentWindow.switchPanel("GamePanel", 710, 450);
-		parentWindow.revalidate();
-		parentWindow.repaint();
 	}
 }
