@@ -39,20 +39,6 @@ public class Field implements Comparable<Field> {
 	}
 
 	/**
-	 * Compare a Field to another to find which is bigger
-	 * @param  compareField field to compare
-	 */
-	@Override
-	public int compareTo(Field compareField) {
-		if (compareField.getBigRockNumber() == this.getBigRockNumber()) {
-			return this.getSmallRockSum() - compareField.getSmallRockSum();
-		}
-		else {
-			return this.getBigRockSum() - compareField.getBigRockSum();
-		}
-	}
-
-	/**
 	 * Get the big rock amount
 	 * @return The big rock amount
 	 */
@@ -100,6 +86,20 @@ public class Field implements Comparable<Field> {
 	public void setSmallRockNumber(int number) {
 		this.smallRockSum   += (number - this.smallRockNumber);
 		this.smallRockNumber = number;
+	}
+
+	/**
+	 * Compare a Field to another to find which is bigger
+	 * @param  compareField field to compare
+	 */
+	@Override
+	public int compareTo(Field compareField) {
+		if (compareField.getBigRockSum() == this.getBigRockSum()) {
+			return this.getSmallRockSum() - compareField.getSmallRockSum();
+		}
+		else {
+			return this.getBigRockSum() - compareField.getBigRockSum();
+		}
 	}
 
 	@Override
