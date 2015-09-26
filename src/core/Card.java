@@ -20,12 +20,16 @@ public class Card {
 	static private Vector<Card> cardList;
 
 	/**
-	 * Card properties (values and type)
+	 * Get a card by its identifier
+	 * @param identifier The identifier
+	 * @return The card
 	 */
-	private int[][] valueMatrix;
-	private CardType type;
-	private boolean drawed = false;
-
+	static public Card getCard(CardType identifier) {
+		if (Card.cardList == null) {
+			Card.init();
+		}
+		return Card.cardList.get(identifier.ordinal());
+	}
 	/**
 	 * Create all the cards
 	 */
@@ -82,19 +86,6 @@ public class Card {
 		Card.cardList.add(CardType.FAIRY2.ordinal(), new Card(fairy2Values, CardType.FAIRY2));
 		Card.cardList.add(CardType.FAIRY3.ordinal(), new Card(fairy3Values, CardType.FAIRY3));
 	}
-
-	/**
-	 * Get a card by its identifier
-	 * @param identifier The identifier
-	 * @return The card
-	 */
-	static public Card getCard(CardType identifier) {
-		if (Card.cardList == null) {
-			Card.init();
-		}
-		return Card.cardList.get(identifier.ordinal());
-	}
-
 	static public void resetCards() {
 		if (Card.cardList == null) {
 			Card.init();
@@ -104,6 +95,15 @@ public class Card {
 			Card.cardList.get(i).setDrawed(false);
 		}
 	}
+
+	/**
+	 * Card properties (values and type)
+	 */
+	private int[][] valueMatrix;
+
+	private CardType type;
+
+	private boolean drawed = false;
 
 	/**
 	 * Create a card
@@ -141,20 +141,28 @@ public class Card {
 		return this.valueMatrix;
 	}
 
+	public boolean isDrawed() {
+		return this.drawed;
+	}
+
+	public void setDrawed(boolean drawed) {
+		this.drawed = drawed;
+	}
+
 	/**
 	 * Render a card
 	 * @param cardN The card index
 	 * @return A string representation
 	 */
 	public String toASCII(int cardN) {
-		String result = "--------------\n";
-		result       += "| Card  .    |\n";
-		result       += "|------------|\n";
-		result       += "|   s S F W  |\n";
-		result       += "| G . . . .  |\n";
-		result       += "| F . . . .  |\n";
-		result       += "| H . . . .  |\n";
-		result       += "|------------|\n";
+		String result = "--------------" + System.lineSeparator();
+		result       += "| Card  .    |" + System.lineSeparator();
+		result       += "|------------|" + System.lineSeparator();
+		result       += "|   s S F W  |" + System.lineSeparator();
+		result       += "| G . . . .  |" + System.lineSeparator();
+		result       += "| F . . . .  |" + System.lineSeparator();
+		result       += "| H . . . .  |" + System.lineSeparator();
+		result       += "|------------|" + System.lineSeparator();
 
 		result = StringUtils.replaceCharAt(result, 23, Integer.toString(cardN + 1));
 		result = StringUtils.replaceCharAt(result, 64, Integer.toString(this.valueMatrix[0][0]));
@@ -171,13 +179,5 @@ public class Card {
 		result = StringUtils.replaceCharAt(result, 100, Integer.toString(this.valueMatrix[2][3]));
 
 		return result;
-	}
-
-	public boolean isDrawed() {
-		return this.drawed;
-	}
-
-	public void setDrawed(boolean drawed) {
-		this.drawed = drawed;
 	}
 }

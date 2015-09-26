@@ -78,13 +78,13 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 			Collections.sort(scores);
 			Collections.reverse(scores);
 
-			String message = "Rankings:\n";
+			String message = "Rankings:" + System.lineSeparator();
 
 			for (int i = 0; i < this.game.getPlayerNumber(); i++) {
 				core.Field field = scores.get(i).getField();
 
-				message += "    Player " + (i+1) + ". Field: "+ field.getBigRockSum() +
-						" big rocks; " + field.getSmallRockSum() + " small rocks;\n";
+				message += "    Joueur " + (i+1) + ". Champ: "+ field.getBigRockSum() +
+						" menhirs; " + field.getSmallRockSum() + " graines;" + System.lineSeparator();
 			}
 
 			JOptionPane.showMessageDialog(this, message, "Partie terminée", JOptionPane.INFORMATION_MESSAGE);

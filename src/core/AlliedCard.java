@@ -18,11 +18,17 @@ public class AlliedCard extends Card {
 	static private Vector<AlliedCard> cardList = null;
 
 	/**
-	 * Allied cards properties (values and type)
+	 * Get an allied card by its identifier
+	 * @param identifier The identifier
+	 * @return The card
 	 */
-	private int[] values;
-	private CardType type;
+	static public AlliedCard getCard(CardType identifier) {
+		if (AlliedCard.cardList == null) {
+			AlliedCard.init();
+		}
 
+		return AlliedCard.cardList.get(identifier.ordinal());
+	}
 	/**
 	 * Create all the allied cards
 	 */
@@ -45,17 +51,11 @@ public class AlliedCard extends Card {
 	}
 
 	/**
-	 * Get an allied card by its identifier
-	 * @param identifier The identifier
-	 * @return The card
+	 * Allied cards properties (values and type)
 	 */
-	static public AlliedCard getCard(CardType identifier) {
-		if (AlliedCard.cardList == null) {
-			AlliedCard.init();
-		}
+	private int[] values;
 
-		return AlliedCard.cardList.get(identifier.ordinal());
-	}
+	private CardType type;
 
 	/**
 	 * Create an allied card

@@ -24,9 +24,15 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 	private static final long serialVersionUID = 3180287191592167877L;
 
 	/**
+	 * URLs
+	 */
+	private static URL rockURL   = Field.class.getResource("/images/rock.png");
+	private static URL menhirURL = Field.class.getResource("/images/menhir.png");
+	/**
 	 * Big and small rocks amounts
 	 */
 	private int bigRockNumber   = 0;
+
 	private int smallRockNumber = 0;
 	private String playerName;
 
@@ -41,12 +47,6 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 	 */
 	private Player player;
 	private boolean isSelfPlayer;
-
-	/**
-	 * URLs
-	 */
-	private static URL rockURL   = Field.class.getResource("/images/rock.png");
-	private static URL menhirURL = Field.class.getResource("/images/menhir.png");
 
 	/**
 	 * Create a field
@@ -67,7 +67,7 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 
 		this.setPreferredSize(new Dimension(100, 100));
 
-		if (Field.rockURL != null && Field.menhirURL != null) {
+		if ((Field.rockURL != null) && (Field.menhirURL != null)) {
 			ImageIcon rockImage   = new ImageIcon(Field.rockURL);
 			ImageIcon menhirImage = new ImageIcon(Field.menhirURL);
 
@@ -93,6 +93,24 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 		return this.player;
 	}
 
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (this.parentPanel.choosingTarget && !this.isSelfPlayer) {
+			this.parentPanel.targetField = this;
+			this.parentPanel.revalidate();
+			this.parentPanel.repaint();
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+	@Override
+	public void mousePressed(MouseEvent e) {}
+	@Override
+	public void mouseReleased(MouseEvent e) {}
 	/**
 	 * Draw the field
 	 */
@@ -105,8 +123,8 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 	    g2.setRenderingHints(rh);
 
 	    // Draw background first
-	    g2.setColor(getBackground());
-	    g2.fillRect(0, 0, getPreferredSize().width, getPreferredSize().height);
+	    g2.setColor(this.getBackground());
+	    g2.fillRect(0, 0, this.getPreferredSize().width, this.getPreferredSize().height);
 
 	    if (this.parentPanel.targetField == this) {
 	    	g2.setColor(Color.red);
@@ -129,22 +147,4 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 	    g2.setColor(new Color(0, 0, 0, opacity));
 	    g2.drawString(this.playerName, 10, 20);
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (this.parentPanel.choosingTarget && !this.isSelfPlayer) {
-			this.parentPanel.targetField = this;
-			this.parentPanel.revalidate();
-			this.parentPanel.repaint();
-		}
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-	@Override
-	public void mouseExited(MouseEvent e) {}
-	@Override
-	public void mousePressed(MouseEvent e) {}
-	@Override
-	public void mouseReleased(MouseEvent e) {}
 }

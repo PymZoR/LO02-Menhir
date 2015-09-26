@@ -38,8 +38,8 @@ public class HarassStrategy extends Strategy {
 				continue;
 			}
 
-			if (this.target.getField().getBigRockNumber() == p.getField().getBigRockNumber() &&
-					this.target.getField().getSmallRockNumber() < p.getField().getSmallRockNumber()) {
+			if ((this.target.getField().getBigRockNumber() == p.getField().getBigRockNumber()) &&
+					(this.target.getField().getSmallRockNumber() < p.getField().getSmallRockNumber())) {
 				this.target = p;
 				continue;
 			}

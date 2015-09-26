@@ -1,5 +1,6 @@
 package core;
 
+
 /**
  * Field management
  */
@@ -19,28 +20,6 @@ public class Field implements Comparable<Field> {
 
 	}
 
-	public void reset() {
-		this.smallRockNumber = Round.INIT_SMALL_ROCK_NUMBER;
-		this.smallRockSum   += this.smallRockNumber;
-		this.bigRockNumber   = 0;
-	}
-
-	public int getBigRockSum() {
-		return this.bigRockSum;
-	}
-
-	public int getSmallRockSum() {
-		return this.smallRockSum;
-	}
-
-	/**
-	 * Get the big rock amount
-	 * @return The big rock amount
-	 */
-	public int getBigRockNumber() {
-		return this.bigRockNumber;
-	}
-
 	/**
 	 * Add big rocks to the field
 	 * @param number Big rocks to add
@@ -51,29 +30,12 @@ public class Field implements Comparable<Field> {
 	}
 
 	/**
-	 * Get the small rocks amount
-	 * @return The small rocks amount
-	 */
-	public int getSmallRockNumber() {
-		return this.smallRockNumber;
-	}
-
-	/**
 	 * Add small rocks to the field
 	 * @param number Small rocks to add
 	 */
 	public void addSmallRockNumber(int number) {
 		this.smallRockNumber += number;
 		this.smallRockSum    += number;
-	}
-
-	/**
-	 * Set the small rocks amount
-	 * @param number The small rocks amount
-	 */
-	public void setSmallRockNumber(int number) {
-		this.smallRockSum   += (number - this.smallRockNumber);
-		this.smallRockNumber = number;
 	}
 
 	/**
@@ -88,5 +50,44 @@ public class Field implements Comparable<Field> {
 		else {
 			return this.getBigRockSum() - compareField.getBigRockSum();
 		}
+	}
+
+	/**
+	 * Get the big rock amount
+	 * @return The big rock amount
+	 */
+	public int getBigRockNumber() {
+		return this.bigRockNumber;
+	}
+
+	public int getBigRockSum() {
+		return this.bigRockSum;
+	}
+
+	/**
+	 * Get the small rocks amount
+	 * @return The small rocks amount
+	 */
+	public int getSmallRockNumber() {
+		return this.smallRockNumber;
+	}
+
+	public int getSmallRockSum() {
+		return this.smallRockSum;
+	}
+
+	public void reset() {
+		this.smallRockNumber = Round.INIT_SMALL_ROCK_NUMBER;
+		this.smallRockSum   += this.smallRockNumber;
+		this.bigRockNumber   = 0;
+	}
+
+	/**
+	 * Set the small rocks amount
+	 * @param number The small rocks amount
+	 */
+	public void setSmallRockNumber(int number) {
+		this.smallRockSum   += (number - this.smallRockNumber);
+		this.smallRockNumber = number;
 	}
 }

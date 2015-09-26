@@ -63,9 +63,9 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 		this.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if (rowSelected > -1) {
-					rowFixed = rowSelected;
-					ActionType cAction = ActionType.values()[rowSelected];
+				if (Card.this.rowSelected > -1) {
+					Card.this.rowFixed = Card.this.rowSelected;
+					ActionType cAction = ActionType.values()[Card.this.rowSelected];
 
 					if (cAction == ActionType.HOBGOBLIN) {
 						parentPanel.chooseTarget();
@@ -77,18 +77,18 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 			}
 
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				rowSelected = -1;
-				repaint();
-				revalidate();
-			}
+			public void mouseEntered(MouseEvent arg0) {}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {}
+			public void mouseExited(MouseEvent arg0) {
+				Card.this.rowSelected = -1;
+				Card.this.repaint();
+				Card.this.revalidate();
+			}
 			@Override
 			public void mousePressed(MouseEvent arg0) {}
 			@Override
-			public void mouseEntered(MouseEvent arg0) {}
+			public void mouseReleased(MouseEvent arg0) {}
 		});
 
 		int startX = 30;
@@ -96,7 +96,7 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 		int startY = 38;
 		int stepY  = 20;
 		for (int i = 0; i < this.valueMatrix.length; i++) {
-			for (int j = 0; j < valueMatrix[i].length; j++) {
+			for (int j = 0; j < this.valueMatrix[i].length; j++) {
 				JLabel l = new JLabel(String.valueOf(this.valueMatrix[i][j]));
 
 				if (parentPanel.getGame().getActualSeason().ordinal() == j) {
@@ -105,7 +105,7 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 					l.setForeground(Color.gray);
 				}
 
-				this.addAbsolute(l, startX + j * stepX, startY + i * stepY);
+				this.addAbsolute(l, startX + (j * stepX), startY + (i * stepY));
 			}
 		}
 	}
@@ -118,34 +118,11 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 	}
 
 	/**
-	 * Detect mouse position and update selection rect
+	 * Get the selected action type
+	 * @return The action type
 	 */
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		if (this.parentPanel.lockingCards) {
-			return;
-		}
-
-		if (e.getY() >= 38 && e.getY() < 58) {
-			this.rowSelected = 0;
-		} else if (e.getY() >= 58 && e.getY() < 78) {
-			this.rowSelected = 1;
-		} else if (e.getY() >= 78 && e.getY() < 98) {
-			this.rowSelected = 2;
-		} else {
-			this.rowSelected = -1;
-		}
-
-		repaint();
-		revalidate();
-	}
-
-	/**
-	 * Check if the card is selected
-	 * @return True if the card is selected
-	 */
-	public boolean isSelected() {
-		return this.rowFixed != -1;
+	public ActionType getActionType() {
+		return ActionType.values()[this.rowFixed];
 	}
 
 	/**
@@ -157,11 +134,37 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 	}
 
 	/**
-	 * Get the selected action type
-	 * @return The action type
+	 * Check if the card is selected
+	 * @return True if the card is selected
 	 */
-	public ActionType getActionType() {
-		return ActionType.values()[this.rowFixed];
+	public boolean isSelected() {
+		return this.rowFixed != -1;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {}
+
+	/**
+	 * Detect mouse position and update selection rect
+	 */
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		if (this.parentPanel.lockingCards) {
+			return;
+		}
+
+		if ((e.getY() >= 38) && (e.getY() < 58)) {
+			this.rowSelected = 0;
+		} else if ((e.getY() >= 58) && (e.getY() < 78)) {
+			this.rowSelected = 1;
+		} else if ((e.getY() >= 78) && (e.getY() < 98)) {
+			this.rowSelected = 2;
+		} else {
+			this.rowSelected = -1;
+		}
+
+		this.repaint();
+		this.revalidate();
 	}
 
 	/**
@@ -176,8 +179,8 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 	    g2.setRenderingHints(rh);
 
 	    // Draw background first
-	    g2.setColor(getBackground());
-	    g2.fillRect(0, 0, getPreferredSize().width, getPreferredSize().height);
+	    g2.setColor(this.getBackground());
+	    g2.fillRect(0, 0, this.getPreferredSize().width, this.getPreferredSize().height);
 
 		g2.setColor(Color.black);
 		g2.drawRect(0, 0, 95, 95);
@@ -200,17 +203,14 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 			g.setColor(Color.red);
 
 			int startY = 33;
-			g2.drawRect(5, startY + this.rowSelected * 19, 80, 15);
+			g2.drawRect(5, startY + (this.rowSelected * 19), 80, 15);
 		}
 
 		if (this.rowFixed >= 0) {
 			g.setColor(Color.red);
 
 			int startY = 33;
-			g2.drawRect(5, startY + this.rowFixed * 19, 80, 15);
+			g2.drawRect(5, startY + (this.rowFixed * 19), 80, 15);
 		}
 	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {}
 }

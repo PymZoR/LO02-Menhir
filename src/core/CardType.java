@@ -1,5 +1,6 @@
 package core;
 
+
 /**
  * Every possible card
  */
