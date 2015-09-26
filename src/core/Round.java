@@ -4,7 +4,7 @@ package core;
 import java.util.Vector;
 
 /**
- * The game
+ * The small game
  */
 public class Round implements Playable {
 	/**
@@ -43,6 +43,11 @@ public class Round implements Playable {
 		}
 	}
 
+	/**
+	 * Create a full game round
+	 * @param players Existing players
+	 * @param number Round index
+	 */
 	public Round(Vector<Player> players, int number) {
 		this.players       = players;
 		this.playerNumber  = this.players.size();
@@ -67,6 +72,10 @@ public class Round implements Playable {
 		return this.currentPlayer;
 	}
 
+	/**
+	 * Get the round number
+	 * @return The round number
+	 */
 	public int getNumber() {
 		return this.number;
 	}
@@ -83,13 +92,17 @@ public class Round implements Playable {
 
 	/**
 	 * Get the number of players
-	 * @return Get the number of players
+	 * @return The number of players
 	 */
 	@Override
 	public int getPlayerNumber() {
 		return this.playerNumber;
 	}
 
+	/**
+	 * Get the player list
+	 * @return The player list
+	 */
 	@Override
 	public Vector<Player> getPlayers() {
 		return this.players;
@@ -202,6 +215,10 @@ public class Round implements Playable {
 		field.addBigRockNumber(-bigRockNumber);
 	}
 
+	/**
+	 * Set the round number
+	 * @param number The round number
+	 */
 	public void setNumber(int number) {
 		this.number = number;
 	}

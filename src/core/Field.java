@@ -46,22 +46,33 @@ public class Field implements Comparable<Field> {
 		return this.bigRockNumber;
 	}
 
+	/**
+	 * Get the small rock sum
+	 * @return The small rock sum
+	 */
 	public int getBigRockSum() {
 		return this.bigRockSum;
 	}
 
 	/**
-	 * Get the small rocks amount
-	 * @return The small rocks amount
+	 * Get the small rock amount
+	 * @return The small rock amount
 	 */
 	public int getSmallRockNumber() {
 		return this.smallRockNumber;
 	}
 
+	/**
+	 * Get the small rock sum
+	 * @return The small rock sum
+	 */
 	public int getSmallRockSum() {
 		return this.smallRockSum;
 	}
 
+	/**
+	 * Reset field after round
+	 */
 	public void reset() {
 		this.smallRockNumber = Round.INIT_SMALL_ROCK_NUMBER;
 		this.smallRockSum   += this.smallRockNumber;
@@ -89,5 +100,11 @@ public class Field implements Comparable<Field> {
 		else {
 			return this.getBigRockSum() - compareField.getBigRockSum();
 		}
+	}
+
+	@Override
+    public String toString() {
+		return "Field : "+ this.bigRockSum +  " menhirs; " +
+				this.smallRockSum + " seeds.";
 	}
 }

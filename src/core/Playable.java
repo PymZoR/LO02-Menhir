@@ -3,6 +3,9 @@ package core;
 
 import java.util.Vector;
 
+/**
+ * Round or full game common API
+ */
 public interface Playable {
 	/**
 	 * Get the actual season
@@ -41,7 +44,7 @@ public interface Playable {
 	 * Make a player play the card and get to the next turn
 	 * @param card   The played card
 	 * @param action The played action
-	 * @param player The player
+	 * @param player The target player
 	 */
 	public void nextTurn(Card card, ActionType action, Player player);
 

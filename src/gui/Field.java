@@ -93,6 +93,9 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 		return this.player;
 	}
 
+	/**
+	 * Mouse events
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (this.parentPanel.choosingTarget && !this.isSelfPlayer) {
@@ -111,6 +114,7 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 	public void mousePressed(MouseEvent e) {}
 	@Override
 	public void mouseReleased(MouseEvent e) {}
+
 	/**
 	 * Draw the field
 	 */
