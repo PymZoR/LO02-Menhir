@@ -164,7 +164,7 @@ public class ConsoleGame {
 			Vector<Player> otherPlayers = (Vector<Player>) game.getPlayers().clone();
 			otherPlayers.removeElement(currentPlayer);
 
-			if ((gameType == 2) && (((Game)game).getCurrentRound() != currentRound)) {
+			if (gameType == 2) {
 				int previousRoundNumber = (currentRound == null) ? 0 : currentRound.getNumber();
 				currentRound = (((Game)game).getCurrentRound());
 
