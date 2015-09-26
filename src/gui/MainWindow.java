@@ -39,40 +39,36 @@ public class MainWindow extends JDialog {
 		this.setVisible(true);
 		this.setResizable(false);
 
-		this.switchPanel("InitPanel", 400, 140);
+		this.switchPanel("InitPanel", 400, 160);
 
 		this.setFocusable(true);
 		this.addKeyListener(new KeyListener() {
 			@Override
+			public void keyPressed(KeyEvent e) {}
+
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == 27) {
-					if (component.getClass().getName() == "gui.GamePanel") {
-						GamePanel gp = (GamePanel) component;
+					if (MainWindow.this.component.getClass().getName() == "gui.GamePanel") {
+						GamePanel gp = (GamePanel) MainWindow.this.component;
+
+						gp.lockingCards   = false;
 						gp.choosingTarget = false;
+						gp.targetField    = null;
+
 						gp.revalidate();
 						gp.repaint();
 						Card[] cards = gp.getCards();
-						for (int i = 0; i < cards.length; i++) {
-							cards[i].clearRowFixed();
+						for (Card card : cards) {
+							card.clearRowFixed();
 						}
 					}
 				}
 			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {}
 			@Override
 			public void keyTyped(KeyEvent e) {}
 
 		});
-	}
-
-	/**
-	 * Set the game reference
-	 * @param game The game
-	 */
-	public void setGame(Playable game) {
-		this.game = game;
 	}
 
 	/**
@@ -81,6 +77,14 @@ public class MainWindow extends JDialog {
 	 */
 	public Playable getGame() {
 		return this.game;
+	}
+
+	/**
+	 * Set the game reference
+	 * @param game The game
+	 */
+	public void setGame(Playable game) {
+		this.game = game;
 	}
 
 	/**
@@ -124,6 +128,9 @@ public class MainWindow extends JDialog {
 
 		this.setContentPane(jp);
 		this.component = c;
+
+		this.revalidate();
+		this.repaint();
 
 		this.setLocationRelativeTo(null);
 	}

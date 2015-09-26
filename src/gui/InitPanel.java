@@ -31,8 +31,8 @@ public class InitPanel extends JPanel {
 	 */
 	private JLabel numberOfPlayersLabel       = new JLabel("Nombre de joueurs :");
 	private JLabel numberOfIAsLabel           = new JLabel("Nombre d'ordinateurs :");
-	private JComboBox<String> numberOfPlayers = new JComboBox<String>(playerChoices);
-	private JComboBox<String> numberOfIAs     = new JComboBox<String>(iaChoices);
+	private JComboBox<String> numberOfPlayers = new JComboBox<String>(this.playerChoices);
+	private JComboBox<String> numberOfIAs     = new JComboBox<String>(this.iaChoices);
 	private JToggleButton rapidGameButton     = new JToggleButton("Partie rapide");
 
 	/**
@@ -56,17 +56,17 @@ public class InitPanel extends JPanel {
 		this.add(this.rapidGameButton);
 
 		// On number of players choice => update number of computer choices
-		numberOfPlayers.addActionListener(new ActionListener() {
+		this.numberOfPlayers.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				numberOfIAs.removeAllItems();
+				InitPanel.this.numberOfIAs.removeAllItems();
 
-				int players = numberOfPlayers.getSelectedIndex() + 2;
+				int players = InitPanel.this.numberOfPlayers.getSelectedIndex() + 2;
 				for (int i = 1; i < players; i++) {
 					if (i == 1) {
-						numberOfIAs.addItem(Integer.toString(i) + " ordinateur");
+						InitPanel.this.numberOfIAs.addItem(Integer.toString(i) + " ordinateur");
 					} else {
-						numberOfIAs.addItem(Integer.toString(i) + " ordinateurs");
+						InitPanel.this.numberOfIAs.addItem(Integer.toString(i) + " ordinateurs");
 					}
 				}
 			}
@@ -77,15 +77,18 @@ public class InitPanel extends JPanel {
 		validateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int players       = (numberOfPlayers.getSelectedIndex() + 2);
-				boolean rapidGame = rapidGameButton.isSelected();
+				int players       = (InitPanel.this.numberOfPlayers.getSelectedIndex() + 2);
+				boolean rapidGame = InitPanel.this.rapidGameButton.isSelected();
 
 				try {
 					Playable game = new Round(players);
-					parentWindow.setGame(game);
-					parentWindow.switchPanel("GamePanel", 800, 600);
+					game.start();
+					InitPanel.this.parentWindow.setGame(game);
+					InitPanel.this.parentWindow.switchPanel("GamePanel", 710, 450);
 				}
-				catch (Exception err) {}
+				catch (Exception err) {
+					err.printStackTrace();
+				}
 			}
 		});
 		this.add(validateButton);

@@ -1,7 +1,7 @@
 package core;
 
-import java.util.Vector;
 
+import java.util.Vector;
 
 public class Game implements Playable {
 	private boolean running        = false;
@@ -29,12 +29,9 @@ public class Game implements Playable {
 		this.currentRound = this.rounds.get(0);
 	}
 
-	public Round getCurrentRound() {
-		return this.currentRound;
-	}
-
-	public int getRoundNumber() {
-		return this.roundNumber;
+	@Override
+	public SeasonType getActualSeason() {
+		return this.currentRound.getActualSeason();
 	}
 
 	@Override
@@ -42,72 +39,13 @@ public class Game implements Playable {
 		return this.currentRound.getCurrentPlayer();
 	}
 
-	@Override
-	public SeasonType getActualSeason() {
-		return this.currentRound.getActualSeason();
+	public Round getCurrentRound() {
+		return this.currentRound;
 	}
 
 	@Override
 	public Player getPlayer(int i) {
 		return this.currentRound.getPlayer(i);
-	}
-
-	@Override
-	public void start() {
-		this.currentRound.start();
-		this.running = true;
-	}
-
-	@Override
-	public void nextTurn(Card card, ActionType action, Player player) {
-		this.currentRound.nextTurn(card, action, player);
-		System.out.println(this.roundNumber);
-		int currentRoundNumber = this.rounds.indexOf(this.currentRound);
-
-		if (!this.currentRound.isRunning()) {
-			if (currentRoundNumber == this.roundNumber - 1) {
-				this.running = false;
-			}
-			else {
-				this.currentRound = this.rounds.get(currentRoundNumber+1);
-				this.currentRound.start();
-			}
-		}
-	}
-
-	@Override
-	public void playTaupe(Player source, Player target, int bigRockNumber) {
-		this.currentRound.playTaupe(source, target, bigRockNumber);
-
-	}
-
-	@Override
-	public void playDog(Player source) {
-		this.currentRound.playDog(source);
-
-	}
-
-	@Override
-	public void playGiant(Player source, int smallRockNumber) {
-		this.currentRound.playGiant(source, smallRockNumber);
-
-	}
-
-	@Override
-	public void playFertilizer(Player source, int fertilizeNumber) {
-		this.currentRound.playFertilizer(source, fertilizeNumber);
-
-	}
-
-	@Override
-	public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
-		this.currentRound.playHobgoblin(source, target, hobgoblinNumber);
-
-	}
-
-	@Override
-	public boolean isRunning() {
-		return this.running;
 	}
 
 	@Override
@@ -118,5 +56,66 @@ public class Game implements Playable {
 	@Override
 	public Vector<Player> getPlayers() {
 		return this.currentRound.getPlayers();
+	}
+
+	public int getRoundNumber() {
+		return this.roundNumber;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return this.running;
+	}
+
+	@Override
+	public void nextTurn(Card card, ActionType action, Player player) {
+		this.currentRound.nextTurn(card, action, player);
+		int currentRoundNumber = this.rounds.indexOf(this.currentRound);
+
+		if (!this.currentRound.isRunning()) {
+			if (currentRoundNumber == (this.roundNumber - 1)) {
+				this.running = false;
+			}
+			else {
+				this.currentRound = this.rounds.get(currentRoundNumber+1);
+				this.currentRound.start();
+			}
+		}
+	}
+
+	@Override
+	public void playDog(Player source) {
+		this.currentRound.playDog(source);
+
+	}
+
+	@Override
+	public void playFertilizer(Player source, int fertilizeNumber) {
+		this.currentRound.playFertilizer(source, fertilizeNumber);
+
+	}
+
+	@Override
+	public void playGiant(Player source, int smallRockNumber) {
+		this.currentRound.playGiant(source, smallRockNumber);
+
+	}
+
+	@Override
+	public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
+		this.currentRound.playHobgoblin(source, target, hobgoblinNumber);
+
+	}
+
+	@Override
+	public void playTaupe(Player source, Player target, int bigRockNumber) {
+		this.currentRound.playTaupe(source, target, bigRockNumber);
+
+	}
+
+	@Override
+	public void start() {
+		this.currentRound.start();
+		this.running = true;
 	}
 }

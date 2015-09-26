@@ -44,24 +44,19 @@ abstract class Strategy {
 	}
 
 	/**
-	 * Sets the three variables to make the choice given the environment
-	 */
-	abstract public void makeChoice();
-
-	/**
-	 * Get the optional target
-	 * @return The target
-	 */
-	public Player getTarget() {
-		return this.target;
-	}
-
-	/**
 	 * Get the chosen action
 	 * @return The action
 	 */
 	public ActionType getAction() {
 		return this.action;
+	}
+
+	/**
+	 * Get the optional played allied card
+	 * @return The allied card
+	 */
+	public CardType getAlliedCard() {
+		return this.alliedCard;
 	}
 
 	/**
@@ -73,10 +68,15 @@ abstract class Strategy {
 	}
 
 	/**
-	 * Get the optional played allied card
-	 * @return The allied card
+	 * Get the optional target
+	 * @return The target
 	 */
-	public CardType getAlliedCard() {
-		return this.alliedCard;
+	public Player getTarget() {
+		return this.target;
 	}
+
+	/**
+	 * Sets the three variables to make the choice given the environment
+	 */
+	abstract public void makeChoice();
 }

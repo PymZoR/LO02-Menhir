@@ -47,7 +47,7 @@ public class SafeStrategy extends Strategy {
 				int amount = c.getValue(ActionType.FERTILIZER, actualSeason);
 
 				// Enough to fertilize, but less than the actual chosen card -> better card
-				if (amount >= smallRocks && amount < max) {
+				if ((amount >= smallRocks) && (amount < max)) {
 					maxCard = c;
 				}
 			}

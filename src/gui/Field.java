@@ -2,31 +2,37 @@ package gui;
 
 
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import core.Playable;
 import core.Player;
 
-public class Field extends JPanel {
+public class Field extends AbsoluteJPanel implements MouseListener {
 	/**
 	 * Java UID
 	 */
 	private static final long serialVersionUID = 3180287191592167877L;
 
 	/**
+	 * URLs
+	 */
+	private static URL rockURL   = Field.class.getResource("/images/rock.png");
+	private static URL menhirURL = Field.class.getResource("/images/menhir.png");
+	/**
 	 * Big and small rocks amounts
 	 */
 	private int bigRockNumber   = 0;
+
 	private int smallRockNumber = 0;
 	private String playerName;
 
@@ -37,10 +43,10 @@ public class Field extends JPanel {
 	private Playable game;
 
 	/**
-	 * URLs
+	 * Player
 	 */
-	private static URL rockURL   = Field.class.getResource("/images/rock.png");
-	private static URL menhirURL = Field.class.getResource("/images/menhir.png");
+	private Player player;
+	private boolean isSelfPlayer;
 
 	/**
 	 * Create a field
@@ -53,13 +59,15 @@ public class Field extends JPanel {
 		this.game            = parentPanel.getGame();
 		this.parentPanel     = parentPanel;
 		this.playerName      = playerName;
+		this.player			 = player;
 		this.bigRockNumber   = player.getField().getBigRockNumber();
 		this.smallRockNumber = player.getField().getSmallRockNumber();
 
-		this.setLayout(null);
+		this.isSelfPlayer = (this.game.getCurrentPlayer() == player);
+
 		this.setPreferredSize(new Dimension(100, 100));
 
-		if (Field.rockURL != null && Field.menhirURL != null) {
+		if ((Field.rockURL != null) && (Field.menhirURL != null)) {
 			ImageIcon rockImage   = new ImageIcon(Field.rockURL);
 			ImageIcon menhirImage = new ImageIcon(Field.menhirURL);
 
@@ -69,24 +77,40 @@ public class Field extends JPanel {
 			this.addAbsolute(rock, 22, 30);
 			this.addAbsolute(menhir, 22, 60);
 		}
+
+		if (!this.isSelfPlayer) {
+			this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		}
+
+		this.addMouseListener(this);
 	}
 
 	/**
-	 * Add an absolute component to the panel
-	 * @param c The component
-	 * @param x X coordinate
-	 * @param y Y coordinate
+	 * Get the player that owns this field
+	 * @return The player
 	 */
-	private void addAbsolute(Component c, int x, int y) {
-		Insets i       = this.getInsets();
-		Dimension size = c.getPreferredSize();
-
-		this.add(c);
-		// Correct window viewport
-		y -= 5;
-		c.setBounds(i.left + x, i.top + y, size.width, size.height);
+	public Player getPlayer() {
+		return this.player;
 	}
 
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (this.parentPanel.choosingTarget && !this.isSelfPlayer) {
+			this.parentPanel.targetField = this;
+			this.parentPanel.revalidate();
+			this.parentPanel.repaint();
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+	@Override
+	public void mousePressed(MouseEvent e) {}
+	@Override
+	public void mouseReleased(MouseEvent e) {}
 	/**
 	 * Draw the field
 	 */
@@ -98,10 +122,29 @@ public class Field extends JPanel {
 	             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 	    g2.setRenderingHints(rh);
 
-	    g2.setColor(Color.white);
-	    g2.fillRect(0, 0, 100, 100);
+	    // Draw background first
+	    g2.setColor(this.getBackground());
+	    g2.fillRect(0, 0, this.getPreferredSize().width, this.getPreferredSize().height);
 
-	    g2.setColor(Color.black);
+	    if (this.parentPanel.targetField == this) {
+	    	g2.setColor(Color.red);
+	    	g2.drawRect(0, 0, 99, 99);
+	    }
+
+	    int opacity = 100;
+	    if (this.parentPanel.choosingTarget) {
+	    	if (!this.isSelfPlayer) {
+	    		opacity = 255;
+	    	}
+	    } else {
+	    	if (this.isSelfPlayer) {
+	    		opacity = 255;
+	    	}
+	    }
+		g2.setColor(new Color(255, 255, 255, opacity));
+	    g2.fillRect(1, 1, 98, 98);
+
+	    g2.setColor(new Color(0, 0, 0, opacity));
 	    g2.drawString(this.playerName, 10, 20);
 	}
 }

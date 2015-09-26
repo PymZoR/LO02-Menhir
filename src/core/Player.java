@@ -1,8 +1,8 @@
 package core;
 
+
 import java.util.Random;
 import java.util.Vector;
-
 
 /**
  * Represent a player (alive or not)
@@ -38,9 +38,9 @@ public class Player implements Comparable<Player> {
 		this.game        = game;
 	}
 
-	public void reset() {
-		this.drawCard(Round.CARDS_IN_HAND);
-		this.field.reset();
+	@Override
+	public int compareTo(Player comparePlayer) {
+		return this.getField().compareTo(comparePlayer.getField());
 	}
 
 	/**
@@ -59,6 +59,55 @@ public class Player implements Comparable<Player> {
 
 			this.cards.add(newCard);
 		}
+	}
+
+	/**
+	 * The the player allied cards (taupe or dogs)
+	 * @return The player allied cards
+	 */
+	public Vector<AlliedCard> getAlliedCards() {
+		return this.alliedCards;
+	}
+
+	/**
+	 * Get one card given the index
+	 * @param cardId The card index
+	 * @return The card
+	 */
+	public Card getCardById(int cardId) {
+		return this.cards.get(cardId);
+	}
+
+	/**
+	 * Get the player cards
+	 * @return The player cards
+	 */
+	public Vector<Card> getCards() {
+		return this.cards;
+	}
+
+	/**
+	 * Get the player field
+	 * @return The player field
+	 */
+	public Field getField() {
+		return this.field;
+	}
+
+	/**
+	 * Get the ref game
+	 * @return The ref game
+	 */
+	public Playable getGame() {
+		return this.game;
+	}
+
+	/**
+	 * Get the player index
+	 * @return The player index
+	 */
+	public int getNumber() {
+		return this.number;
 	}
 
 	/**
@@ -87,57 +136,9 @@ public class Player implements Comparable<Player> {
 		this.cards.remove(card);
 	}
 
-	/**
-	 * Get the player cards
-	 * @return The player cards
-	 */
-	public Vector<Card> getCards() {
-		return this.cards;
-	}
-
-	/**
-	 * The the player allied cards (taupe or dogs)
-	 * @return The player allied cards
-	 */
-	public Vector<AlliedCard> getAlliedCards() {
-		return this.alliedCards;
-	}
-
-	/**
-	 * Get one card given the index
-	 * @param cardId The card index
-	 * @return The card
-	 */
-	public Card getCardById(int cardId) {
-		return this.cards.get(cardId);
-	}
-
-	/**
-	 * Get the player field
-	 * @return The player field
-	 */
-	public Field getField() {
-		return this.field;
-	}
-
-	/**
-	 * Get the player index
-	 * @return The player index
-	 */
-	public int getNumber() {
-		return this.number;
-	}
-
-	/**
-	 * Get the ref game
-	 * @return The ref game
-	 */
-	public Playable getGame() {
-		return this.game;
-	}
-
-	public int compareTo(Player comparePlayer) {
-		return this.getField().compareTo(comparePlayer.getField());
+	public void reset() {
+		this.drawCard(Round.CARDS_IN_HAND);
+		this.field.reset();
 	}
 
 	@Override

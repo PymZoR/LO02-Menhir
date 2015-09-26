@@ -1,7 +1,7 @@
 package core;
 
-import java.util.Vector;
 
+import java.util.Vector;
 
 /**
  * The game
@@ -49,28 +49,59 @@ public class Round implements Playable {
 		this.number        = number;
 	}
 
+	/**
+	 * Get the actual season
+	 * @return The actual season
+	 */
+	@Override
+	public SeasonType getActualSeason() {
+		return this.actualSeason;
+	}
+
+	/**
+	 * Get the current player
+	 * @return The current player
+	 */
+	@Override
+	public Player getCurrentPlayer() {
+		return this.currentPlayer;
+	}
+
 	public int getNumber() {
 		return this.number;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
+	/**
+	 * Get a player from its index
+	 * @param playerId The index
+	 * @return The player
+	 */
+	@Override
+	public Player getPlayer(int playerId) {
+		return this.players.get(playerId);
 	}
 
 	/**
-	 * Start the game
+	 * Get the number of players
+	 * @return Get the number of players
 	 */
 	@Override
-	public void start() {
-	    Card.resetCards();
+	public int getPlayerNumber() {
+		return this.playerNumber;
+	}
 
-		for (int i = 0; i < playerNumber; i++) {
-			Player player = this.players.get(i);
-			player.reset();
-		}
+	@Override
+	public Vector<Player> getPlayers() {
+		return this.players;
+	}
 
-		this.currentPlayer = this.players.get(0);
-		this.running       = true;
+	/**
+	 * Get the game status
+	 * @return True if the game is started, false otherwise
+	 */
+	@Override
+	public boolean isRunning() {
+		return this.running;
 	}
 
 	/**
@@ -85,10 +116,10 @@ public class Round implements Playable {
 
 		int currentPlayerNumber = this.currentPlayer.getNumber();
 
-		if (currentPlayerNumber == this.playerNumber - 1) {
+		if (currentPlayerNumber == (this.playerNumber - 1)) {
 			this.currentPlayer = this.players.get(0);
 
-			if (this.actualSeason.ordinal() == SeasonType.values().length - 1) {
+			if (this.actualSeason.ordinal() == (SeasonType.values().length - 1)) {
 				this.running = false;
 			}
 			else {
@@ -102,34 +133,12 @@ public class Round implements Playable {
 	}
 
 	/**
-	 * Make a player play a taupe card
-	 * @param source        Source player
-	 * @param target        Target player
-	 * @param bigRockNumber Amount of big rocks to destroy
-	 */
-	@Override
-	public void playTaupe(Player source, Player target, int bigRockNumber) {
-		Field field = target.getField();
-		field.addBigRockNumber(-bigRockNumber);
-	}
-
-	/**
 	 * Make a player play a dog card
 	 * @param source Source player
 	 */
 	@Override
 	public void playDog(Player source) {
 		// TODO
-	}
-
-	/**
-	 * Make a player play a giant trade card
-	 * @param source          Source player
-	 * @param smallRockNumber Amount of small rocks to get
-	 */
-	@Override
-	public void playGiant(Player source, int smallRockNumber) {
-		source.getField().addSmallRockNumber(smallRockNumber);
 	}
 
 	/**
@@ -147,6 +156,16 @@ public class Round implements Playable {
 
 		field.addSmallRockNumber(-fertilizeNumber);
 		field.addBigRockNumber(fertilizeNumber);
+	}
+
+	/**
+	 * Make a player play a giant trade card
+	 * @param source          Source player
+	 * @param smallRockNumber Amount of small rocks to get
+	 */
+	@Override
+	public void playGiant(Player source, int smallRockNumber) {
+		source.getField().addSmallRockNumber(smallRockNumber);
 	}
 
 	/**
@@ -172,53 +191,34 @@ public class Round implements Playable {
 	}
 
 	/**
-	 * Get a player from its index
-	 * @param playerId The index
-	 * @return The player
+	 * Make a player play a taupe card
+	 * @param source        Source player
+	 * @param target        Target player
+	 * @param bigRockNumber Amount of big rocks to destroy
 	 */
 	@Override
-	public Player getPlayer(int playerId) {
-		return players.get(playerId);
+	public void playTaupe(Player source, Player target, int bigRockNumber) {
+		Field field = target.getField();
+		field.addBigRockNumber(-bigRockNumber);
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 	/**
-	 * Get the game status
-	 * @return True if the game is started, false otherwise
+	 * Start the game
 	 */
 	@Override
-	public boolean isRunning() {
-		return this.running;
-	}
+	public void start() {
+	    Card.resetCards();
 
-	/**
-	 * Get the current player
-	 * @return The current player
-	 */
-	@Override
-	public Player getCurrentPlayer() {
-		return this.currentPlayer;
-	}
+		for (int i = 0; i < this.playerNumber; i++) {
+			Player player = this.players.get(i);
+			player.reset();
+		}
 
-	/**
-	 * Get the number of players
-	 * @return Get the number of players
-	 */
-	@Override
-	public int getPlayerNumber() {
-		return this.playerNumber;
-	}
-
-	/**
-	 * Get the actual season
-	 * @return The actual season
-	 */
-	@Override
-	public SeasonType getActualSeason() {
-		return this.actualSeason;
-	}
-
-	@Override
-	public Vector<Player> getPlayers() {
-		return this.players;
+		this.currentPlayer = this.players.get(0);
+		this.running       = true;
 	}
 }

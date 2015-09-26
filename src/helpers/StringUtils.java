@@ -6,18 +6,6 @@ package helpers;
  */
 public class StringUtils {
 	/**
-	 * Get one line by its number on a splitted string
-	 * @param from  Source text
-	 * @param lineN Line Number
-	 * @param s     Split separator
-	 * @return The wanted line
-	 */
-	static public String getLine(String from, int lineN, String s) {
-		String line = from.split(s)[lineN]; 
-		return line.substring(0, line.length());
-	}
-
-	/**
 	 * Get one line by its number on a string splitted by line breaks
 	 * @param from  Source text
 	 * @param lineN Line Number
@@ -25,6 +13,18 @@ public class StringUtils {
 	 */
 	static public String getLine(String from, int lineN) {
 		return StringUtils.getLine(from, lineN, "\n");
+	}
+
+	/**
+	 * Get one line by its number on a splitted string
+	 * @param from  Source text
+	 * @param lineN Line Number
+	 * @param s     Split separator
+	 * @return The wanted line
+	 */
+	static public String getLine(String from, int lineN, String s) {
+		String line = from.split(s)[lineN];
+		return line.substring(0, line.length());
 	}
 
 	/**

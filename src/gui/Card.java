@@ -2,12 +2,10 @@ package gui;
 
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,7 +13,6 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import core.ActionType;
 import core.CardType;
@@ -23,7 +20,7 @@ import core.CardType;
 /**
  * Card GUI representation
  */
-public class Card extends JPanel implements MouseMotionListener {
+public class Card extends AbsoluteJPanel implements MouseMotionListener {
 	/**
 	 * Java UID
 	 */
@@ -38,6 +35,7 @@ public class Card extends JPanel implements MouseMotionListener {
 	 * Card value
 	 */
 	private int[][] valueMatrix;
+	private CardType type;
 
 	/**
 	 * Selection
@@ -54,9 +52,9 @@ public class Card extends JPanel implements MouseMotionListener {
 		super();
 
 		this.parentPanel = parentPanel;
-		this.valueMatrix = core.Card.getCard(type).getValueMatrix();
+		this.type        = type;
+		this.valueMatrix = this.getCard().getValueMatrix();
 
-		this.setLayout(null);
 		this.setPreferredSize(new Dimension(100, 100));
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
@@ -65,30 +63,32 @@ public class Card extends JPanel implements MouseMotionListener {
 		this.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if (rowSelected > -1) {
-					rowFixed = rowSelected;
-					CardType cType     = type;
-					ActionType cAction = ActionType.values()[rowSelected];
+				if (Card.this.rowSelected > -1) {
+					Card.this.rowFixed = Card.this.rowSelected;
+					ActionType cAction = ActionType.values()[Card.this.rowSelected];
+
 					if (cAction == ActionType.HOBGOBLIN) {
 						parentPanel.chooseTarget();
 						JOptionPane.showMessageDialog(parentPanel, "Veuillez choisir une cible");
+					} else {
+						parentPanel.lockCards();
 					}
 				}
 			}
 
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				rowSelected = -1;
-				repaint();
-				revalidate();
-			}
+			public void mouseEntered(MouseEvent arg0) {}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {}
+			public void mouseExited(MouseEvent arg0) {
+				Card.this.rowSelected = -1;
+				Card.this.repaint();
+				Card.this.revalidate();
+			}
 			@Override
 			public void mousePressed(MouseEvent arg0) {}
 			@Override
-			public void mouseEntered(MouseEvent arg0) {}
+			public void mouseReleased(MouseEvent arg0) {}
 		});
 
 		int startX = 30;
@@ -96,7 +96,7 @@ public class Card extends JPanel implements MouseMotionListener {
 		int startY = 38;
 		int stepY  = 20;
 		for (int i = 0; i < this.valueMatrix.length; i++) {
-			for (int j = 0; j < valueMatrix[i].length; j++) {
+			for (int j = 0; j < this.valueMatrix[i].length; j++) {
 				JLabel l = new JLabel(String.valueOf(this.valueMatrix[i][j]));
 
 				if (parentPanel.getGame().getActualSeason().ordinal() == j) {
@@ -105,7 +105,7 @@ public class Card extends JPanel implements MouseMotionListener {
 					l.setForeground(Color.gray);
 				}
 
-				this.addAbsolute(l, startX + j * stepX, startY + i * stepY);
+				this.addAbsolute(l, startX + (j * stepX), startY + (i * stepY));
 			}
 		}
 	}
@@ -118,42 +118,53 @@ public class Card extends JPanel implements MouseMotionListener {
 	}
 
 	/**
+	 * Get the selected action type
+	 * @return The action type
+	 */
+	public ActionType getActionType() {
+		return ActionType.values()[this.rowFixed];
+	}
+
+	/**
+	 * Get the core card from the GUI representation
+	 * @return The core card
+	 */
+	public core.Card getCard() {
+		return core.Card.getCard(this.type);
+	}
+
+	/**
+	 * Check if the card is selected
+	 * @return True if the card is selected
+	 */
+	public boolean isSelected() {
+		return this.rowFixed != -1;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {}
+
+	/**
 	 * Detect mouse position and update selection rect
 	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if (this.parentPanel.choosingTarget) {
+		if (this.parentPanel.lockingCards) {
 			return;
 		}
 
-		if (e.getY() >= 38 && e.getY() < 58) {
+		if ((e.getY() >= 38) && (e.getY() < 58)) {
 			this.rowSelected = 0;
-		} else if (e.getY() >= 58 && e.getY() < 78) {
+		} else if ((e.getY() >= 58) && (e.getY() < 78)) {
 			this.rowSelected = 1;
-		} else if (e.getY() >= 78 && e.getY() < 98) {
+		} else if ((e.getY() >= 78) && (e.getY() < 98)) {
 			this.rowSelected = 2;
 		} else {
 			this.rowSelected = -1;
 		}
 
-		repaint();
-		revalidate();
-	}
-
-	/**
-	 * Add an absolute component to the panel
-	 * @param c The component
-	 * @param x X coordinate
-	 * @param y Y coordinate
-	 */
-	private void addAbsolute(Component c, int x, int y) {
-		Insets i       = this.getInsets();
-		Dimension size = c.getPreferredSize();
-
-		this.add(c);
-		// Correct window viewport
-		y -= 5;
-		c.setBounds(i.left + x, i.top + y, size.width, size.height);
+		this.repaint();
+		this.revalidate();
 	}
 
 	/**
@@ -168,13 +179,13 @@ public class Card extends JPanel implements MouseMotionListener {
 	    g2.setRenderingHints(rh);
 
 	    // Draw background first
-	    g2.setColor(getBackground());
-	    g2.fillRect(0, 0, getPreferredSize().width, getPreferredSize().height);
+	    g2.setColor(this.getBackground());
+	    g2.fillRect(0, 0, this.getPreferredSize().width, this.getPreferredSize().height);
 
 		g2.setColor(Color.black);
 		g2.drawRect(0, 0, 95, 95);
 
-		int opacity = (this.parentPanel.choosingTarget) ? 100 : 255;
+		int opacity = (this.parentPanel.lockingCards) ? 100 : 255;
 		g2.setColor(new Color(255, 255, 255, opacity));
 		g2.fillRect(1, 1, 94, 94);
 
@@ -192,17 +203,14 @@ public class Card extends JPanel implements MouseMotionListener {
 			g.setColor(Color.red);
 
 			int startY = 33;
-			g2.drawRect(5, startY + this.rowSelected * 19, 80, 15);
+			g2.drawRect(5, startY + (this.rowSelected * 19), 80, 15);
 		}
 
 		if (this.rowFixed >= 0) {
 			g.setColor(Color.red);
 
 			int startY = 33;
-			g2.drawRect(5, startY + this.rowFixed * 19, 80, 15);
+			g2.drawRect(5, startY + (this.rowFixed * 19), 80, 15);
 		}
 	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {}
 }

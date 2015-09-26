@@ -2,24 +2,26 @@ package gui;
 
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Collections;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
+import core.ActionType;
 import core.Playable;
 import core.Player;
 
 /**
  * Game panel
  */
-public class GamePanel extends JPanel {
+public class GamePanel extends AbsoluteJPanel implements ActionListener {
 	/**
 	 * Java UID
 	 */
@@ -28,10 +30,8 @@ public class GamePanel extends JPanel {
 	/**
 	 * Panel components
 	 */
-	private Card card1 = null;
-	private Card card2 = null;
-	private Card card3 = null;
-	private Card card4 = null;
+	private Vector<Card> cards = new Vector<Card>();
+	private JButton nextRound = new JButton("Jouer !");
 
 	/**
 	 * Player field
@@ -43,6 +43,9 @@ public class GamePanel extends JPanel {
 	 */
 	private JLabel actualSeason  = new JLabel("Saison actuelle : Printemps");
 	private JLabel totalBigRocks = new JLabel("Score total : 0");
+	private JLabel help1	     = new JLabel("Sélectionnez d'abord une carte et une action en cliquant sur la ligne voulue,");
+	private JLabel help2 		 = new JLabel("puis cliquez sur jouer. Appuyez sur Échap pour annuler. Si vous jouez Farfadet,");
+	private JLabel help3 		 = new JLabel("sélectionnez un champ cible avant de jouer.");
 
 	/**
 	 * Player reference
@@ -52,7 +55,9 @@ public class GamePanel extends JPanel {
 	/**
 	 * Action management
 	 */
+	public boolean lockingCards   = false;
 	public boolean choosingTarget = false;
+	public Field   targetField    = null;
 
 	/**
 	 * Parent window
@@ -67,18 +72,43 @@ public class GamePanel extends JPanel {
 		this.parentWindow = parentWindow;
 		this.game         = parentWindow.getGame();
 
-		Vector<Player> players = this.game.getPlayers();
+		// Check for victory
+		if (!this.game.isRunning()) {
+			Vector<Player> scores = new Vector<Player>(this.game.getPlayers());
+			Collections.sort(scores);
+			Collections.reverse(scores);
+
+			String message = "Rankings:" + System.lineSeparator();
+
+			for (int i = 0; i < this.game.getPlayerNumber(); i++) {
+				core.Field field = scores.get(i).getField();
+
+				message += "    Joueur " + (i+1) + ". Champ: "+ field.getBigRockSum() +
+						" menhirs; " + field.getSmallRockSum() + " graines;" + System.lineSeparator();
+			}
+
+			JOptionPane.showMessageDialog(this, message, "Partie terminée", JOptionPane.INFORMATION_MESSAGE);
+
+			// Start again
+			this.parentWindow.dispose();
+			new MainWindow();
+
+			return;
+		}
+
+		// Clone, else removing the actual player would change the vector
+		@SuppressWarnings("unchecked")
+		Vector<Player> players = (Vector<Player>) this.game.getPlayers().clone();
 		players.remove(this.game.getCurrentPlayer());
 
-		this.setLayout(null);
 		this.setPreferredSize(this.parentWindow.getSize());
 
 		this.player = this.game.getCurrentPlayer();
 
-		this.card1 = new Card(this, this.player.getCards().get(0).getType());
-		this.card2 = new Card(this, this.player.getCards().get(1).getType());
-		this.card3 = new Card(this, this.player.getCards().get(2).getType());
-		this.card4 = new Card(this, this.player.getCards().get(3).getType());
+		for (int i = 0; i < this.player.getCards().size(); i++) {
+			Card c = new Card(this, this.player.getCards().get(i).getType());
+			this.cards.add(c);
+		}
 
 		this.selfField = new Field(this, this.player, "Votre terrain");
 
@@ -87,32 +117,86 @@ public class GamePanel extends JPanel {
 		for (int i = 0; i < players.size(); i++) {
 			String playerN    = String.valueOf(players.get(i).getNumber() + 1);
 			Field playerField = new Field(this, players.get(i), "Joueur " + playerN);
-			this.addAbsolute(playerField, startX + i * stepX, 260);
+			this.addAbsolute(playerField, startX + (i * stepX), 260);
 		}
 
-		this.addAbsolute(this.card1, 10, 30);
-		this.addAbsolute(this.card2, 120, 30);
-		this.addAbsolute(this.card3, 230, 30);
-		this.addAbsolute(this.card4, 340, 30);
+		startX = 10;
+		stepX  = 110;
+		for (int i = 0; i < this.cards.size(); i++) {
+			this.addAbsolute(this.cards.get(i), startX + (i * stepX), 30);
+		}
+
 		this.addAbsolute(this.actualSeason, 10, 10);
 		this.addAbsolute(this.selfField, 10, 140);
+		this.addAbsolute(this.help1, 120, 145);
+		this.addAbsolute(this.help2, 120, 165);
+		this.addAbsolute(this.help3, 120, 185);
 		this.addAbsolute(this.totalBigRocks, 350, 10);
+		this.addAbsolute(this.nextRound, 10, 370);
+
+		this.nextRound.addActionListener(this);
 	}
 
 	/**
-	 * Add an absolute component to the panel
-	 * @param c The component
-	 * @param x X coordinate
-	 * @param y Y coordinate
+	 * Choose a card
 	 */
-	private void addAbsolute(Component c, int x, int y) {
-		Insets i       = this.getInsets();
-		Dimension size = c.getPreferredSize();
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// Give back focus to window (to re handle escapes)
+		this.parentWindow.requestFocus();
 
-		this.add(c);
-		// Correct window viewport
-		y -= 5;
-		c.setBounds(i.left + x, i.top + y, size.width, size.height);
+		Card selectedCard          = null;
+
+		core.Card selectedCoreCard = null;
+		Player target              = null;
+		ActionType action          = null;
+
+		for (int i = 0; i < this.cards.size(); i++) {
+			if (this.cards.get(i).isSelected()) {
+				selectedCard = this.cards.get(i);
+			}
+		}
+
+		if (selectedCard == null) {
+			JOptionPane.showMessageDialog(this, "Veuillez choisir une carte", "Attention", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		selectedCoreCard = selectedCard.getCard();
+		action           = selectedCard.getActionType();
+
+		if ((action == ActionType.HOBGOBLIN) && (this.targetField == null)) {
+			JOptionPane.showMessageDialog(this, "Veuillez choisir un adversaire", "Attention", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		if (action == ActionType.HOBGOBLIN) {
+			target = this.targetField.getPlayer();
+		}
+
+		this.game.nextTurn(selectedCoreCard, action, target);
+
+		this.parentWindow.switchPanel("GamePanel", 710, 450);
+	}
+
+	/**
+	 * Disable cards and self field
+	 */
+	public void chooseTarget() {
+		this.choosingTarget = true;
+		this.lockCards();
+	}
+
+	/**
+	 * Get all cards
+	 * @return All four or less cards
+	 */
+	public Card[] getCards() {
+		Card[] arr = new Card[this.cards.size()];
+		for (int i = 0; i < this.cards.size(); i++) {
+			arr[i] = (this.cards.get(i));
+		}
+		return arr;
 	}
 
 	/**
@@ -126,27 +210,12 @@ public class GamePanel extends JPanel {
 	/**
 	 * Disable cards and fields
 	 */
-	public void chooseTarget() {
-		this.choosingTarget = true;
-		revalidate();
-		repaint();
+	public void lockCards() {
+		this.lockingCards = true;
+		this.revalidate();
+		this.repaint();
 	}
 
-	/**
-	 * Get all cards
-	 * @return All four cards
-	 */
-	public Card[] getCards() {
-		Card[] cards = { this.card1, this.card2, this.card3, this.card4 };
-		return cards;
-	}
-
-	/**
-	 * Choose a card
-	 */
-	public void chooseCard() {
-
-	}
 
 	/**
 	 * Draw the panel
