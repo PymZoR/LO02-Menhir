@@ -42,6 +42,7 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 	 * Game information
 	 */
 	private JLabel actualSeason  = new JLabel("Saison actuelle : Printemps");
+	private JLabel actualPlayer  = new JLabel();
 	private JLabel totalBigRocks = new JLabel("Score total : 0");
 	private JLabel help1	     = new JLabel("Sélectionnez d'abord une carte et une action en cliquant sur la ligne voulue,");
 	private JLabel help2 		 = new JLabel("puis cliquez sur jouer. Appuyez sur Échap pour annuler. Si vous jouez Farfadet,");
@@ -101,6 +102,8 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 		Vector<Player> players = (Vector<Player>) this.game.getPlayers().clone();
 		players.remove(this.game.getCurrentPlayer());
 
+		this.actualPlayer.setText("Joueur actuel : " + String.valueOf(this.game.getCurrentPlayer().getNumber()));
+
 		this.setPreferredSize(this.parentWindow.getSize());
 
 		this.player = this.game.getCurrentPlayer();
@@ -131,7 +134,8 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 		this.addAbsolute(this.help1, 120, 145);
 		this.addAbsolute(this.help2, 120, 165);
 		this.addAbsolute(this.help3, 120, 185);
-		this.addAbsolute(this.totalBigRocks, 350, 10);
+		this.addAbsolute(this.actualPlayer, 420, 10);
+		this.addAbsolute(this.totalBigRocks, 250, 10);
 		this.addAbsolute(this.nextRound, 10, 370);
 
 		this.nextRound.addActionListener(this);
