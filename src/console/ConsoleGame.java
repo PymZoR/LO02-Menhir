@@ -64,6 +64,10 @@ public class ConsoleGame {
 		return seasonName;
 	}
 
+	/**
+	 * Prints every player in their rank order
+	 * @param game The game to gather players
+	 */
 	static private void printRankings(Playable game) {
 		Vector<Player> scores = new Vector<Player>(game.getPlayers());
 		Collections.sort(scores);

@@ -86,6 +86,10 @@ public class Card {
 		Card.cardList.add(CardType.FAIRY2.ordinal(), new Card(fairy2Values, CardType.FAIRY2));
 		Card.cardList.add(CardType.FAIRY3.ordinal(), new Card(fairy3Values, CardType.FAIRY3));
 	}
+
+	/**
+	 * Reset all cards to make them available again
+	 */
 	static public void resetCards() {
 		if (Card.cardList == null) {
 			Card.init();
