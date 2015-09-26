@@ -43,6 +43,9 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 	 */
 	private JLabel actualSeason  = new JLabel("Saison actuelle : Printemps");
 	private JLabel totalBigRocks = new JLabel("Score total : 0");
+	private JLabel help1	     = new JLabel("Sélectionnez d'abord une carte et une action en cliquant sur la ligne voulue,");
+	private JLabel help2 		 = new JLabel("puis cliquez sur jouer. Appuyez sur Échap pour annuler. Si vous jouez Farfadet,");
+	private JLabel help3 		 = new JLabel("sélectionnez un champ cible avant de jouer.");
 
 	/**
 	 * Player reference
@@ -71,13 +74,13 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 
 		// Check for victory
 		if (!this.game.isRunning()) {
-			Vector<Player> scores = new Vector<Player>(game.getPlayers());
+			Vector<Player> scores = new Vector<Player>(this.game.getPlayers());
 			Collections.sort(scores);
 			Collections.reverse(scores);
 
 			String message = "Rankings:\n";
 
-			for (int i = 0; i < game.getPlayerNumber(); i++) {
+			for (int i = 0; i < this.game.getPlayerNumber(); i++) {
 				core.Field field = scores.get(i).getField();
 
 				message += "    Player " + (i+1) + ". Field: "+ field.getBigRockSum() +
@@ -114,77 +117,25 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 		for (int i = 0; i < players.size(); i++) {
 			String playerN    = String.valueOf(players.get(i).getNumber() + 1);
 			Field playerField = new Field(this, players.get(i), "Joueur " + playerN);
-			this.addAbsolute(playerField, startX + i * stepX, 260);
+			this.addAbsolute(playerField, startX + (i * stepX), 260);
 		}
 
 		startX = 10;
 		stepX  = 110;
 		for (int i = 0; i < this.cards.size(); i++) {
-			this.addAbsolute(this.cards.get(i), startX + i * stepX, 30);
+			this.addAbsolute(this.cards.get(i), startX + (i * stepX), 30);
 		}
 
 		this.addAbsolute(this.actualSeason, 10, 10);
 		this.addAbsolute(this.selfField, 10, 140);
+		this.addAbsolute(this.help1, 120, 145);
+		this.addAbsolute(this.help2, 120, 165);
+		this.addAbsolute(this.help3, 120, 185);
 		this.addAbsolute(this.totalBigRocks, 350, 10);
-		this.addAbsolute(nextRound, 10, 370);
+		this.addAbsolute(this.nextRound, 10, 370);
 
 		this.nextRound.addActionListener(this);
 	}
-
-	/**
-	 * Get the game reference
-	 * @return The game
-	 */
-	public Playable getGame() {
-		return this.game;
-	}
-
-	/**
-	 * Disable cards and fields
-	 */
-	public void lockCards() {
-		this.lockingCards = true;
-		revalidate();
-		repaint();
-	}
-
-	/**
-	 * Disable cards and self field
-	 */
-	public void chooseTarget() {
-		this.choosingTarget = true;
-		this.lockCards();
-	}
-
-	/**
-	 * Get all cards
-	 * @return All four or less cards
-	 */
-	public Card[] getCards() {
-		Card[] arr = new Card[this.cards.size()];
-		for (int i = 0; i < this.cards.size(); i++) {
-			arr[i] = (this.cards.get(i));
-		}
-		return arr;
-	}
-
-	/**
-	 * Draw the panel
-	 */
-	@Override
-	public void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;
-	    RenderingHints rh = new RenderingHints(
-	             RenderingHints.KEY_TEXT_ANTIALIASING,
-	             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-	    g2.setRenderingHints(rh);
-
-		g2.setColor(Color.black);
-		g2.drawLine(445, 25, 445, 120);
-
-	    g2.drawString("Pas de cartes alliées en partie rapide", 460, 70);
-	}
-
 
 	/**
 	 * Choose a card
@@ -214,7 +165,7 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 		selectedCoreCard = selectedCard.getCard();
 		action           = selectedCard.getActionType();
 
-		if (action == ActionType.HOBGOBLIN && this.targetField == null) {
+		if ((action == ActionType.HOBGOBLIN) && (this.targetField == null)) {
 			JOptionPane.showMessageDialog(this, "Veuillez choisir un adversaire", "Attention", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
@@ -225,6 +176,61 @@ public class GamePanel extends AbsoluteJPanel implements ActionListener {
 
 		this.game.nextTurn(selectedCoreCard, action, target);
 
-		parentWindow.switchPanel("GamePanel", 710, 450);
+		this.parentWindow.switchPanel("GamePanel", 710, 450);
+	}
+
+	/**
+	 * Disable cards and self field
+	 */
+	public void chooseTarget() {
+		this.choosingTarget = true;
+		this.lockCards();
+	}
+
+	/**
+	 * Get all cards
+	 * @return All four or less cards
+	 */
+	public Card[] getCards() {
+		Card[] arr = new Card[this.cards.size()];
+		for (int i = 0; i < this.cards.size(); i++) {
+			arr[i] = (this.cards.get(i));
+		}
+		return arr;
+	}
+
+	/**
+	 * Get the game reference
+	 * @return The game
+	 */
+	public Playable getGame() {
+		return this.game;
+	}
+
+	/**
+	 * Disable cards and fields
+	 */
+	public void lockCards() {
+		this.lockingCards = true;
+		this.revalidate();
+		this.repaint();
+	}
+
+
+	/**
+	 * Draw the panel
+	 */
+	@Override
+	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g;
+	    RenderingHints rh = new RenderingHints(
+	             RenderingHints.KEY_TEXT_ANTIALIASING,
+	             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+	    g2.setRenderingHints(rh);
+
+		g2.setColor(Color.black);
+		g2.drawLine(445, 25, 445, 120);
+
+	    g2.drawString("Pas de cartes alliées en partie rapide", 460, 70);
 	}
 }
