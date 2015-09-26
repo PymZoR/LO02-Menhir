@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import core.ActionType;
 import core.Card;
-import core.Field;
 import core.Game;
 import core.Playable;
 import core.Player;
@@ -18,6 +17,30 @@ import helpers.StringUtils;
  * Console-based game
  */
 public class ConsoleGame {
+	/**
+	 * Clear the console
+	 */
+	static private void clearConsole() {
+	    try
+	    {
+	        final String os = System.getProperty("os.name");
+
+	        if (os.contains("Windows"))
+	        {
+	            Runtime.getRuntime().exec("cls");
+	        }
+	        else
+	        {
+	            System.out.print("\033[H\033[2J");
+	            System.out.flush();
+	        }
+	    }
+	    catch (final Exception e)
+	    {
+	    	e.printStackTrace();
+	    }
+	}
+
 	static private int getIntInput() {
 		int input = 0;
 		Exception error = null;
@@ -75,9 +98,7 @@ public class ConsoleGame {
 
 		System.out.println("Rankings:");
 		for (int i = 0; i < game.getPlayerNumber(); i++) {
-			Field field = scores.get(i).getField();
-			System.out.println("    Player " + (i+1) + ". Field: "+ field.getBigRockSum() +
-				" big rocks; " + field.getSmallRockSum() + " small rocks;");
+			System.out.println("    " + scores.get(i));
 		}
 	}
 
@@ -94,7 +115,6 @@ public class ConsoleGame {
 		int maxActionId      = ActionType.values().length;
 		Round currentRound   = null;
 		Player currentPlayer = null;
-		Field currentField   = null;
 		String seasonName    = null;
 
 		System.out.println("Type 1 for a simple game, 2 for enhanced: ");
@@ -130,10 +150,15 @@ public class ConsoleGame {
 		game.start();
 
 		do {
+			ConsoleGame.clearConsole();
+
 			seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
 			currentPlayer = game.getCurrentPlayer();
-			currentField  = currentPlayer.getField();
 			seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
+
+			@SuppressWarnings("unchecked")
+			Vector<Player> otherPlayers = (Vector<Player>) game.getPlayers().clone();
+			otherPlayers.removeElement(currentPlayer);
 
 			if ((game instanceof Game) && (((Game)game).getCurrentRound() != currentRound)) {
 				int previousRoundNumber = (currentRound == null) ? 0 : currentRound.getNumber();
@@ -146,10 +171,16 @@ public class ConsoleGame {
 				System.out.print(System.lineSeparator() + "Round " + (currentRound.getNumber()+1) + "/" + playerNumber);
 			}
 
-			System.out.println(System.lineSeparator() + "Next turn. Player " + (currentPlayer.getNumber()+1) + ":");
-			System.out.println("    Current season: " + seasonName);
-			System.out.println("    You have " + currentField.getSmallRockNumber() + " small rocks.");
-			System.out.println("    You have " + currentField.getBigRockNumber() + " big rocks." + System.lineSeparator());
+			System.out.println(System.lineSeparator() + "Next turn. Current season: " + seasonName);
+			System.out.println("Actual player : " + currentPlayer);
+
+			System.out.println(System.lineSeparator() + "Other players :");
+			for (int i = 0; i < otherPlayers.size(); i++) {
+				System.out.println(otherPlayers.get(i).toString());
+			}
+			System.out.println();
+
+
 			System.out.println("Choose your card: ");
 
 			for (int i = 0; i < currentPlayer.getCards().size(); i += 2) {
