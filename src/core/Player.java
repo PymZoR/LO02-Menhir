@@ -38,6 +38,9 @@ public class Player implements Comparable<Player> {
 		this.game        = game;
 	}
 
+	/**
+	 * Compare two player's scores by their fields
+	 */
 	@Override
 	public int compareTo(Player comparePlayer) {
 		return this.getField().compareTo(comparePlayer.getField());
@@ -136,11 +139,17 @@ public class Player implements Comparable<Player> {
 		this.cards.remove(card);
 	}
 
+	/**
+	 * Reset player after round
+	 */
 	public void reset() {
 		this.drawCard(Round.CARDS_IN_HAND);
 		this.field.reset();
 	}
 
+	/**
+	 * Format player to string
+	 */
 	@Override
 	public String toString() {
 		return "Player " + (this.number+1) + ". " + this.field;

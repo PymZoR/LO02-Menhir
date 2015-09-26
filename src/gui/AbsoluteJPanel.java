@@ -16,6 +16,9 @@ abstract class AbsoluteJPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 2144318224862621946L;
 
+	/**
+	 * Set no layout
+	 */
 	public AbsoluteJPanel() {
 		super();
 

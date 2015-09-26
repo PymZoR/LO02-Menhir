@@ -3,6 +3,9 @@ package core;
 
 import java.util.Vector;
 
+/**
+ * Round or full game common API
+ */
 public interface Playable {
 	/**
 	 * Get the actual season

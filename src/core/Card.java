@@ -105,8 +105,14 @@ public class Card {
 	 */
 	private int[][] valueMatrix;
 
+	/**
+	 * Card type
+	 */
 	private CardType type;
 
+	/**
+	 * Has the card been attributed to a player yet ?
+	 */
 	private boolean drawed = false;
 
 	/**
@@ -145,10 +151,18 @@ public class Card {
 		return this.valueMatrix;
 	}
 
+	/**
+	 * Has the card been attributed to a player yet ?
+	 * @return True if the card is already in a player's hand
+	 */
 	public boolean isDrawed() {
 		return this.drawed;
 	}
 
+	/**
+	 * Update the card attribution status
+	 * @param drawed New value
+	 */
 	public void setDrawed(boolean drawed) {
 		this.drawed = drawed;
 	}

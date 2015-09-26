@@ -3,6 +3,9 @@ package core;
 
 import java.util.Vector;
 
+/**
+ * Aggressive strategy
+ */
 public class HarassStrategy extends Strategy {
 	/**
 	 * Create a new strategy for a given player

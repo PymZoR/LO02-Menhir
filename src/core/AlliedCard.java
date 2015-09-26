@@ -55,6 +55,9 @@ public class AlliedCard extends Card {
 	 */
 	private int[] values;
 
+	/**
+	 * Card type
+	 */
 	private CardType type;
 
 	/**
