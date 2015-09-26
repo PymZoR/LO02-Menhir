@@ -84,7 +84,12 @@ public class InitPanel extends JPanel {
 					Playable game = new Round(players);
 					game.start();
 					InitPanel.this.parentWindow.setGame(game);
-					InitPanel.this.parentWindow.switchPanel("GamePanel", 710, 450);
+
+					if (rapidGame) {
+						InitPanel.this.parentWindow.switchPanel("RoundPanel", 710, 450);
+					} else {
+						InitPanel.this.parentWindow.switchPanel("GamePanel", 710, 450);
+					}
 				}
 				catch (Exception err) {
 					err.printStackTrace();
