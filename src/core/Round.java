@@ -43,7 +43,7 @@ public class Round implements Playable {
 		}
 	}
 
-	public Round(Vector<Player> players, int number) throws Exception {
+	public Round(Vector<Player> players, int number) {
 		this.players       = players;
 		this.playerNumber  = this.players.size();
 		this.number        = number;
@@ -179,12 +179,12 @@ public class Round implements Playable {
 		Field sourceField = source.getField();
 
 		if (targetField.getSmallRockNumber() <= hobgoblinNumber) {
-			targetField.setSmallRockNumber(0);
 			sourceField.addSmallRockNumber(targetField.getSmallRockNumber());
+			targetField.setSmallRockNumber(0);
 		}
 		else {
-			targetField.addSmallRockNumber(-hobgoblinNumber);
 			sourceField.addSmallRockNumber(hobgoblinNumber);
+			targetField.addSmallRockNumber(-hobgoblinNumber);
 		}
 
 
