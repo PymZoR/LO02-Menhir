@@ -41,6 +41,10 @@ public class ConsoleGame {
 	    }
 	}
 
+	/**
+	 * Read an integer from the console
+	 * @return The user input
+	 */
 	static private int getIntInput() {
 		int input = 0;
 		Exception error = null;
@@ -106,8 +110,8 @@ public class ConsoleGame {
 	 * Start the game; console based
 	 */
 	public ConsoleGame() {
-		int playerNumber = 2;
-		Playable game    = null;
+		int playerNumber     = 2;
+		Playable game        = null;
 		int cardId           = 0;
 		int actionId         = 0;
 		Card card            = null;
