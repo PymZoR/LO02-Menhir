@@ -11,6 +11,7 @@ import core.Playable;
 import core.Player;
 import core.Round;
 import core.SeasonType;
+import core.Field;
 import helpers.StringUtils;
 
 /**
@@ -98,7 +99,9 @@ public class ConsoleGame {
 
 		System.out.println("Rankings:");
 		for (int i = 0; i < game.getPlayerNumber(); i++) {
-			System.out.println("    " + scores.get(i));
+			Field field = scores.get(i).getField();
+			System.out.println("    Player " + i + ". Field: " + field.getBigRockSum() +
+				" menhirs; " + field.getSmallRockSum() + " seeds.");
 		}
 	}
 
@@ -119,6 +122,7 @@ public class ConsoleGame {
 
 		System.out.println("Type 1 for a simple game, 2 for enhanced: ");
 		int gameType = 0;
+
 		do {
 			gameType = ConsoleGame.getIntInput();
 
@@ -160,7 +164,7 @@ public class ConsoleGame {
 			Vector<Player> otherPlayers = (Vector<Player>) game.getPlayers().clone();
 			otherPlayers.removeElement(currentPlayer);
 
-			if ((game instanceof Game) && (((Game)game).getCurrentRound() != currentRound)) {
+			if ((gameType == 2) && (((Game)game).getCurrentRound() != currentRound)) {
 				int previousRoundNumber = (currentRound == null) ? 0 : currentRound.getNumber();
 				currentRound = (((Game)game).getCurrentRound());
 

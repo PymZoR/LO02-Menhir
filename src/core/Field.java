@@ -104,7 +104,7 @@ public class Field implements Comparable<Field> {
 
 	@Override
     public String toString() {
-		return "Field : "+ this.bigRockSum +  " menhirs; " +
-				this.smallRockSum + " seeds.";
+		return "Field : "+ this.bigRockNumber +  " menhirs; " +
+				this.smallRockNumber + " seeds.";
 	}
 }
