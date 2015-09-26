@@ -2,12 +2,10 @@ package gui;
 
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,7 +13,6 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import core.ActionType;
 import core.CardType;
@@ -23,7 +20,7 @@ import core.CardType;
 /**
  * Card GUI representation
  */
-public class Card extends JPanel implements MouseMotionListener {
+public class Card extends AbsoluteJPanel implements MouseMotionListener {
 	/**
 	 * Java UID
 	 */
@@ -38,6 +35,7 @@ public class Card extends JPanel implements MouseMotionListener {
 	 * Card value
 	 */
 	private int[][] valueMatrix;
+	private CardType type;
 
 	/**
 	 * Selection
@@ -54,9 +52,9 @@ public class Card extends JPanel implements MouseMotionListener {
 		super();
 
 		this.parentPanel = parentPanel;
-		this.valueMatrix = core.Card.getCard(type).getValueMatrix();
+		this.type        = type;
+		this.valueMatrix = this.getCard().getValueMatrix();
 
-		this.setLayout(null);
 		this.setPreferredSize(new Dimension(100, 100));
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
@@ -67,11 +65,13 @@ public class Card extends JPanel implements MouseMotionListener {
 			public void mouseClicked(MouseEvent arg0) {
 				if (rowSelected > -1) {
 					rowFixed = rowSelected;
-					CardType cType     = type;
 					ActionType cAction = ActionType.values()[rowSelected];
+
 					if (cAction == ActionType.HOBGOBLIN) {
 						parentPanel.chooseTarget();
 						JOptionPane.showMessageDialog(parentPanel, "Veuillez choisir une cible");
+					} else {
+						parentPanel.lockCards();
 					}
 				}
 			}
@@ -122,7 +122,7 @@ public class Card extends JPanel implements MouseMotionListener {
 	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if (this.parentPanel.choosingTarget) {
+		if (this.parentPanel.lockingCards) {
 			return;
 		}
 
@@ -141,19 +141,27 @@ public class Card extends JPanel implements MouseMotionListener {
 	}
 
 	/**
-	 * Add an absolute component to the panel
-	 * @param c The component
-	 * @param x X coordinate
-	 * @param y Y coordinate
+	 * Check if the card is selected
+	 * @return True if the card is selected
 	 */
-	private void addAbsolute(Component c, int x, int y) {
-		Insets i       = this.getInsets();
-		Dimension size = c.getPreferredSize();
+	public boolean isSelected() {
+		return this.rowFixed != -1;
+	}
 
-		this.add(c);
-		// Correct window viewport
-		y -= 5;
-		c.setBounds(i.left + x, i.top + y, size.width, size.height);
+	/**
+	 * Get the core card from the GUI representation
+	 * @return The core card
+	 */
+	public core.Card getCard() {
+		return core.Card.getCard(this.type);
+	}
+
+	/**
+	 * Get the selected action type
+	 * @return The action type
+	 */
+	public ActionType getActionType() {
+		return ActionType.values()[this.rowFixed];
 	}
 
 	/**
@@ -174,7 +182,7 @@ public class Card extends JPanel implements MouseMotionListener {
 		g2.setColor(Color.black);
 		g2.drawRect(0, 0, 95, 95);
 
-		int opacity = (this.parentPanel.choosingTarget) ? 100 : 255;
+		int opacity = (this.parentPanel.lockingCards) ? 100 : 255;
 		g2.setColor(new Color(255, 255, 255, opacity));
 		g2.fillRect(1, 1, 94, 94);
 

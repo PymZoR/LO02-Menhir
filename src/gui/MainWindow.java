@@ -39,7 +39,7 @@ public class MainWindow extends JDialog {
 		this.setVisible(true);
 		this.setResizable(false);
 
-		this.switchPanel("InitPanel", 400, 140);
+		this.switchPanel("InitPanel", 400, 160);
 
 		this.setFocusable(true);
 		this.addKeyListener(new KeyListener() {
@@ -48,7 +48,11 @@ public class MainWindow extends JDialog {
 				if (e.getKeyCode() == 27) {
 					if (component.getClass().getName() == "gui.GamePanel") {
 						GamePanel gp = (GamePanel) component;
+
+						gp.lockingCards   = false;
 						gp.choosingTarget = false;
+						gp.targetField    = null;
+
 						gp.revalidate();
 						gp.repaint();
 						Card[] cards = gp.getCards();
