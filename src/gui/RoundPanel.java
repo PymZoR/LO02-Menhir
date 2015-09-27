@@ -125,13 +125,15 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 		if (ia != null) {
 			ia.makeChoice();
 			CardType iaCardType = ia.getCard();
-			System.out.println(iaCardType.toString());
+			System.out.print(iaCardType.toString() + " ");
+			System.out.print(iaCardType.ordinal());
+			System.out.println("throws");
 			core.Card iaCard    = core.Card.getCard(iaCardType);
 			ActionType iaAction = ia.getAction();
 			Player iaTarget		= ia.getTarget();
 
 			int strength   = iaCard.getValue(iaAction, this.game.getActualSeason());
-			String message = "Joueur " + String.valueOf(ia.getNumber());
+			String message = "Joueur " + String.valueOf(ia.getNumber() + 1);
 			message       += " joue " + iaAction.toString() + " (" + String.valueOf(strength) + ")";
 
 			if (iaTarget != null) {
