@@ -7,6 +7,8 @@ import java.awt.RenderingHints;
 
 import javax.swing.JLabel;
 
+import core.Game;
+
 /**
  * Full game GUI
  */
@@ -15,6 +17,11 @@ public class GamePanel extends RoundPanel {
 	 * Java UID
 	 */
 	private static final long serialVersionUID = -8860204251354754377L;
+
+	/**
+	 * Panel components
+	 */
+	private JLabel roundLabel = new JLabel();
 
 	/**
 	 * Create the same window that RoundPanel
@@ -28,7 +35,12 @@ public class GamePanel extends RoundPanel {
 		int totalScore = this.game.getCurrentPlayer().getField().getBigRockSum();
 		this.totalBigRocks = new JLabel("Score total : " + String.valueOf(totalScore));
 
+		String thisRound = String.valueOf((((Game)this.game).getCurrentRound()).getNumber() + 1);
+		String maxRounds = String.valueOf(this.game.getPlayerNumber());
+		this.roundLabel.setText("Manche actuel : " + thisRound + "/" + maxRounds);
+
 		this.addAbsolute(this.totalBigRocks, 250, 10);
+		this.addAbsolute(this.roundLabel, 550, 10);
 	}
 
 	/**

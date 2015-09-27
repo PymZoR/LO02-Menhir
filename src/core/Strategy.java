@@ -7,6 +7,8 @@ import java.util.Vector;
  * Base Strategy class
  */
 abstract class Strategy {
+	static public final int STRATEGY_COUNT = 1;
+
 	/**
 	 * The actual player
 	 */
@@ -37,10 +39,6 @@ abstract class Strategy {
 	public Strategy(Player self, Vector<Player> allPlayers) {
 		this.self = self;
 		this.allPlayers = allPlayers;
-
-		this.allPlayers.removeElement(self);
-
-		this.makeChoice();
 	}
 
 	/**

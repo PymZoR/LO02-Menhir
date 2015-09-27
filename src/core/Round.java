@@ -28,7 +28,7 @@ public class Round implements Playable {
 	 * Create a new game with given player count
 	 * @param playerNumber The amount of players
 	 */
-	public Round(int playerNumber) throws Exception {
+	public Round(int playerNumber, int iaPlayers) throws Exception {
 		if (playerNumber <= 1) {
 			throw new Exception("You can't play alone");
 		}
@@ -39,7 +39,12 @@ public class Round implements Playable {
 		this.players = new Vector<Player>();
 		this.playerNumber = playerNumber;
 		for (int i = 0; i < playerNumber; i++) {
-			Player newPlayer = new Player(this, i);
+			Player newPlayer = null;
+			if (i >= (playerNumber - iaPlayers)) {
+				newPlayer = new IAPlayer(this, i);
+			} else {
+				newPlayer = new Player(this, i);
+			}
 			this.players.add(newPlayer);
 		}
 	}

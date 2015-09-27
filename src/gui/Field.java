@@ -26,8 +26,9 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 	/**
 	 * URLs
 	 */
-	private static URL rockURL   = Field.class.getResource("/images/rock.png");
-	private static URL menhirURL = Field.class.getResource("/images/menhir.png");
+	private static URL rockURL     = Field.class.getResource("/images/rock.png");
+	private static URL menhirURL   = Field.class.getResource("/images/menhir.png");
+	private static URL computerURL = Field.class.getResource("/images/computer.png");
 	/**
 	 * Big and small rocks amounts
 	 */
@@ -67,15 +68,21 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 
 		this.setPreferredSize(new Dimension(100, 100));
 
-		if ((Field.rockURL != null) && (Field.menhirURL != null)) {
-			ImageIcon rockImage   = new ImageIcon(Field.rockURL);
-			ImageIcon menhirImage = new ImageIcon(Field.menhirURL);
+		if ((Field.rockURL != null) && (Field.menhirURL != null) && (Field.computerURL != null)) {
+			ImageIcon rockImage     = new ImageIcon(Field.rockURL);
+			ImageIcon menhirImage   = new ImageIcon(Field.menhirURL);
+			ImageIcon computerImage = new ImageIcon(Field.computerURL);
 
-			JLabel rock   = new JLabel(String.valueOf(this.smallRockNumber), rockImage, JLabel.LEFT);
-			JLabel menhir = new JLabel(String.valueOf(this.bigRockNumber), menhirImage, JLabel.LEFT);
+			JLabel rock     = new JLabel(String.valueOf(this.smallRockNumber), rockImage, JLabel.LEFT);
+			JLabel menhir   = new JLabel(String.valueOf(this.bigRockNumber), menhirImage, JLabel.LEFT);
+			JLabel computer = new JLabel(computerImage);
 
 			this.addAbsolute(rock, 22, 30);
 			this.addAbsolute(menhir, 22, 60);
+
+			if (this.player.ia() != null) {
+				this.addAbsolute(computer, 70, 10);
+			}
 		}
 
 		if (!this.isSelfPlayer) {

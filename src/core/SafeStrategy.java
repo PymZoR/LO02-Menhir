@@ -52,8 +52,19 @@ public class SafeStrategy extends Strategy {
 				}
 			}
 
-			this.card   = maxCard.getType();
-			this.action = ActionType.FERTILIZER;
+			if (maxCard == null) {
+				// Can't find a proper fertilizer, back to giant
+				for (int i = 0; i < selfCards.size(); i++) {
+					if (selfCards.get(i).getValue(ActionType.GIANT, actualSeason) > 0) {
+						this.card = this.self.getCards().firstElement().getType();
+					}
+				}
+
+				this.action = ActionType.GIANT;
+			} else {
+				this.card   = maxCard.getType();
+				this.action = ActionType.FERTILIZER;
+			}
 		}
 	}
 }

@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import core.ActionType;
+import core.CardType;
+import core.IAPlayer;
 import core.Playable;
 import core.Player;
 
@@ -75,8 +77,15 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 
 		this.actualSeason.setText(this.actualSeason.getText() + this.game.getActualSeason().toString());
 
+		// Check for IA turn info. See MainWindow.iaMessage for more info
+		if (this.parentWindow.getIAMessage() != "") {
+			JOptionPane.showMessageDialog(this, this.parentWindow.getIAMessage(), "Ordinateur", JOptionPane.INFORMATION_MESSAGE);
+			this.parentWindow.addIAMessage("empty");
+		}
+
 		// Check for victory
 		if (!this.game.isRunning()) {
+			System.out.println("OK GAME STOPS");
 			Vector<Player> scores = new Vector<Player>(this.game.getPlayers());
 			Collections.sort(scores);
 			Collections.reverse(scores);
@@ -116,6 +125,40 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 		}
 
 		this.selfField = new Field(this, this.player, "Votre terrain");
+
+		// Check for IA
+		IAPlayer ia = this.player.ia();
+		if (ia != null) {
+			ia.makeChoice();
+			CardType iaCardType = ia.getCard();
+			System.out.print(iaCardType.toString() + " ");
+			System.out.print(iaCardType.ordinal());
+			System.out.println("throws");
+			core.Card iaCard    = core.Card.getCard(iaCardType);
+			ActionType iaAction = ia.getAction();
+			Player iaTarget		= ia.getTarget();
+
+			int strength   = iaCard.getValue(iaAction, this.game.getActualSeason());
+			String message = "Joueur " + String.valueOf(ia.getNumber() + 1);
+			message       += " joue " + iaAction.toString() + " (" + String.valueOf(strength) + ")";
+
+			if (iaTarget != null) {
+				message += " contre Joueur " + String.valueOf(iaTarget.getNumber() + 1);
+			}
+
+			this.parentWindow.addIAMessage(message);
+
+			this.game.nextTurn(iaCard, iaAction, iaTarget);
+
+			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					RoundPanel.this.goNextTurn();
+				}
+			});
+
+			return;
+		}
 
 		int startX = 10;
 		int stepX  = 100;
@@ -181,8 +224,7 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 		}
 
 		this.game.nextTurn(selectedCoreCard, action, target);
-
-		this.goNextTurn();
+        this.goNextTurn();
 	}
 
 	/**

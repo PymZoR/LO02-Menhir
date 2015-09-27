@@ -9,11 +9,11 @@ public class Game implements Playable {
 	private Round currentRound     = null;
 	private int roundNumber        = 0;
 
-	public Game(int playerNumber) throws Exception {
+	public Game(int playerNumber, int iaNumber) throws Exception {
 		this.rounds  = new Vector<Round>();
 		this.roundNumber = playerNumber;
 
-		this.rounds.add(new Round(playerNumber));
+		this.rounds.add(new Round(playerNumber, iaNumber));
 		this.currentRound = this.rounds.get(0);
 		this.currentRound.setNumber(0);
 
