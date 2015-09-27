@@ -49,9 +49,15 @@ public class MainWindow extends JDialog {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == 27) {
-					if (MainWindow.this.component.getClass().getName() == "gui.RoundPanel") {
-						RoundPanel gp = (RoundPanel) MainWindow.this.component;
+					RoundPanel gp = null;
 
+					if (MainWindow.this.component.getClass().getName() == "gui.RoundPanel") {
+						gp = (RoundPanel) MainWindow.this.component;
+					} else if (MainWindow.this.component.getClass().getName() == "gui.GamePanel") {
+						gp = (GamePanel) MainWindow.this.component;
+					}
+
+					if (gp != null) {
 						gp.lockingCards   = false;
 						gp.choosingTarget = false;
 						gp.targetField    = null;
