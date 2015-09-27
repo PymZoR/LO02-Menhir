@@ -77,6 +77,12 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 
 		this.actualSeason.setText(this.actualSeason.getText() + this.game.getActualSeason().toString());
 
+		// Check for IA turn info. See MainWindow.iaMessage for more info
+		if (this.parentWindow.getIAMessage() != "") {
+			JOptionPane.showMessageDialog(this, this.parentWindow.getIAMessage(), "Ordinateur", JOptionPane.INFORMATION_MESSAGE);
+			this.parentWindow.addIAMessage("empty");
+		}
+
 		// Check for victory
 		if (!this.game.isRunning()) {
 			System.out.println("OK GAME STOPS");
@@ -152,11 +158,6 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 			});
 
 			return;
-		}
-
-		if (this.parentWindow.getIAMessage() != "") {
-			JOptionPane.showMessageDialog(this, this.parentWindow.getIAMessage(), "Ordinateur", JOptionPane.INFORMATION_MESSAGE);
-			this.parentWindow.addIAMessage("empty");
 		}
 
 		int startX = 10;
