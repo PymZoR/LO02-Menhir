@@ -113,16 +113,19 @@ public class ConsoleGame {
 	 * Start the game; console based
 	 */
 	public ConsoleGame() {
-		int playerNumber     = 2;
-		Playable game        = null;
-		int cardId           = 0;
-		int actionId         = 0;
-		Card card            = null;
-		ActionType action    = null;
-		int maxActionId      = ActionType.values().length;
-		Round currentRound   = null;
-		Player currentPlayer = null;
-		String seasonName    = null;
+		int playerNumber            = 2;
+		Playable game               = null;
+		int cardId                  = 0;
+		int actionId                = 0;
+		Card card                   = null;
+		ActionType action           = null;
+		int maxActionId             = ActionType.values().length;
+		Round currentRound          = null;
+		Player currentPlayer        = null;
+		String seasonName           = null;
+		int currentCardNumber       = 0;
+		int currentAlliedCardNumber = 0;
+		Player targetPlayer         = null;
 
 		System.out.println("Type 1 for a simple game, 2 for enhanced: ");
 		int gameType = 0;
@@ -157,12 +160,37 @@ public class ConsoleGame {
 		System.out.println("--------------------------------");
 		game.start();
 
+		if (gameType == 2) {
+			for (int i = 0; i < playerNumber; i++) {
+				System.out.println("Player " + (i+1) +
+					", choose either seeds, taupe or dog (1, 2, 3): ");
+
+				int choice = 0;
+				do {
+					choice = ConsoleGame.getIntInput();
+
+					if ((gameType < 1) || (gameType > 3)) {
+						System.out.println("Choice must be either 1, 2 or 2");
+						choice = 0;
+					}
+
+					if (choice == 2) {
+						((Game)game).chooseAlliedCards(game.getPlayer(i), true);
+					}
+					else if (choice == 3) {
+						((Game)game).chooseAlliedCards(game.getPlayer(i), false);
+					}
+				} while (choice == 0);
+			}
+		}
+
 		do {
 			ConsoleGame.clearConsole();
 
 			seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
 			currentPlayer = game.getCurrentPlayer();
 			seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
+			targetPlayer  = null;
 
 			@SuppressWarnings("unchecked")
 			Vector<Player> otherPlayers = (Vector<Player>) game.getPlayers().clone();
@@ -173,10 +201,12 @@ public class ConsoleGame {
 				currentRound = (((Game)game).getCurrentRound());
 
 				if (currentRound.getNumber() != previousRoundNumber) {
-					System.out.println(System.lineSeparator() + "Turn is finished");
+					System.out.println(System.lineSeparator() + "Round is finished");
 					ConsoleGame.printRankings(game);
 				}
-				System.out.print(System.lineSeparator() + "Round " + (currentRound.getNumber()+1) + "/" + playerNumber);
+
+				System.out.print(System.lineSeparator() + "Round " + (currentRound.getNumber()+1) +
+					"/" + playerNumber);
 			}
 
 			System.out.println(System.lineSeparator() + "Next turn. Current season: " + seasonName);
@@ -189,74 +219,113 @@ public class ConsoleGame {
 			System.out.println();
 
 
-			System.out.println("Choose your card: ");
+			System.out.println("Choose your card : ");
 
-			for (int i = 0; i < currentPlayer.getCards().size(); i += 2) {
+			currentCardNumber = currentPlayer.getCards().size();
+			int i;
+			for (i = 0; i < currentCardNumber; i += 2) {
 				if (currentPlayer.getCards().size() <= (i + 1)) {
 					String firstCard  = currentPlayer.getCards().get(i).toASCII(i);
 					System.out.print(firstCard);
 				} else {
 					String firstCard  = currentPlayer.getCards().get(i).toASCII(i);
 					String secondCard = currentPlayer.getCards().get(i + 1).toASCII(i + 1);
-					System.out.println(StringUtils.getLine(firstCard, 0) + "    " + StringUtils.getLine(secondCard, 0));
-					System.out.println(StringUtils.getLine(firstCard, 1) + "    " + StringUtils.getLine(secondCard, 1));
-					System.out.println(StringUtils.getLine(firstCard, 2) + "    " + StringUtils.getLine(secondCard, 2));
-					System.out.println(StringUtils.getLine(firstCard, 3) + "    " + StringUtils.getLine(secondCard, 3));
-					System.out.println(StringUtils.getLine(firstCard, 4) + "    " + StringUtils.getLine(secondCard, 4));
-					System.out.println(StringUtils.getLine(firstCard, 5) + "    " + StringUtils.getLine(secondCard, 5));
-					System.out.println(StringUtils.getLine(firstCard, 6) + "    " + StringUtils.getLine(secondCard, 6));
-					System.out.println(StringUtils.getLine(firstCard, 7) + "    " + StringUtils.getLine(secondCard, 7));
+					System.out.println(StringUtils.getLine(firstCard, 0) + " " + StringUtils.getLine(secondCard, 0));
+					System.out.println(StringUtils.getLine(firstCard, 1) + " " + StringUtils.getLine(secondCard, 1));
+					System.out.println(StringUtils.getLine(firstCard, 2) + " " + StringUtils.getLine(secondCard, 2));
+					System.out.println(StringUtils.getLine(firstCard, 3) + " " + StringUtils.getLine(secondCard, 3));
+					System.out.println(StringUtils.getLine(firstCard, 4) + " " + StringUtils.getLine(secondCard, 4));
+					System.out.println(StringUtils.getLine(firstCard, 5) + " " + StringUtils.getLine(secondCard, 5));
+					System.out.println(StringUtils.getLine(firstCard, 6) + " " + StringUtils.getLine(secondCard, 6));
+					System.out.println(StringUtils.getLine(firstCard, 7) + " " + StringUtils.getLine(secondCard, 7));
+				}
+			}
+
+			if (gameType == 2) {
+				currentAlliedCardNumber = currentPlayer.getAlliedCards().size();
+
+				for (int j = 0; j < currentAlliedCardNumber; j += 2) {
+					if (currentPlayer.getAlliedCards().size() <= (j + 1)) {
+						String firstCard  = currentPlayer.getAlliedCards().get(j).toASCII(j + i);
+						System.out.print(firstCard);
+					} else {
+						String firstCard  = currentPlayer.getAlliedCards().get(j).toASCII(j + i);
+						String secondCard = currentPlayer.getAlliedCards().get(j + 1).toASCII(j + i + 1);
+						System.out.println(StringUtils.getLine(firstCard, 0) + " " + StringUtils.getLine(secondCard, 0));
+						System.out.println(StringUtils.getLine(firstCard, 1) + " " + StringUtils.getLine(secondCard, 1));
+						System.out.println(StringUtils.getLine(firstCard, 2) + " " + StringUtils.getLine(secondCard, 2));
+						System.out.println(StringUtils.getLine(firstCard, 3) + " " + StringUtils.getLine(secondCard, 3));
+						System.out.println(StringUtils.getLine(firstCard, 4) + " " + StringUtils.getLine(secondCard, 4));
+						System.out.println(StringUtils.getLine(firstCard, 5) + " " + StringUtils.getLine(secondCard, 5));
+						System.out.println(StringUtils.getLine(firstCard, 6) + " " + StringUtils.getLine(secondCard, 6));
+						System.out.println(StringUtils.getLine(firstCard, 7) + " " + StringUtils.getLine(secondCard, 7));
+					}
 				}
 			}
 
 			System.out.println(System.lineSeparator() + "Choose a card number:");
+
+			int maxCardNumber = currentCardNumber;
+			if (gameType == 2) {
+				maxCardNumber += currentAlliedCardNumber;
+			}
+
 			do {
 				cardId = ConsoleGame.getIntInput();
 
-				if (cardId > currentPlayer.getCards().size()) {
+				//TODO: cardId verification
+				if (cardId > maxCardNumber) {
 					System.out.println("Card number must be between 1 and " +
-							Integer.toString(currentPlayer.getCards().size()) + " included");
+							maxCardNumber + " included");
 					cardId = 0;
 				}
 			} while (cardId == 0);
-			card  = currentPlayer.getCardById(cardId - 1);
 
-			System.out.println(System.lineSeparator() + "Choose an action Number(1 for Giant...):");
-			do {
-				actionId = ConsoleGame.getIntInput();
+			if (cardId > currentCardNumber) {
+				cardId -= currentCardNumber;
+				card = currentPlayer.getAlliedCardById(cardId - 1);
 
-				if (actionId > maxActionId) {
-					System.out.println("Action number must be between 1 and " +
-							Integer.toString(maxActionId) + " included");
-					actionId = 0;
-				}
-			} while (actionId == 0);
+				action = ActionType.TAUPE;
+				//TODO: Dog case
+			}
+			else {
+				card  = currentPlayer.getCardById(cardId - 1);
 
-			action = ActionType.values()[actionId - 1];
-			Player player = null;
-
-			if (action == ActionType.HOBGOBLIN) {
+				System.out.println(System.lineSeparator() + "Choose an action Number(1 for Giant...):");
 				do {
-					System.out.println(System.lineSeparator() + "Choose an other player: ");
-					int playerId = ConsoleGame.getIntInput();
-					if (playerId > playerNumber) {
-						System.out.println("There is only " + playerNumber +
-								" players");
-					}
-					else {
-						player = game.getPlayer(playerId - 1);
+					actionId = ConsoleGame.getIntInput();
 
-						if (player == currentPlayer) {
-							System.out.println("You can't target yourself !");
-							player = null;
-						}
+					if (actionId > maxActionId) {
+						System.out.println("Action number must be between 1 and " +
+								Integer.toString(maxActionId) + " included");
+						actionId = 0;
 					}
-				} while (player == null);
+				} while (actionId == 0);
+
+				action = ActionType.values()[actionId - 1];
+
+				if (action == ActionType.HOBGOBLIN) {
+					do {
+						System.out.println(System.lineSeparator() + "Choose an other player: ");
+						int playerId = ConsoleGame.getIntInput();
+						if (playerId > playerNumber) {
+							System.out.println("There is only " + playerNumber +
+									" players");
+						}
+						else {
+							targetPlayer = game.getPlayer(playerId - 1);
+
+							if (targetPlayer == currentPlayer) {
+								System.out.println("You can't target yourself !");
+								targetPlayer = null;
+							}
+						}
+					} while (targetPlayer == null);
+
+				}
 			}
 
-			game.nextTurn(card, action, player);
-
-
+			game.nextTurn(card, action, targetPlayer);
 		} while (game.isRunning());
 
 		System.out.println(System.lineSeparator() + "Game is finished");

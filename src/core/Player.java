@@ -46,12 +46,29 @@ public class Player implements Comparable<Player> {
 		return this.getField().compareTo(comparePlayer.getField());
 	}
 
+	public void drawAlliedCards(boolean taupe) {
+		int offset = taupe ? 0 : 3;
+
+		for (int i = 0; i < Round.ALLIED_CARDS_IN_HAND; i++) {
+			CardType randomType;
+			AlliedCard newCard;
+
+			do {
+				randomType = CardType.values()[new Random().nextInt(3) +
+					Card.CARD_NUMBER + offset];
+				newCard = AlliedCard.getCard(randomType);
+			} while (newCard.isDrawed() == true);
+
+			this.alliedCards.add(newCard);
+		}
+	}
+
 	/**
 	 * Make the player get random cards
 	 * @param cardNumber Amount of cards to get
 	 */
-	private void drawCard(int cardNumber) {
-		for (int i = 0; i < cardNumber; i++) {
+	private void drawCards() {
+		for (int i = 0; i < Round.CARDS_IN_HAND; i++) {
 			CardType randomType;
 			Card newCard;
 
@@ -81,6 +98,9 @@ public class Player implements Comparable<Player> {
 		return this.cards.get(cardId);
 	}
 
+	public AlliedCard getAlliedCardById(int cardId) {
+		return this.alliedCards.get(cardId);
+	}
 	/**
 	 * Get the player cards
 	 * @return The player cards
@@ -143,7 +163,7 @@ public class Player implements Comparable<Player> {
 	 * Reset player after round
 	 */
 	public void reset() {
-		this.drawCard(Round.CARDS_IN_HAND);
+		this.drawCards();
 		this.field.reset();
 	}
 

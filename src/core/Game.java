@@ -25,9 +25,13 @@ public class Game implements Playable {
 				throw e;
 			}
 		}
-
-		this.currentRound = this.rounds.get(0);
 	}
+
+	public void chooseAlliedCards(Player source, boolean taupe) {
+		source.getField().setSmallRockNumber(0);
+		source.drawAlliedCards(taupe);
+	}
+
 
 	@Override
 	public SeasonType getActualSeason() {

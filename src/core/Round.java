@@ -11,6 +11,7 @@ public class Round implements Playable {
 	 * The total cards a player can have
 	 */
 	public static final int CARDS_IN_HAND          = 4;
+	public static final int ALLIED_CARDS_IN_HAND   = 2;
 	public static final int INIT_SMALL_ROCK_NUMBER = 2;
 
 	/**

@@ -7,5 +7,7 @@ package core;
 public enum ActionType {
 	GIANT,
 	FERTILIZER,
-	HOBGOBLIN
+	HOBGOBLIN,
+	TAUPE,
+	DOG
 }
