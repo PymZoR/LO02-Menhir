@@ -83,13 +83,23 @@ public class HarassStrategy extends Strategy {
 		// If can't play hobgoblin, back to Safe
 		if (this.action != ActionType.HOBGOBLIN) {
 			SafeStrategy ss = new SafeStrategy(this.self, this.allPlayers);
+			this.target = null;
+			ss.makeChoice();
+			this.card   = ss.getCard();
+			this.action = ss.getAction();
+		}
+
+		// If playing hobgobblin with strength = 0, back to Safe
+		if ((this.action == ActionType.HOBGOBLIN) && (Card.getCard(this.card).getValue(this.action, game.getActualSeason()) == 0)) {
+			SafeStrategy ss = new SafeStrategy(this.self, this.allPlayers);
+			this.target = null;
 			ss.makeChoice();
 			this.card   = ss.getCard();
 			this.action = ss.getAction();
 		}
 
 		// If has taupe and best player has > 1 big rock; play taupe
-		if (this.target.getField().getBigRockNumber() > 1) {
+		if ((this.target != null) && (this.target.getField().getBigRockNumber() > 1)) {
 			Vector<AlliedCard> alliedCards = this.self.getAlliedCards();
 			for (int i = 0; i < alliedCards.size(); i++) {
 				switch(alliedCards.get(i).getType()) {
