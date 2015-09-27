@@ -11,14 +11,19 @@ public class Player implements Comparable<Player> {
 	/**
 	 * Player cards and field
 	 */
-	private Vector<Card> cards;
-	private Vector<AlliedCard> alliedCards;
-	private Field field;
+	protected Vector<Card> cards;
+	protected Vector<AlliedCard> alliedCards;
+	protected Field field;
 
 	/**
 	 * Player index
 	 */
-	private int number;
+	protected int number;
+
+	/**
+	 * IA
+	 */
+	protected boolean isIA = false;
 
 	/**
 	 * Reference to the game
@@ -50,7 +55,7 @@ public class Player implements Comparable<Player> {
 	 * Make the player get random cards
 	 * @param cardNumber Amount of cards to get
 	 */
-	private void drawCard(int cardNumber) {
+	protected void drawCard(int cardNumber) {
 		for (int i = 0; i < cardNumber; i++) {
 			CardType randomType;
 			Card newCard;
@@ -111,6 +116,18 @@ public class Player implements Comparable<Player> {
 	 */
 	public int getNumber() {
 		return this.number;
+	}
+
+	/**
+	 * Get the IA player behind this player
+	 * @return The IA player or null
+	 */
+	public IAPlayer ia() {
+		if (this.isIA) {
+			return (IAPlayer) this;
+		}
+
+		return null;
 	}
 
 	/**

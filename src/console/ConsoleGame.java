@@ -6,12 +6,13 @@ import java.util.Vector;
 
 import core.ActionType;
 import core.Card;
+import core.Field;
 import core.Game;
+import core.IAPlayer;
 import core.Playable;
 import core.Player;
 import core.Round;
 import core.SeasonType;
-import core.Field;
 import helpers.StringUtils;
 
 /**
@@ -142,10 +143,10 @@ public class ConsoleGame {
 
 			try {
 				if (gameType == 1) {
-					game = new Round(playerNumber);
+					game = new Round(playerNumber, 0);
 				}
 				else if (gameType == 2 ){
-					game  = new Game(playerNumber);
+					game  = new Game(playerNumber, 0);
 				}
 			}
 			catch(Exception e) {
@@ -163,6 +164,16 @@ public class ConsoleGame {
 			seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
 			currentPlayer = game.getCurrentPlayer();
 			seasonName    = ConsoleGame.getSeasonName(game.getActualSeason());
+
+			IAPlayer ia = currentPlayer.ia();
+			if (ia != null) {
+				ia.makeChoice();
+				System.out.println("IA CHOICE");
+				System.out.println(ia.getAction());
+				System.out.println(ia.getCard().name());
+				System.out.println(ia.getTarget());
+				System.out.println("DONE");
+			}
 
 			@SuppressWarnings("unchecked")
 			Vector<Player> otherPlayers = (Vector<Player>) game.getPlayers().clone();

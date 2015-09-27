@@ -78,21 +78,22 @@ public class InitPanel extends JPanel {
 		validateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int players       = (InitPanel.this.numberOfPlayers.getSelectedIndex() + 2);
+				int players       = InitPanel.this.numberOfPlayers.getSelectedIndex() + 2;
+				int iaPlayers     = InitPanel.this.numberOfIAs.getSelectedIndex() + 1;
 				boolean rapidGame = InitPanel.this.rapidGameButton.isSelected();
 
 				try {
 					Playable game = null;
 
 					if (rapidGame) {
-						game = new Round(players);
+						game = new Round(players, iaPlayers);
 
 						game.start();
 						InitPanel.this.parentWindow.setGame(game);
 
 						InitPanel.this.parentWindow.switchPanel("RoundPanel", 710, 450);
 					} else {
-						game = new Game(players);
+						game = new Game(players, iaPlayers);
 
 						game.start();
 						InitPanel.this.parentWindow.setGame(game);

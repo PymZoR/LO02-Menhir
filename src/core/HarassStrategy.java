@@ -31,6 +31,11 @@ public class HarassStrategy extends Strategy {
 		for (int i = 0; i < this.allPlayers.size(); i++) {
 			Player p = this.allPlayers.get(i);
 
+			// Do not target yourself
+			if (p == this.self) {
+				continue;
+			}
+
 			if (this.target == null) {
 				this.target = p;
 				continue;
@@ -62,6 +67,11 @@ public class HarassStrategy extends Strategy {
 
 			// Try hobgoblin against other
 			for (int j = 0; j < this.allPlayers.size(); j++) {
+				// Do not target yourself
+				if (this.allPlayers.get(j) == this.self) {
+					continue;
+				}
+
 				if (hobgoblinPower <= this.allPlayers.get(j).getField().getSmallRockNumber()) {
 					this.card   = selfCards.get(i).getType();
 					this.action = ActionType.HOBGOBLIN;

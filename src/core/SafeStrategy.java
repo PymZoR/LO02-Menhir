@@ -47,13 +47,28 @@ public class SafeStrategy extends Strategy {
 				int amount = c.getValue(ActionType.FERTILIZER, actualSeason);
 
 				// Enough to fertilize, but less than the actual chosen card -> better card
+				System.out.print("Safe");
+				System.out.print(amount);
+				System.out.print(smallRocks);
+				System.out.println(max);
 				if ((amount >= smallRocks) && (amount < max)) {
 					maxCard = c;
 				}
 			}
 
-			this.card   = maxCard.getType();
-			this.action = ActionType.FERTILIZER;
+			if (maxCard == null) {
+				// Can't find a proper fertilizer, back to giant
+				for (int i = 0; i < selfCards.size(); i++) {
+					if (selfCards.get(i).getValue(ActionType.GIANT, actualSeason) > 0) {
+						this.card = this.self.getCards().firstElement().getType();
+					}
+				}
+
+				this.action = ActionType.GIANT;
+			} else {
+				this.card   = maxCard.getType();
+				this.action = ActionType.FERTILIZER;
+			}
 		}
 	}
 }

@@ -30,6 +30,13 @@ public class MainWindow extends JDialog {
 	private Playable game;
 
 	/**
+	 * Stores message data for IA information
+	 * If we use JOptionPane directly on the IA round, it'll fail the render.
+	 * So store the message here, and render on the next human round
+	 */
+	private String iaMessage = "";
+
+	/**
 	 * Create the dialog.
 	 */
 	public MainWindow() {
@@ -78,11 +85,34 @@ public class MainWindow extends JDialog {
 	}
 
 	/**
+	 * Set the next IA message. If there is already a message, append it.
+	 * If iaMessage is "empty", empty the ia message queue
+	 * @param iaMessage
+	 */
+	public void addIAMessage(String iaMessage) {
+		if (iaMessage == "empty") {
+			this.iaMessage = "";
+		} else if (this.iaMessage == "") {
+			this.iaMessage += iaMessage;
+		} else {
+			this.iaMessage += "\n" + iaMessage;
+		}
+	}
+
+	/**
 	 * Get the game reference
 	 * @return The game
 	 */
 	public Playable getGame() {
 		return this.game;
+	}
+
+	/**
+	 * Get the IA Message
+	 * @return The IA Message
+	 */
+	public String getIAMessage() {
+		return this.iaMessage;
 	}
 
 	/**

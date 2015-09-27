@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import core.ActionType;
+import core.CardType;
+import core.IAPlayer;
 import core.Playable;
 import core.Player;
 
@@ -118,6 +120,42 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 
 		this.selfField = new Field(this, this.player, "Votre terrain");
 
+		// Check for IA
+		IAPlayer ia = this.player.ia();
+		if (ia != null) {
+			ia.makeChoice();
+			CardType iaCardType = ia.getCard();
+			core.Card iaCard    = core.Card.getCard(iaCardType);
+			ActionType iaAction = ia.getAction();
+			Player iaTarget		= ia.getTarget();
+
+			int strength   = iaCard.getValue(iaAction, this.game.getActualSeason());
+			String message = "Joueur " + String.valueOf(ia.getNumber());
+			message       += " joue " + iaAction.toString() + " (" + String.valueOf(strength) + ")";
+
+			if (iaTarget != null) {
+				message += " contre Joueur " + String.valueOf(iaTarget.getNumber() + 1);
+			}
+
+			this.parentWindow.addIAMessage(message);
+
+			this.game.nextTurn(iaCard, iaAction, iaTarget);
+
+			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					RoundPanel.this.goNextTurn();
+				}
+			});
+
+			return;
+		}
+
+		if (this.parentWindow.getIAMessage() != "") {
+			JOptionPane.showMessageDialog(this, this.parentWindow.getIAMessage(), "Ordinateur", JOptionPane.INFORMATION_MESSAGE);
+			this.parentWindow.addIAMessage("empty");
+		}
+
 		int startX = 10;
 		int stepX  = 100;
 		for (int i = 0; i < players.size(); i++) {
@@ -182,8 +220,7 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 		}
 
 		this.game.nextTurn(selectedCoreCard, action, target);
-
-		this.goNextTurn();
+        this.goNextTurn();
 	}
 
 	/**
