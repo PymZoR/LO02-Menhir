@@ -88,9 +88,13 @@ public class Game implements Playable {
 	}
 
 	@Override
+	public void playTaupe(Player source, Player target, int bigRockNumber) {
+		this.currentRound.playTaupe(source, target, bigRockNumber);
+	}
+
+	@Override
 	public void playDog(Player source) {
 		this.currentRound.playDog(source);
-
 	}
 
 	@Override
@@ -108,12 +112,6 @@ public class Game implements Playable {
 	@Override
 	public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
 		this.currentRound.playHobgoblin(source, target, hobgoblinNumber);
-
-	}
-
-	@Override
-	public void playTaupe(Player source, Player target, int bigRockNumber) {
-		this.currentRound.playTaupe(source, target, bigRockNumber);
 
 	}
 
