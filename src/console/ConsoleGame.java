@@ -26,19 +26,20 @@ public class ConsoleGame {
 		GAME
 	}
 
-	private Playable game       = null;
-	private GameType gameType   = null;
-	private int playerNumber    = 0;
+	private Playable game               = null;
+	private GameType gameType           = null;
+	private int playerNumber            = 0;
+	private int iaNumber                = -1;
 	private String currentSeasonName    = "";
 	private Player currentPlayer        = null;
 	private Player targetPlayer         = null;
 	private IAPlayer ia                 = null;
 	private Vector<Player> otherPlayers = null;
 	private Round currentRound          = null;
-	private int previousRoundNumber = 0;
-	private String seasonName = "";
-	private Card card = null;
-	private ActionType action = null;
+	private int previousRoundNumber     = 0;
+	private String seasonName           = "";
+	private Card card                   = null;
+	private ActionType action           = null;
 
 	/**
 	 * Clear the console
@@ -125,6 +126,25 @@ public class ConsoleGame {
 	}
 
 	/**
+	 * Ask the user to choose IA number
+	 */
+	private void chooseIANumber() {
+		System.out.println("Choose the IA number: ");
+		int iaNumber = 0;
+
+		do {
+			iaNumber = ConsoleGame.getIntInput();
+
+			if ((iaNumber < 0) || (iaNumber > 5)) {
+				System.out.println("IA number must be between 0 and 5 included");
+			}
+			else {
+				this.iaNumber = iaNumber;
+			}
+		} while (this.iaNumber == -1);
+	}
+
+	/**
 	 * Ask the user to choose the player number
 	 */
 	private void choosePlayerNumber() {
@@ -134,12 +154,16 @@ public class ConsoleGame {
 		do {
 			playerNumber = ConsoleGame.getIntInput();
 
+			if ((playerNumber == 1) && (this.iaNumber == 0)) {
+				System.out.println("You can't play alone !");
+				continue;
+			}
 			try {
 				if (gameType == GameType.ROUND) {
-					this.game = new Round(playerNumber, 0);
+					this.game = new Round(playerNumber, this.iaNumber);
 				}
 				else if (gameType == GameType.GAME){
-					this.game  = new Game(playerNumber, 0);
+					this.game  = new Game(playerNumber, this.iaNumber);
 				}
 
 				this.playerNumber = playerNumber;
@@ -184,12 +208,15 @@ public class ConsoleGame {
 	 * Get the current IA choice
 	 */
 	private void makeIAChoice() {
+		/*
 		this.ia.makeChoice();
 		System.out.println("IA CHOICE");
 		System.out.println(ia.getAction());
 		System.out.println(ia.getCard().name());
 		System.out.println(ia.getTarget());
 		System.out.println("DONE");
+		 */
+		//TODO
 	}
 
 	/**
@@ -360,6 +387,7 @@ public class ConsoleGame {
 	 */
 	public ConsoleGame() {
 		this.chooseGameType();
+		this.chooseIANumber();
 		this.choosePlayerNumber();
 
 		System.out.println(System.lineSeparator() + "Start new game !");

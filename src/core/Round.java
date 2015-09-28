@@ -29,7 +29,7 @@ public class Round implements Playable {
 	 * @param playerNumber The amount of players
 	 */
 	public Round(int playerNumber, int iaPlayers) throws Exception {
-		if (playerNumber <= 1) {
+		if (playerNumber < 1) {
 			throw new Exception("You can't play alone");
 		}
 		if (playerNumber > 6) {
