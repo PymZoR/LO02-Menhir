@@ -1,16 +1,16 @@
 package core;
 
-
+import java.util.Random;
 import java.util.Vector;
 
 public class Game implements Playable {
-	private boolean running        = false;
-	private Vector<Round> rounds   = null;
-	private Round currentRound     = null;
-	private int roundNumber        = 0;
+	private boolean running = false;
+	private Vector<Round> rounds = null;
+	private Round currentRound = null;
+	private int roundNumber = 0;
 
 	public Game(int playerNumber, int iaNumber) throws Exception {
-		this.rounds  = new Vector<Round>();
+		this.rounds = new Vector<Round>();
 		this.roundNumber = playerNumber;
 
 		this.rounds.add(new Round(playerNumber, iaNumber));
@@ -20,18 +20,20 @@ public class Game implements Playable {
 		for (int i = 1; i < playerNumber; i++) {
 			try {
 				this.rounds.add(new Round(this.getPlayers(), i));
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				throw e;
 			}
 		}
 	}
 
 	public void chooseAlliedCards(Player source, boolean allied) {
-		// TODO: if allied random between taupe/dog
-		// TODO: if !allied +2 seeds
+		if (allied) {
+			int randomBoolean = (new Random()).nextInt(2);
+			source.drawAlliedCards((randomBoolean == 1));
+		} else {
+			source.getField().addSmallRockNumber(2);
+		}
 	}
-
 
 	@Override
 	public SeasonType getActualSeason() {
@@ -79,9 +81,8 @@ public class Game implements Playable {
 		if (!this.currentRound.isRunning()) {
 			if (currentRoundNumber == (this.roundNumber - 1)) {
 				this.running = false;
-			}
-			else {
-				this.currentRound = this.rounds.get(currentRoundNumber+1);
+			} else {
+				this.currentRound = this.rounds.get(currentRoundNumber + 1);
 				this.currentRound.start();
 			}
 		}
