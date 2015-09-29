@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,16 +24,16 @@ public class InitPanel extends JPanel {
 	 * Combo-box choices
 	 */
 	private String[] playerChoices = { "2 joueurs", "3 joueurs", "4 joueurs", "5 joueurs", "6 joueurs" };
-	private String[] iaChoices = { "1 ordinateur" };
+	private String[] iaChoices = { "0 ordinateur", "1 ordinateur" };
 
 	/**
 	 * Panel components
 	 */
-	private JLabel numberOfPlayersLabel       = new JLabel("Nombre de joueurs :");
-	private JLabel numberOfIAsLabel           = new JLabel("Nombre d'ordinateurs :");
+	private JLabel numberOfPlayersLabel = new JLabel("Nombre de joueurs :");
+	private JLabel numberOfIAsLabel = new JLabel("Nombre d'ordinateurs :");
 	private JComboBox<String> numberOfPlayers = new JComboBox<String>(this.playerChoices);
-	private JComboBox<String> numberOfIAs     = new JComboBox<String>(this.iaChoices);
-	private JToggleButton rapidGameButton     = new JToggleButton("Partie rapide");
+	private JComboBox<String> numberOfIAs = new JComboBox<String>(this.iaChoices);
+	private JToggleButton rapidGameButton = new JToggleButton("Partie rapide");
 
 	/**
 	 * Parent window
@@ -78,8 +77,8 @@ public class InitPanel extends JPanel {
 		validateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int players       = InitPanel.this.numberOfPlayers.getSelectedIndex() + 2;
-				int iaPlayers     = InitPanel.this.numberOfIAs.getSelectedIndex() + 1;
+				int players = InitPanel.this.numberOfPlayers.getSelectedIndex() + 2;
+				int iaPlayers = InitPanel.this.numberOfIAs.getSelectedIndex();
 				boolean rapidGame = InitPanel.this.rapidGameButton.isSelected();
 
 				try {
@@ -100,8 +99,7 @@ public class InitPanel extends JPanel {
 
 						InitPanel.this.parentWindow.switchPanel("GamePanel", 710, 450);
 					}
-				}
-				catch (Exception err) {
+				} catch (Exception err) {
 					err.printStackTrace();
 				}
 			}
