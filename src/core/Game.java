@@ -27,9 +27,9 @@ public class Game implements Playable {
 		}
 	}
 
-	public void chooseAlliedCards(Player source, boolean taupe) {
-		source.getField().setSmallRockNumber(0);
-		source.drawAlliedCards(taupe);
+	public void chooseAlliedCards(Player source, boolean allied) {
+		// TODO: if allied random between taupe/dog
+		// TODO: if !allied +2 seeds
 	}
 
 
@@ -88,11 +88,6 @@ public class Game implements Playable {
 	}
 
 	@Override
-	public void playTaupe(Player source, Player target, int bigRockNumber) {
-		this.currentRound.playTaupe(source, target, bigRockNumber);
-	}
-
-	@Override
 	public void playDog(Player source) {
 		this.currentRound.playDog(source);
 	}
@@ -113,6 +108,11 @@ public class Game implements Playable {
 	public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
 		this.currentRound.playHobgoblin(source, target, hobgoblinNumber);
 
+	}
+
+	@Override
+	public void playTaupe(Player source, Player target, int bigRockNumber) {
+		this.currentRound.playTaupe(source, target, bigRockNumber);
 	}
 
 	@Override
