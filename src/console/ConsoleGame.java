@@ -37,7 +37,6 @@ public class ConsoleGame {
 	private Vector<Player> otherPlayers = null;
 	private Round currentRound          = null;
 	private int previousRoundNumber     = 0;
-	private String seasonName           = "";
 	private Card card                   = null;
 	private ActionType action           = null;
 
@@ -402,12 +401,12 @@ public class ConsoleGame {
 		do {
 			ConsoleGame.clearConsole();
 
-			this.seasonName    = game.getActualSeason().toString();
-			this.currentPlayer = game.getCurrentPlayer();
-			this.targetPlayer  = null;
-			this.card = null;
-			this.ia            = currentPlayer.ia();
-			this.otherPlayers  = (Vector<Player>) game.getPlayers().clone();
+			this.currentSeasonName = game.getActualSeason().toString();
+			this.currentPlayer     = game.getCurrentPlayer();
+			this.targetPlayer      = null;
+			this.card              = null;
+			this.ia                = currentPlayer.ia();
+			this.otherPlayers      = (Vector<Player>) game.getPlayers().clone();
 			this.otherPlayers.removeElement(currentPlayer);
 
 			// Handle IA
