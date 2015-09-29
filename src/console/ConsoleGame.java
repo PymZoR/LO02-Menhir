@@ -198,20 +198,19 @@ public class ConsoleGame {
 		for (int i = 0; i < this.playerNumber; i++) {
 			choice = 0;
 			System.out.println("Player " + i +
-					", choose either seeds, taupe or dog (1, 2, 3): ");
+					", choose either seeds, or an allied card (1, 2): ");
 
 			do {
 				choice = ConsoleGame.getIntInput();
 
-				if ((choice < 1) || (choice > 3)) {
-					System.out.println("Choice must be either 1, 2 or 2");
+				if ((choice != 1) && (choice != 2)) {
+					System.out.println("Choice must be either 1, 2");
 					choice = 0;
 				}
 
-				if (choice == 2) {
+				if (choice == 1) {
 					((Game)this.game).chooseAlliedCards(this.game.getPlayer(i), true);
-				}
-				else if (choice == 3) {
+				} else {
 					((Game)this.game).chooseAlliedCards(this.game.getPlayer(i), false);
 				}
 			} while (choice == 0);
