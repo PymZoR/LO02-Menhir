@@ -89,6 +89,15 @@ public class Field implements Comparable<Field> {
 	}
 
 	/**
+	 * Set the big rocks amount
+	 * @param number The big rocks amount
+	 */
+	public void setBigRockNumber(int number) {
+		this.bigRockSum   += (number - this.bigRockNumber);
+		this.bigRockNumber = number;
+	}
+
+	/**
 	 * Compare a Field to another to find which is bigger
 	 * @param  compareField field to compare
 	 */

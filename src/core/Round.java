@@ -29,7 +29,7 @@ public class Round implements Playable {
 	 * @param playerNumber The amount of players
 	 */
 	public Round(int playerNumber, int iaPlayers) throws Exception {
-		if (playerNumber <= 1) {
+		if (playerNumber < 1) {
 			throw new Exception("You can't play alone");
 		}
 		if (playerNumber > 6) {
@@ -152,15 +152,6 @@ public class Round implements Playable {
 	}
 
 	/**
-	 * Make a player play a dog card
-	 * @param source Source player
-	 */
-	@Override
-	public void playDog(Player source) {
-		// TODO
-	}
-
-	/**
 	 * Make a player play a fertilizer card
 	 * @param source          Source player
 	 * @param fertilizeNumber Amount of small rocks to evolve
@@ -209,16 +200,20 @@ public class Round implements Playable {
 
 	}
 
-	/**
-	 * Make a player play a taupe card
-	 * @param source        Source player
-	 * @param target        Target player
-	 * @param bigRockNumber Amount of big rocks to destroy
-	 */
+	@Override
+	public void playDog(Player source) { };
+
 	@Override
 	public void playTaupe(Player source, Player target, int bigRockNumber) {
 		Field field = target.getField();
-		field.addBigRockNumber(-bigRockNumber);
+
+		if (field.getBigRockNumber() <= bigRockNumber) {
+			field.setBigRockNumber(0);
+		}
+		else
+		{
+			field.addBigRockNumber(-bigRockNumber);
+		}
 	}
 
 	/**

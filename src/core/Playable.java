@@ -49,12 +49,6 @@ public interface Playable {
 	public void nextTurn(Card card, ActionType action, Player player);
 
 	/**
-	 * Make a player play a dog card
-	 * @param source Source player
-	 */
-	public void playDog(Player source);
-
-	/**
 	 * Make a player play a fertilizer card
 	 * @param source          Source player
 	 * @param fertilizeNumber Amount of small rocks to evolve
@@ -72,6 +66,12 @@ public interface Playable {
 	 * @param hobgoblinNumber Amount of rocks to steal
 	 */
 	public void playHobgoblin(Player source, Player target, int hobgoblinNumber);
+
+	/**
+	 * Make a player play a dog card
+	 * @param source Source player
+	 */
+	public void playDog(Player source);
 
 	/**
 	 * Make a player play a taupe card

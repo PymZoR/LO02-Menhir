@@ -160,17 +160,26 @@ public class Player implements Comparable<Player> {
 		int actionValue = card.getValue(action, this.game.getActualSeason());
 
 		switch (action) {
-		case GIANT:
-			this.game.playGiant(this, actionValue);
-			break;
+			case GIANT:
+				this.game.playGiant(this, actionValue);
+				break;
 
-		case FERTILIZER:
-			this.game.playFertilizer(this, actionValue);
-			break;
+			case FERTILIZER:
+				this.game.playFertilizer(this, actionValue);
+				break;
 
-		case HOBGOBLIN:
-			this.game.playHobgoblin(this, target, actionValue);
-			break;
+			case HOBGOBLIN:
+				this.game.playHobgoblin(this, target, actionValue);
+				break;
+
+			case TAUPE:
+				System.out.println("COUCOUUUUUUUUUUUUUUUUUUUUU");
+				this.game.playTaupe(this, target, actionValue);
+				break;
+
+			case DOG:
+				this.game.playDog(this);
+				break;
 		}
 
 		this.cards.remove(card);

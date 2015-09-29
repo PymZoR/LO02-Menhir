@@ -102,9 +102,12 @@ public class AlliedCard extends Card {
 		result       += "| Card  .    |" + System.lineSeparator();
 		result       += "|------------|" + System.lineSeparator();
 		result       += "|   s S F W  |" + System.lineSeparator();
-		result       += "| V . . . .  |" + System.lineSeparator();
+		result       += "|   . . . .  |" + System.lineSeparator();
 		result       += "|            |" + System.lineSeparator();
-		result       += "|            |" + System.lineSeparator();
+		if (this.getType().toString().indexOf("TAUPE") != -1) 
+			result   += "|    TAUPE   |" + System.lineSeparator();
+		else 
+			result   += "|     DOG    |" + System.lineSeparator();
 		result       += "|------------|" + System.lineSeparator();
 
 		result = StringUtils.replaceCharAt(result, 23, Integer.toString(cardN + 1));
@@ -112,7 +115,6 @@ public class AlliedCard extends Card {
 		result = StringUtils.replaceCharAt(result, 66, Integer.toString(this.values[1]));
 		result = StringUtils.replaceCharAt(result, 68, Integer.toString(this.values[2]));
 		result = StringUtils.replaceCharAt(result, 70, Integer.toString(this.values[3]));
-
 		return result;
 	}
 }
