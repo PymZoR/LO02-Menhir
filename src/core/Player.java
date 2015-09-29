@@ -173,7 +173,6 @@ public class Player implements Comparable<Player> {
 				break;
 
 			case TAUPE:
-				System.out.println("COUCOUUUUUUUUUUUUUUUUUUUUU");
 				this.game.playTaupe(this, target, actionValue);
 				break;
 
@@ -182,7 +181,13 @@ public class Player implements Comparable<Player> {
 				break;
 		}
 
-		this.cards.remove(card);
+		if (card instanceof AlliedCard) {
+			this.alliedCards.remove(card);
+		}
+		else {
+			System.out.println("salut");
+ 			this.alliedCards.remove(card);
+		}
 	}
 
 	/**
