@@ -19,7 +19,6 @@ public class IAPlayer extends Player {
 		int strategyNumber = (new Random()).nextInt(Strategy.STRATEGY_COUNT + 1);
 
 		System.out.print("Player " + String.valueOf(this.number + 1) + " is ");
-		strategyNumber = 1;
 
 		if (strategyNumber == 0) {
 			System.out.println("safe");

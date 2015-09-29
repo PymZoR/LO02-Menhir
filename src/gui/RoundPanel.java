@@ -85,7 +85,6 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 
 		// Check for victory
 		if (!this.game.isRunning()) {
-			System.out.println("OK GAME STOPS");
 			Vector<Player> scores = new Vector<Player>(this.game.getPlayers());
 			Collections.sort(scores);
 			Collections.reverse(scores);
