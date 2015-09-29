@@ -182,7 +182,7 @@ public class ConsoleGame {
 
 		for (int i = 0; i < this.playerNumber; i++) {
 			choice = 0;
-			System.out.println("Player " + i +
+			System.out.println("Player " + (i+1) +
 					", choose either seeds, taupe or dog (1, 2, 3): ");
 
 			do {
@@ -207,15 +207,10 @@ public class ConsoleGame {
 	 * Get the current IA choice
 	 */
 	private void makeIAChoice() {
-		/*
 		this.ia.makeChoice();
-		System.out.println("IA CHOICE");
-		System.out.println(ia.getAction());
-		System.out.println(ia.getCard().name());
-		System.out.println(ia.getTarget());
-		System.out.println("DONE");
-		 */
-		//TODO
+		this.card = Card.getCard(this.ia.getCard()); // TODO: refactor
+		this.action = this.ia.getAction();
+		this.targetPlayer = this.ia.getTarget();
 	}
 
 	/**
@@ -400,7 +395,6 @@ public class ConsoleGame {
 		// Main loop
 		do {
 			ConsoleGame.clearConsole();
-
 			this.currentSeasonName = game.getActualSeason().toString();
 			this.currentPlayer     = game.getCurrentPlayer();
 			this.targetPlayer      = null;
@@ -409,21 +403,23 @@ public class ConsoleGame {
 			this.otherPlayers      = (Vector<Player>) game.getPlayers().clone();
 			this.otherPlayers.removeElement(currentPlayer);
 
-			// Handle IA
-			if (this.ia != null) {
-				this.makeIAChoice();
-			}
-
 			if (this.gameType == GameType.GAME) {
 				this.printGameState();
 			}
 
-			this.printTurnState();
-			this.printCards();
 
-			// Handle player
-			this.chooseCard();
-			this.chooseAction();
+			if (this.ia != null) {
+				// Handle IA
+				System.out.println(this.ia);
+				this.makeIAChoice();
+			}
+			else {
+				// Handle player
+				this.printTurnState();
+				this.printCards();
+				this.chooseCard();
+				this.chooseAction();
+			}
 
 			game.nextTurn(this.card, this.action, this.targetPlayer);
 		} while (this.game.isRunning());

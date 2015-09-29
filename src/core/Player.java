@@ -185,8 +185,7 @@ public class Player implements Comparable<Player> {
 			this.alliedCards.remove(card);
 		}
 		else {
-			System.out.println("salut");
- 			this.alliedCards.remove(card);
+ 			this.cards.remove(card);
 		}
 	}
 
