@@ -75,6 +75,12 @@ public class MainWindow extends JDialog {
                             card.clearRowFixed();
                         }
 
+                        if (gp.getClass().getName() == "gui.GamePanel") {
+                            if (((GamePanel) gp).getAlliedCard() != null) {
+                                ((GamePanel) gp).getAlliedCard().clearRowFixed();
+                            }
+                        }
+
                     }
                 }
             }

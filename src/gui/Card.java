@@ -35,6 +35,7 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
      * Card value
      */
     private int[][]  valueMatrix;
+    private boolean  isAllied;
     private CardType type;
 
     /**
@@ -57,6 +58,7 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
         this.parentPanel = parentPanel;
         this.type = type;
         this.valueMatrix = this.getCard().getValueMatrix();
+        this.isAllied = (this.valueMatrix.length == 1);
 
         this.setPreferredSize(new Dimension(100, 100));
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -74,7 +76,9 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
                         parentPanel.chooseTarget();
                         JOptionPane.showMessageDialog(parentPanel.parentWindow, "Veuillez choisir une cible");
                     } else {
-                        parentPanel.lockCards();
+                        if (!Card.this.isAllied) {
+                            parentPanel.lockCards();
+                        }
                     }
                 }
             }
@@ -161,15 +165,15 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (this.parentPanel.lockingCards) {
+        if (this.parentPanel.lockingCards && !this.isAllied) {
             return;
         }
 
         if ((e.getY() >= 38) && (e.getY() < 58)) {
             this.rowSelected = 0;
-        } else if ((e.getY() >= 58) && (e.getY() < 78) && !(this.valueMatrix.length == 1)) {
+        } else if ((e.getY() >= 58) && (e.getY() < 78) && !this.isAllied) {
             this.rowSelected = 1;
-        } else if ((e.getY() >= 78) && (e.getY() < 98) && !(this.valueMatrix.length == 1)) {
+        } else if ((e.getY() >= 78) && (e.getY() < 98) && !this.isAllied) {
             this.rowSelected = 2;
         } else {
             this.rowSelected = -1;
@@ -196,14 +200,28 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
         g2.setColor(Color.black);
         g2.drawRect(0, 0, 95, 95);
 
-        int opacity = (this.parentPanel.lockingCards) ? 100 : 255;
+        int opacity = (this.parentPanel.lockingCards && !this.isAllied) ? 100 : 255;
         g2.setColor(new Color(255, 255, 255, opacity));
         g2.fillRect(1, 1, 94, 94);
 
         g2.setColor(Color.black);
-        g2.drawString("G", 10, 45);
-        g2.drawString("F", 10, 65);
-        g2.drawString("H", 10, 85);
+
+        if (!this.isAllied) {
+            g2.drawString("G", 10, 45);
+            g2.drawString("F", 10, 65);
+            g2.drawString("H", 10, 85);
+        } else {
+            switch (this.type) {
+                case TAUPE1:
+                case TAUPE2:
+                case TAUPE3:
+                    g2.drawString("T", 10, 45);
+                    break;
+                default:
+                    g2.drawString("D", 10, 45);
+                    break;
+            }
+        }
 
         g2.drawString("s", 30, 30);
         g2.drawString("S", 45, 30);

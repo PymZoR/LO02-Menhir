@@ -32,9 +32,8 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
     /**
      * Panel components
      */
-    protected Vector<Card> cards       = new Vector<Card>();
-    protected Vector<Card> alliedCards = new Vector<Card>();
-    protected JButton      nextRound   = new JButton("Jouer !");
+    protected Vector<Card> cards     = new Vector<Card>();
+    protected JButton      nextRound = new JButton("Jouer !");
 
     /**
      * Player field

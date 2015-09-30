@@ -26,6 +26,7 @@ public class GamePanel extends RoundPanel {
      * Panel components
      */
     private JLabel roundLabel = new JLabel();
+    private Card   alliedCard = null;
 
     /**
      * Create the same window that RoundPanel
@@ -64,12 +65,21 @@ public class GamePanel extends RoundPanel {
 
         if (this.player.getAlliedCards().size() == 1) {
             System.out.println("draw allied card");
-            Card alliedCard = new Card(this, this.player.getAlliedCards().get(0).getType());
-            this.addAbsolute(alliedCard, 460, 30);
+            this.alliedCard = new Card(this, this.player.getAlliedCards().get(0).getType());
+            this.addAbsolute(this.alliedCard, 460, 30);
         }
 
         this.addAbsolute(this.totalBigRocks, 250, 10);
         this.addAbsolute(this.roundLabel, 550, 10);
+    }
+
+    /**
+     * Get the allied card
+     *
+     * @return The allied card
+     */
+    public Card getAlliedCard() {
+        return this.alliedCard;
     }
 
     /**
