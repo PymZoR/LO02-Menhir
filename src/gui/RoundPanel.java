@@ -24,266 +24,274 @@ import core.Player;
  * Round game panel
  */
 public class RoundPanel extends AbsoluteJPanel implements ActionListener {
-	/**
-	 * Java UID
-	 */
-	private static final long serialVersionUID = -8860204251354754377L;
+    /**
+     * Java UID
+     */
+    private static final long serialVersionUID = -8860204251354754377L;
 
-	/**
-	 * Panel components
-	 */
-	protected Vector<Card> cards = new Vector<Card>();
-	protected JButton nextRound = new JButton("Jouer !");
+    /**
+     * Panel components
+     */
+    protected Vector<Card> cards       = new Vector<Card>();
+    protected Vector<Card> alliedCards = new Vector<Card>();
+    protected JButton      nextRound   = new JButton("Jouer !");
 
-	/**
-	 * Player field
-	 */
-	protected Field selfField = null;
+    /**
+     * Player field
+     */
+    protected Field selfField = null;
 
-	/**
-	 * Game information
-	 */
-	protected JLabel actualSeason  = new JLabel("Saison actuelle : ");
-	protected JLabel actualPlayer  = new JLabel();
-	protected JLabel totalBigRocks = new JLabel("Score total : -");
-	protected JLabel help1	       = new JLabel("Sélectionnez d'abord une carte et une action en cliquant sur la ligne voulue,");
-	protected JLabel help2 		   = new JLabel("puis cliquez sur jouer. Appuyez sur Échap pour annuler. Si vous jouez Farfadet,");
-	protected JLabel help3 		   = new JLabel("sélectionnez un champ cible avant de jouer.");
+    /**
+     * Game information
+     */
+    protected JLabel actualSeason  = new JLabel("Saison actuelle : ");
+    protected JLabel actualPlayer  = new JLabel();
+    protected JLabel totalBigRocks = new JLabel("Score total : -");
+    protected JLabel help1         = new JLabel(
+            "Sélectionnez d'abord une carte et une action en cliquant sur la ligne voulue,");
+    protected JLabel help2         = new JLabel(
+            "puis cliquez sur jouer. Appuyez sur Échap pour annuler. Si vous jouez Farfadet,");
+    protected JLabel help3         = new JLabel("sélectionnez un champ cible avant de jouer.");
 
-	/**
-	 * Player reference
-	 */
-	protected Player player;
+    /**
+     * Player reference
+     */
+    protected Player player;
 
-	/**
-	 * Action management
-	 */
-	public boolean lockingCards   = false;
-	public boolean choosingTarget = false;
-	public Field   targetField    = null;
+    /**
+     * Action management
+     */
+    public boolean lockingCards   = false;
+    public boolean choosingTarget = false;
+    public Field   targetField    = null;
 
-	/**
-	 * Parent window
-	 */
-	protected MainWindow parentWindow;
-	protected Playable game;
+    /**
+     * Parent window
+     */
+    protected MainWindow parentWindow;
+    protected Playable   game;
 
-	/**
-	 * Create the panel
-	 */
-	public RoundPanel(MainWindow parentWindow) {
-		this.parentWindow = parentWindow;
-		this.game         = parentWindow.getGame();
+    /**
+     * Create the panel
+     */
+    public RoundPanel(MainWindow parentWindow) {
+        this.parentWindow = parentWindow;
+        this.game = parentWindow.getGame();
 
-		this.actualSeason.setText(this.actualSeason.getText() + this.game.getActualSeason().toString());
+        this.actualSeason.setText(this.actualSeason.getText() + this.game.getActualSeason().toString());
 
-		// Check for IA turn info. See MainWindow.iaMessage for more info
-		if (this.parentWindow.getIAMessage() != "") {
-			JOptionPane.showMessageDialog(this, this.parentWindow.getIAMessage(), "Ordinateur", JOptionPane.INFORMATION_MESSAGE);
-			this.parentWindow.addIAMessage("empty");
-		}
+        // Check for IA turn info. See MainWindow.iaMessage for more info
+        if (this.parentWindow.getIAMessage() != "") {
+            JOptionPane.showMessageDialog(this.parentWindow, this.parentWindow.getIAMessage(), "Ordinateur",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.parentWindow.addIAMessage("empty");
+        }
 
-		// Check for victory
-		if (!this.game.isRunning()) {
-			Vector<Player> scores = new Vector<Player>(this.game.getPlayers());
-			Collections.sort(scores);
-			Collections.reverse(scores);
+        // Check for victory
+        if (!this.game.isRunning()) {
+            Vector<Player> scores = new Vector<Player>(this.game.getPlayers());
+            Collections.sort(scores);
+            Collections.reverse(scores);
 
-			String message = "Rankings:" + System.lineSeparator();
+            String message = "Rankings:" + System.lineSeparator();
 
-			for (int i = 0; i < this.game.getPlayerNumber(); i++) {
-				core.Field field = scores.get(i).getField();
+            for (int i = 0; i < this.game.getPlayerNumber(); i++) {
+                core.Field field = scores.get(i).getField();
 
-				message += "    Joueur " + (i+1) + ". Champ: "+ field.getBigRockSum() +
-						" menhirs; " + field.getSmallRockSum() + " graines;" + System.lineSeparator();
-			}
+                message += "    Joueur " + (i + 1) + ". Champ: " + field.getBigRockSum() + " menhirs; "
+                        + field.getSmallRockSum() + " graines;" + System.lineSeparator();
+            }
 
-			JOptionPane.showMessageDialog(this, message, "Partie terminée", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this.parentWindow, message, "Partie terminée",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-			// Start again
-			this.parentWindow.dispose();
-			new MainWindow();
+            // Start again
+            this.parentWindow.dispose();
+            new MainWindow();
 
-			return;
-		}
+            return;
+        }
 
-		// Clone, else removing the actual player would change the vector
-		@SuppressWarnings("unchecked")
-		Vector<Player> players = (Vector<Player>) this.game.getPlayers().clone();
-		players.remove(this.game.getCurrentPlayer());
+        // Clone, else removing the actual player would change the vector
+        @SuppressWarnings("unchecked")
+        Vector<Player> players = (Vector<Player>) this.game.getPlayers().clone();
+        players.remove(this.game.getCurrentPlayer());
 
-		this.actualPlayer.setText("Joueur actuel : " + String.valueOf(this.game.getCurrentPlayer().getNumber()));
+        this.actualPlayer.setText("Joueur actuel : " + String.valueOf(this.game.getCurrentPlayer().getNumber()));
 
-		this.setPreferredSize(this.parentWindow.getSize());
+        this.setPreferredSize(this.parentWindow.getSize());
 
-		this.player = this.game.getCurrentPlayer();
+        this.player = this.game.getCurrentPlayer();
 
-		for (int i = 0; i < this.player.getCards().size(); i++) {
-			Card c = new Card(this, this.player.getCards().get(i).getType());
-			this.cards.add(c);
-		}
+        for (int i = 0; i < this.player.getCards().size(); i++) {
+            Card c = new Card(this, this.player.getCards().get(i).getType());
+            this.cards.add(c);
+        }
 
-		this.selfField = new Field(this, this.player, "Votre terrain");
+        this.selfField = new Field(this, this.player, "Votre terrain");
 
-		// Check for IA
-		IAPlayer ia = this.player.ia();
-		if (ia != null) {
-			ia.makeChoice();
-			CardType iaCardType = ia.getCard();
-			System.out.print(iaCardType.toString() + " ");
-			System.out.print(iaCardType.ordinal());
-			System.out.println("throws");
-			core.Card iaCard    = core.Card.getCard(iaCardType);
-			ActionType iaAction = ia.getAction();
-			Player iaTarget		= ia.getTarget();
+        // Check for IA
+        IAPlayer ia = this.player.ia();
+        if (ia != null) {
+            ia.makeChoice();
+            CardType iaCardType = ia.getCard();
+            System.out.print(iaCardType.toString() + " ");
+            System.out.print(iaCardType.ordinal());
+            System.out.println("throws");
+            core.Card iaCard = core.Card.getCard(iaCardType);
+            ActionType iaAction = ia.getAction();
+            Player iaTarget = ia.getTarget();
 
-			int strength   = iaCard.getValue(iaAction, this.game.getActualSeason());
-			String message = "Joueur " + String.valueOf(ia.getNumber() + 1);
-			message       += " joue " + iaAction.toString() + " (" + String.valueOf(strength) + ")";
+            int strength = iaCard.getValue(iaAction, this.game.getActualSeason());
+            String message = "Joueur " + String.valueOf(ia.getNumber() + 1);
+            message += " joue " + iaAction.toString() + " (" + String.valueOf(strength) + ")";
 
-			if (iaTarget != null) {
-				message += " contre Joueur " + String.valueOf(iaTarget.getNumber() + 1);
-			}
+            if (iaTarget != null) {
+                message += " contre Joueur " + String.valueOf(iaTarget.getNumber() + 1);
+            }
 
-			this.parentWindow.addIAMessage(message);
+            this.parentWindow.addIAMessage(message);
 
-			this.game.nextTurn(iaCard, iaAction, iaTarget);
+            this.game.nextTurn(iaCard, iaAction, iaTarget);
 
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					RoundPanel.this.goNextTurn();
-				}
-			});
+            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    RoundPanel.this.goNextTurn();
+                }
+            });
 
-			return;
-		}
+            return;
+        }
 
-		int startX = 10;
-		int stepX  = 100;
-		for (int i = 0; i < players.size(); i++) {
-			String playerN    = String.valueOf(players.get(i).getNumber() + 1);
-			Field playerField = new Field(this, players.get(i), "Joueur " + playerN);
-			this.addAbsolute(playerField, startX + (i * stepX), 260);
-		}
+        int startX = 10;
+        int stepX = 100;
+        for (int i = 0; i < players.size(); i++) {
+            String playerN = String.valueOf(players.get(i).getNumber() + 1);
+            Field playerField = new Field(this, players.get(i), "Joueur " + playerN);
+            this.addAbsolute(playerField, startX + (i * stepX), 260);
+        }
 
-		startX = 10;
-		stepX  = 110;
-		for (int i = 0; i < this.cards.size(); i++) {
-			this.addAbsolute(this.cards.get(i), startX + (i * stepX), 30);
-		}
+        startX = 10;
+        stepX = 110;
+        for (int i = 0; i < this.cards.size(); i++) {
+            this.addAbsolute(this.cards.get(i), startX + (i * stepX), 30);
+        }
 
-		this.addAbsolute(this.actualSeason, 10, 10);
-		this.addAbsolute(this.selfField, 10, 140);
-		this.addAbsolute(this.help1, 120, 145);
-		this.addAbsolute(this.help2, 120, 165);
-		this.addAbsolute(this.help3, 120, 185);
-		this.addAbsolute(this.actualPlayer, 420, 10);
-		this.addAbsolute(this.totalBigRocks, 250, 10);
-		this.addAbsolute(this.nextRound, 10, 370);
+        this.addAbsolute(this.actualSeason, 10, 10);
+        this.addAbsolute(this.selfField, 10, 140);
+        this.addAbsolute(this.help1, 120, 145);
+        this.addAbsolute(this.help2, 120, 165);
+        this.addAbsolute(this.help3, 120, 185);
+        this.addAbsolute(this.actualPlayer, 420, 10);
+        this.addAbsolute(this.totalBigRocks, 250, 10);
+        this.addAbsolute(this.nextRound, 10, 370);
 
-		this.nextRound.addActionListener(this);
-	}
+        this.nextRound.addActionListener(this);
+    }
 
-	/**
-	 * Choose a card
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// Give back focus to window (to re handle escapes)
-		this.parentWindow.requestFocus();
+    /**
+     * Choose a card
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Give back focus to window (to re handle escapes)
+        this.parentWindow.requestFocus();
 
-		Card selectedCard          = null;
+        Card selectedCard = null;
 
-		core.Card selectedCoreCard = null;
-		Player target              = null;
-		ActionType action          = null;
+        core.Card selectedCoreCard = null;
+        Player target = null;
+        ActionType action = null;
 
-		for (int i = 0; i < this.cards.size(); i++) {
-			if (this.cards.get(i).isSelected()) {
-				selectedCard = this.cards.get(i);
-			}
-		}
+        for (int i = 0; i < this.cards.size(); i++) {
+            if (this.cards.get(i).isSelected()) {
+                selectedCard = this.cards.get(i);
+            }
+        }
 
-		if (selectedCard == null) {
-			JOptionPane.showMessageDialog(this, "Veuillez choisir une carte", "Attention", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
+        if (selectedCard == null) {
+            JOptionPane.showMessageDialog(this.parentWindow, "Veuillez choisir une carte", "Attention",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-		selectedCoreCard = selectedCard.getCard();
-		action           = selectedCard.getActionType();
+        selectedCoreCard = selectedCard.getCard();
+        action = selectedCard.getActionType();
 
-		if ((action == ActionType.HOBGOBLIN) && (this.targetField == null)) {
-			JOptionPane.showMessageDialog(this, "Veuillez choisir un adversaire", "Attention", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
+        if ((action == ActionType.HOBGOBLIN) && (this.targetField == null)) {
+            JOptionPane.showMessageDialog(this.parentWindow, "Veuillez choisir un adversaire", "Attention",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-		if (action == ActionType.HOBGOBLIN) {
-			target = this.targetField.getPlayer();
-		}
+        if (action == ActionType.HOBGOBLIN) {
+            target = this.targetField.getPlayer();
+        }
 
-		this.game.nextTurn(selectedCoreCard, action, target);
+        this.game.nextTurn(selectedCoreCard, action, target);
         this.goNextTurn();
-	}
+    }
 
-	/**
-	 * Disable cards and self field
-	 */
-	public void chooseTarget() {
-		this.choosingTarget = true;
-		this.lockCards();
-	}
+    /**
+     * Disable cards and self field
+     */
+    public void chooseTarget() {
+        this.choosingTarget = true;
+        this.lockCards();
+    }
 
-	/**
-	 * Get all cards
-	 * @return All four or less cards
-	 */
-	public Card[] getCards() {
-		Card[] arr = new Card[this.cards.size()];
-		for (int i = 0; i < this.cards.size(); i++) {
-			arr[i] = (this.cards.get(i));
-		}
-		return arr;
-	}
+    /**
+     * Get all cards
+     *
+     * @return All four or less cards
+     */
+    public Card[] getCards() {
+        Card[] arr = new Card[this.cards.size()];
+        for (int i = 0; i < this.cards.size(); i++) {
+            arr[i] = (this.cards.get(i));
+        }
+        return arr;
+    }
 
-	/**
-	 * Get the game reference
-	 * @return The game
-	 */
-	public Playable getGame() {
-		return this.game;
-	}
+    /**
+     * Get the game reference
+     *
+     * @return The game
+     */
+    public Playable getGame() {
+        return this.game;
+    }
 
-	/**
-	 * Load the next turn panel
-	 */
-	protected void goNextTurn() {
-		this.parentWindow.switchPanel("RoundPanel", 710, 450);
-	}
+    /**
+     * Load the next turn panel
+     */
+    protected void goNextTurn() {
+        this.parentWindow.switchPanel("RoundPanel", 710, 450);
+    }
 
-	/**
-	 * Disable cards and fields
-	 */
-	public void lockCards() {
-		this.lockingCards = true;
-		this.revalidate();
-		this.repaint();
-	}
+    /**
+     * Disable cards and fields
+     */
+    public void lockCards() {
+        this.lockingCards = true;
+        this.revalidate();
+        this.repaint();
+    }
 
-	/**
-	 * Draw the panel
-	 */
-	@Override
-	public void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;
-	    RenderingHints rh = new RenderingHints(
-	             RenderingHints.KEY_TEXT_ANTIALIASING,
-	             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-	    g2.setRenderingHints(rh);
+    /**
+     * Draw the panel
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2.setRenderingHints(rh);
 
-		g2.setColor(Color.black);
-		g2.drawLine(445, 25, 445, 120);
+        g2.setColor(Color.black);
+        g2.drawLine(445, 25, 445, 120);
 
-	    g2.drawString("Pas de cartes alliées en partie rapide", 460, 70);
-	}
+        g2.drawString("Pas de cartes alliées en partie rapide", 460, 70);
+    }
 }

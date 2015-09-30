@@ -8,11 +8,11 @@ import javax.swing.UnsupportedLookAndFeelException;
  * GUI-based game
  */
 public class GUIGame {
-	/**
-	 * Start the game; gui based
-	 */
-	public GUIGame() {
-		try {
+    /**
+     * Start the game; gui based
+     */
+    public GUIGame() {
+        try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException ex) {
             ex.printStackTrace();
@@ -24,11 +24,11 @@ public class GUIGame {
             ex.printStackTrace();
         }
 
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new MainWindow();
-			}
-		});
-	}
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new MainWindow();
+            }
+        });
+    }
 }
