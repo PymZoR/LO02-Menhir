@@ -61,8 +61,8 @@ public class InitPanel extends JPanel {
             InitPanel.this.numberOfIAs.removeAllItems();
             
             int players = InitPanel.this.numberOfPlayers.getSelectedIndex() + 2;
-            for (int i = 1; i < players; i++) {
-                if (i == 1) {
+            for (int i = 0; i < players; i++) {
+                if (i <= 1) {
                     InitPanel.this.numberOfIAs.addItem(Integer.toString(i) + " ordinateur");
                 } else {
                     InitPanel.this.numberOfIAs.addItem(Integer.toString(i) + " ordinateurs");
