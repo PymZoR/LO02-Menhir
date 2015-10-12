@@ -29,14 +29,14 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
     /**
      * Parent panel reference
      */
-    private RoundPanel parentPanel;
+    private final RoundPanel parentPanel;
 
     /**
      * Card value
      */
-    private int[][]  valueMatrix;
-    private boolean  isAllied;
-    private CardType type;
+    private final int[][] valueMatrix;
+    private boolean isAllied;
+    private final CardType type;
 
     /**
      * Selection
@@ -47,18 +47,16 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
     /**
      * Create a card representation
      *
-     * @param parentPanel
-     *            The game panel reference
-     * @param valueMatrix
-     *            The values of the card
+     * @param parentPanel The game panel reference
+     * @param type        The card type
      */
     public Card(final RoundPanel parentPanel, final CardType type) {
         super();
 
         this.parentPanel = parentPanel;
-        this.type = type;
-        this.valueMatrix = this.getCard().getValueMatrix();
-        this.isAllied = (this.valueMatrix.length == 1);
+        this.type        = type;
+        this.valueMatrix = core.Card.getCard(type).getValueMatrix();
+        this.isAllied    = (this.valueMatrix.length == 1);
 
         this.setPreferredSize(new Dimension(100, 100));
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -104,9 +102,9 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
         });
 
         int startX = 30;
-        int stepX = 15;
+        int stepX  = 15;
         int startY = 38;
-        int stepY = 20;
+        int stepY  = 20;
         for (int i = 0; i < this.valueMatrix.length; i++) {
             for (int j = 0; j < this.valueMatrix[i].length; j++) {
                 JLabel l = new JLabel(String.valueOf(this.valueMatrix[i][j]));
@@ -162,6 +160,8 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
 
     /**
      * Detect mouse position and update selection rect
+     *
+     * @param e The mouse event
      */
     @Override
     public void mouseMoved(MouseEvent e) {
@@ -190,7 +190,7 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                                               RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.setRenderingHints(rh);
 
         // Draw background first

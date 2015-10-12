@@ -1,7 +1,7 @@
 package core;
 
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Aggressive strategy
@@ -9,13 +9,11 @@ import java.util.Vector;
 public class HarassStrategy extends Strategy {
     /**
      * Create a new strategy for a given player
-     * 
-     * @param self
-     *            The actual player
-     * @param allPlayers
-     *            All the players
+     *
+     * @param self       The actual player
+     * @param allPlayers All the players
      */
-    public HarassStrategy(Player self, Vector<Player> allPlayers) {
+    public HarassStrategy(Player self, ArrayList<Player> allPlayers) {
         super(self, allPlayers);
     }
 
@@ -25,15 +23,13 @@ public class HarassStrategy extends Strategy {
     @Override
     public void makeChoice() {
         this.action = null;
-        this.card = null;
+        this.card   = null;
         this.target = null;
 
         Playable game = this.self.game;
 
         // Detect best player
-        for (int i = 0; i < this.allPlayers.size(); i++) {
-            Player p = this.allPlayers.get(i);
-
+        for (Player p : this.allPlayers) {
             // Do not target yourself
             if (p == this.self) {
                 continue;
@@ -50,33 +46,29 @@ public class HarassStrategy extends Strategy {
             }
 
             if ((this.target.getField().getBigRockNumber() == p.getField().getBigRockNumber())
-                    && (this.target.getField().getSmallRockNumber() < p.getField().getSmallRockNumber())) {
+                && (this.target.getField().getSmallRockNumber() < p.getField().getSmallRockNumber())) {
                 this.target = p;
-                continue;
             }
         }
 
         // Try hobgoblin
-        Vector<Card> selfCards = this.self.getCards();
-        for (int i = 0; i < selfCards.size(); i++) {
-            int hobgoblinPower = selfCards.get(i).getValue(ActionType.HOBGOBLIN, game.getActualSeason());
-
+        ArrayList<Card> selfCards = this.self.getCards();
+        for (Card selfCard : selfCards) {
+            int hobgoblinPower = selfCard.getValue(ActionType.HOBGOBLIN, game.getActualSeason());
             // Try hobgoblin against best player
             if (hobgoblinPower <= this.target.getField().getSmallRockNumber()) {
-                this.card = selfCards.get(i).getType();
+                this.card   = selfCard.getType();
                 this.action = ActionType.HOBGOBLIN;
                 break;
             }
-
             // Try hobgoblin against other
-            for (int j = 0; j < this.allPlayers.size(); j++) {
+            for (Player p : this.allPlayers) {
                 // Do not target yourself
-                if (this.allPlayers.get(j) == this.self) {
+                if (p == this.self) {
                     continue;
                 }
-
-                if (hobgoblinPower <= this.allPlayers.get(j).getField().getSmallRockNumber()) {
-                    this.card = selfCards.get(i).getType();
+                if (hobgoblinPower <= p.getField().getSmallRockNumber()) {
+                    this.card   = selfCard.getType();
                     this.action = ActionType.HOBGOBLIN;
                     break;
                 }
@@ -88,23 +80,23 @@ public class HarassStrategy extends Strategy {
             SafeStrategy ss = new SafeStrategy(this.self, this.allPlayers);
             this.target = null;
             ss.makeChoice();
-            this.card = ss.getCard();
+            this.card   = ss.getCard();
             this.action = ss.getAction();
         }
 
         // If playing hobgobblin with strength = 0, back to Safe
         if ((this.action == ActionType.HOBGOBLIN)
-                && (Card.getCard(this.card).getValue(this.action, game.getActualSeason()) == 0)) {
+            && (Card.getCard(this.card).getValue(this.action, game.getActualSeason()) == 0)) {
             SafeStrategy ss = new SafeStrategy(this.self, this.allPlayers);
             this.target = null;
             ss.makeChoice();
-            this.card = ss.getCard();
+            this.card   = ss.getCard();
             this.action = ss.getAction();
         }
 
         // If has taupe and best player has > 1 big rock; play taupe
         if ((this.target != null) && (this.target.getField().getBigRockNumber() > 1)) {
-            Vector<AlliedCard> alliedCards = this.self.getAlliedCards();
+            ArrayList<AlliedCard> alliedCards = this.self.getAlliedCards();
             for (int i = 0; i < alliedCards.size(); i++) {
                 switch (alliedCards.get(i).getType()) {
                     case TAUPE1:

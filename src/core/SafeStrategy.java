@@ -1,7 +1,7 @@
 package core;
 
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Safe strategy : transforms small rocks, or get more
@@ -9,13 +9,11 @@ import java.util.Vector;
 public class SafeStrategy extends Strategy {
     /**
      * Create a new strategy for a given player
-     * 
-     * @param self
-     *            The actual player
-     * @param allPlayers
-     *            All the players
+     *
+     * @param self       The actual player
+     * @param allPlayers All the players
      */
-    public SafeStrategy(Player self, Vector<Player> allPlayers) {
+    public SafeStrategy(Player self, ArrayList<Player> allPlayers) {
         super(self, allPlayers);
     }
 
@@ -25,18 +23,18 @@ public class SafeStrategy extends Strategy {
     @Override
     public void makeChoice() {
         this.action = null;
-        this.card = null;
+        this.card   = null;
         this.target = null;
 
-        int smallRocks = this.self.getField().getSmallRockNumber();
-        Vector<Card> selfCards = this.self.getCards();
-        SeasonType actualSeason = this.self.getGame().getActualSeason();
+        int smallRocks            = this.self.getField().getSmallRockNumber();
+        ArrayList<Card> selfCards = this.self.getCards();
+        SeasonType actualSeason   = this.self.getGame().getActualSeason();
 
         if (smallRocks < 2) {
             // Less than two small rocks : play the first giant possible
-            for (int i = 0; i < selfCards.size(); i++) {
-                if (selfCards.get(i).getValue(ActionType.GIANT, actualSeason) > 0) {
-                    this.card = this.self.getCards().firstElement().getType();
+            for (Card selfCard : selfCards) {
+                if (selfCard.getValue(ActionType.GIANT, actualSeason) > 0) {
+                    this.card = this.self.getCards().get(0).getType();
                 }
             }
 
@@ -46,8 +44,7 @@ public class SafeStrategy extends Strategy {
             // possible (to not waste)
             int max = 5; // More than maximum
             Card maxCard = null;
-            for (int i = 0; i < selfCards.size(); i++) {
-                Card c = selfCards.get(i);
+            for (Card c : selfCards) {
                 int amount = c.getValue(ActionType.FERTILIZER, actualSeason);
 
                 // Enough to fertilize, but less than the actual chosen card ->
@@ -59,15 +56,15 @@ public class SafeStrategy extends Strategy {
 
             if (maxCard == null) {
                 // Can't find a proper fertilizer, back to giant
-                for (int i = 0; i < selfCards.size(); i++) {
-                    if (selfCards.get(i).getValue(ActionType.GIANT, actualSeason) > 0) {
-                        this.card = this.self.getCards().firstElement().getType();
+                for (Card selfCard : selfCards) {
+                    if (selfCard.getValue(ActionType.GIANT, actualSeason) > 0) {
+                        this.card = this.self.getCards().get(0).getType();
                     }
                 }
 
                 this.action = ActionType.GIANT;
             } else {
-                this.card = maxCard.getType();
+                this.card   = maxCard.getType();
                 this.action = ActionType.FERTILIZER;
             }
         }

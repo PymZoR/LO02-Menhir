@@ -25,11 +25,13 @@ public class GamePanel extends RoundPanel {
     /**
      * Panel components
      */
-    private JLabel roundLabel = new JLabel();
-    private Card   alliedCard = null;
+    private final JLabel roundLabel = new JLabel();
+    private Card alliedCard = null;
 
     /**
      * Create the same window that RoundPanel
+     *
+     * @param parentWindow Parent window reference
      */
     public GamePanel(MainWindow parentWindow) {
         super(parentWindow);
@@ -37,7 +39,7 @@ public class GamePanel extends RoundPanel {
         this.remove(this.totalBigRocks);
         this.remove(this.totalBigRocks);
 
-        int totalScore = this.game.getCurrentPlayer().getField().getBigRockSum();
+        int totalScore     = this.game.getCurrentPlayer().getField().getBigRockSum();
         this.totalBigRocks = new JLabel("Score total : " + String.valueOf(totalScore));
 
         String thisRound = String.valueOf((((Game) this.game).getCurrentRound()).getNumber() + 1);
@@ -48,11 +50,12 @@ public class GamePanel extends RoundPanel {
         if (((Game) this.game).getCurrentRound().getActualSeason() == SeasonType.SPRING) {
             // Choose only if in spring (round start)
             if (this.player.ia() == null) {
-                int choice = -1;
+                int choice;
                 do {
                     choice = JOptionPane.showConfirmDialog(this.parentWindow,
-                            "Voulez-vous choisir deux graines au lieu d'une carte alliée ?", "Bonus de début de round",
-                            JOptionPane.YES_NO_OPTION);
+                                                           "Voulez-vous choisir deux graines au lieu d'une carte alliée ?",
+                                                           "Bonus de début de round",
+                                                           JOptionPane.YES_NO_OPTION);
 
                     // NO_OPTION = allied
                     ((Game) this.game).chooseAlliedCards(this.player, (choice == JOptionPane.NO_OPTION));
@@ -97,7 +100,7 @@ public class GamePanel extends RoundPanel {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                                               RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.setRenderingHints(rh);
 
         g2.setColor(Color.black);

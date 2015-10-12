@@ -8,7 +8,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -32,8 +32,8 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
     /**
      * Panel components
      */
-    protected Vector<Card> cards     = new Vector<Card>();
-    protected JButton      nextRound = new JButton("Jouer !");
+    protected ArrayList<Card> cards = new ArrayList<>();
+    protected JButton nextRound     = new JButton("Jouer !");
 
     /**
      * Player field
@@ -62,33 +62,35 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
      */
     public boolean lockingCards   = false;
     public boolean choosingTarget = false;
-    public Field   targetField    = null;
+    public Field targetField      = null;
 
     /**
      * Parent window
      */
     protected MainWindow parentWindow;
-    protected Playable   game;
+    protected Playable game;
 
     /**
      * Create the panel
+     *
+     * @param parentWindow Parent window reference
      */
     public RoundPanel(MainWindow parentWindow) {
         this.parentWindow = parentWindow;
-        this.game = parentWindow.getGame();
+        this.game         = parentWindow.getGame();
 
         this.actualSeason.setText(this.actualSeason.getText() + this.game.getActualSeason().toString());
 
         // Check for IA turn info. See MainWindow.iaMessage for more info
-        if (this.parentWindow.getIAMessage() != "") {
+        if (!"".equals(this.parentWindow.getIAMessage())) {
             JOptionPane.showMessageDialog(this.parentWindow, this.parentWindow.getIAMessage(), "Ordinateur",
-                    JOptionPane.INFORMATION_MESSAGE);
+                                          JOptionPane.INFORMATION_MESSAGE);
             this.parentWindow.addIAMessage("empty");
         }
 
         // Check for victory
         if (!this.game.isRunning()) {
-            Vector<Player> scores = new Vector<Player>(this.game.getPlayers());
+            ArrayList<Player> scores = new ArrayList<>(this.game.getPlayers());
             Collections.sort(scores);
             Collections.reverse(scores);
 
@@ -98,11 +100,11 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
                 core.Field field = scores.get(i).getField();
 
                 message += "    Joueur " + (i + 1) + ". Champ: " + field.getBigRockSum() + " menhirs; "
-                        + field.getSmallRockSum() + " graines;" + System.lineSeparator();
+                           + field.getSmallRockSum() + " graines;" + System.lineSeparator();
             }
 
             JOptionPane.showMessageDialog(this.parentWindow, message, "Partie terminée",
-                    JOptionPane.INFORMATION_MESSAGE);
+                                          JOptionPane.INFORMATION_MESSAGE);
 
             // Start again
             this.parentWindow.dispose();
@@ -113,7 +115,7 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 
         // Clone, else removing the actual player would change the vector
         @SuppressWarnings("unchecked")
-        Vector<Player> players = (Vector<Player>) this.game.getPlayers().clone();
+        ArrayList<Player> players = (ArrayList<Player>) this.game.getPlayers().clone();
         players.remove(this.game.getCurrentPlayer());
 
         this.actualPlayer.setText("Joueur actuel : " + String.valueOf(this.game.getCurrentPlayer().getNumber()));
@@ -137,13 +139,13 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
             System.out.print(iaCardType.toString() + " ");
             System.out.print(iaCardType.ordinal());
             System.out.println("throws");
-            core.Card iaCard = core.Card.getCard(iaCardType);
+            core.Card iaCard    = core.Card.getCard(iaCardType);
             ActionType iaAction = ia.getAction();
-            Player iaTarget = ia.getTarget();
+            Player iaTarget     = ia.getTarget();
 
-            int strength = iaCard.getValue(iaAction, this.game.getActualSeason());
+            int strength   = iaCard.getValue(iaAction, this.game.getActualSeason());
             String message = "Joueur " + String.valueOf(ia.getNumber() + 1);
-            message += " joue " + iaAction.toString() + " (" + String.valueOf(strength) + ")";
+            message       += " joue " + iaAction.toString() + " (" + String.valueOf(strength) + ")";
 
             if (iaTarget != null) {
                 message += " contre Joueur " + String.valueOf(iaTarget.getNumber() + 1);
@@ -153,20 +155,17 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 
             this.game.nextTurn(iaCard, iaAction, iaTarget);
 
-            javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    RoundPanel.this.goNextTurn();
-                }
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                RoundPanel.this.goNextTurn();
             });
 
             return;
         }
 
         int startX = 10;
-        int stepX = 100;
+        int stepX  = 100;
         for (int i = 0; i < players.size(); i++) {
-            String playerN = String.valueOf(players.get(i).getNumber() + 1);
+            String playerN    = String.valueOf(players.get(i).getNumber() + 1);
             Field playerField = new Field(this, players.get(i), "Joueur " + playerN);
             this.addAbsolute(playerField, startX + (i * stepX), 260);
         }
@@ -191,6 +190,8 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 
     /**
      * Choose a card
+     *
+     * @param e The clck event
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -199,28 +200,28 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
 
         Card selectedCard = null;
 
-        core.Card selectedCoreCard = null;
+        core.Card selectedCoreCard;
         Player target = null;
-        ActionType action = null;
+        ActionType action;
 
-        for (int i = 0; i < this.cards.size(); i++) {
-            if (this.cards.get(i).isSelected()) {
-                selectedCard = this.cards.get(i);
+        for (Card card : this.cards) {
+            if (card.isSelected()) {
+                selectedCard = card;
             }
         }
 
         if (selectedCard == null) {
             JOptionPane.showMessageDialog(this.parentWindow, "Veuillez choisir une carte", "Attention",
-                    JOptionPane.WARNING_MESSAGE);
+                                          JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         selectedCoreCard = selectedCard.getCard();
-        action = selectedCard.getActionType();
+        action           = selectedCard.getActionType();
 
         if ((action == ActionType.HOBGOBLIN) && (this.targetField == null)) {
             JOptionPane.showMessageDialog(this.parentWindow, "Veuillez choisir un adversaire", "Attention",
-                    JOptionPane.WARNING_MESSAGE);
+                                          JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -283,9 +284,9 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
      */
     @Override
     public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
+        Graphics2D g2     = (Graphics2D) g;
         RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                                               RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.setRenderingHints(rh);
 
         g2.setColor(Color.black);

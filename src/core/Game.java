@@ -2,16 +2,16 @@ package core;
 
 
 import java.util.Random;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Game implements Playable {
-    private boolean       running      = false;
-    private Vector<Round> rounds       = null;
-    private Round         currentRound = null;
-    private int           roundNumber  = 0;
+    private boolean running         = false;
+    private ArrayList<Round> rounds = null;
+    private Round currentRound      = null;
+    private int roundNumber         = 0;
 
     public Game(int playerNumber, int iaNumber) throws Exception {
-        this.rounds = new Vector<Round>();
+        this.rounds      = new ArrayList<>();
         this.roundNumber = playerNumber;
 
         this.rounds.add(new Round(playerNumber, iaNumber));
@@ -20,7 +20,7 @@ public class Game implements Playable {
 
         for (int i = 1; i < playerNumber; i++) {
             try {
-                this.rounds.add(new Round(this.getPlayers(), i));
+                this.rounds.add(new Round(Game.this.getPlayers(), i));
             } catch (Exception e) {
                 throw e;
             }
@@ -64,7 +64,7 @@ public class Game implements Playable {
     }
 
     @Override
-    public Vector<Player> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return this.currentRound.getPlayers();
     }
 

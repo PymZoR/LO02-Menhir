@@ -3,7 +3,6 @@ package gui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,17 +23,17 @@ public class InitPanel extends JPanel {
     /**
      * Combo-box choices
      */
-    private String[] playerChoices = { "2 joueurs", "3 joueurs", "4 joueurs", "5 joueurs", "6 joueurs" };
-    private String[] iaChoices     = { "0 ordinateur", "1 ordinateur" };
+    private final String[] playerChoices = {"2 joueurs", "3 joueurs", "4 joueurs", "5 joueurs", "6 joueurs"};
+    private final String[] iaChoices     = {"0 ordinateur", "1 ordinateur"};
 
     /**
      * Panel components
      */
-    private JLabel            numberOfPlayersLabel = new JLabel("Nombre de joueurs :");
-    private JLabel            numberOfIAsLabel     = new JLabel("Nombre d'ordinateurs :");
-    private JComboBox<String> numberOfPlayers      = new JComboBox<String>(this.playerChoices);
-    private JComboBox<String> numberOfIAs          = new JComboBox<String>(this.iaChoices);
-    private JToggleButton     rapidGameButton      = new JToggleButton("Partie rapide");
+    private final JLabel numberOfPlayersLabel = new JLabel("Nombre de joueurs :");
+    private final JLabel numberOfIAsLabel     = new JLabel("Nombre d'ordinateurs :");
+    private JComboBox<String> numberOfPlayers = new JComboBox<>(this.playerChoices);
+    private JComboBox<String> numberOfIAs     = new JComboBox<>(this.iaChoices);
+    private JToggleButton rapidGameButton     = new JToggleButton("Partie rapide");
 
     /**
      * Parent window
@@ -43,6 +42,7 @@ public class InitPanel extends JPanel {
 
     /**
      * Create the panel
+     * @param parent Parent window reference
      */
     public InitPanel(MainWindow parent) {
         this.parentWindow = parent;
@@ -57,52 +57,46 @@ public class InitPanel extends JPanel {
         this.add(this.rapidGameButton);
 
         // On number of players choice => update number of computer choices
-        this.numberOfPlayers.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InitPanel.this.numberOfIAs.removeAllItems();
-
-                int players = InitPanel.this.numberOfPlayers.getSelectedIndex() + 2;
-                for (int i = 1; i < players; i++) {
-                    if (i == 1) {
-                        InitPanel.this.numberOfIAs.addItem(Integer.toString(i) + " ordinateur");
-                    } else {
-                        InitPanel.this.numberOfIAs.addItem(Integer.toString(i) + " ordinateurs");
-                    }
+        this.numberOfPlayers.addActionListener((ActionEvent e) -> {
+            InitPanel.this.numberOfIAs.removeAllItems();
+            
+            int players = InitPanel.this.numberOfPlayers.getSelectedIndex() + 2;
+            for (int i = 1; i < players; i++) {
+                if (i == 1) {
+                    InitPanel.this.numberOfIAs.addItem(Integer.toString(i) + " ordinateur");
+                } else {
+                    InitPanel.this.numberOfIAs.addItem(Integer.toString(i) + " ordinateurs");
                 }
             }
         });
 
         // On game start
         JButton validateButton = new JButton("Valider");
-        validateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int players = InitPanel.this.numberOfPlayers.getSelectedIndex() + 2;
-                int iaPlayers = InitPanel.this.numberOfIAs.getSelectedIndex();
-                boolean rapidGame = InitPanel.this.rapidGameButton.isSelected();
-
-                try {
-                    Playable game = null;
-
-                    if (rapidGame) {
-                        game = new Round(players, iaPlayers);
-
-                        game.start();
-                        InitPanel.this.parentWindow.setGame(game);
-
-                        InitPanel.this.parentWindow.switchPanel("RoundPanel", 710, 450);
-                    } else {
-                        game = new Game(players, iaPlayers);
-
-                        game.start();
-                        InitPanel.this.parentWindow.setGame(game);
-
-                        InitPanel.this.parentWindow.switchPanel("GamePanel", 710, 450);
-                    }
-                } catch (Exception err) {
-                    err.printStackTrace();
+        validateButton.addActionListener((ActionEvent e) -> {
+            int players       = InitPanel.this.numberOfPlayers.getSelectedIndex() + 2;
+            int iaPlayers     = InitPanel.this.numberOfIAs.getSelectedIndex();
+            boolean rapidGame = InitPanel.this.rapidGameButton.isSelected();
+            
+            try {
+                Playable game;
+                
+                if (rapidGame) {
+                    game = new Round(players, iaPlayers);
+                    
+                    game.start();
+                    InitPanel.this.parentWindow.setGame(game);
+                    
+                    InitPanel.this.parentWindow.switchPanel("RoundPanel", 710, 450);
+                } else {
+                    game = new Game(players, iaPlayers);
+                    
+                    game.start();
+                    InitPanel.this.parentWindow.setGame(game);
+                    
+                    InitPanel.this.parentWindow.switchPanel("GamePanel", 710, 450);
                 }
+            } catch (Exception err) {
+                err.printStackTrace();
             }
         });
         this.add(validateButton);

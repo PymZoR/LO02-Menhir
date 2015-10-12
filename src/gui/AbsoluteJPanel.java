@@ -27,16 +27,13 @@ abstract class AbsoluteJPanel extends JPanel {
 
     /**
      * Add an absolute component to the panel
-     * 
-     * @param c
-     *            The component
-     * @param x
-     *            X coordinate
-     * @param y
-     *            Y coordinate
+     *
+     * @param c The component
+     * @param x X coordinate
+     * @param y Y coordinate
      */
     protected void addAbsolute(Component c, int x, int y) {
-        Insets i = this.getInsets();
+        Insets i       = this.getInsets();
         Dimension size = c.getPreferredSize();
 
         this.add(c);

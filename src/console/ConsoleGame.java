@@ -2,7 +2,7 @@ package console;
 
 
 import java.util.Collections;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import core.ActionType;
 import core.AlliedCard;
@@ -49,7 +49,7 @@ public class ConsoleGame {
      */
     static private int getIntInput() {
         int input = 0;
-        Exception error = null;
+        Exception error;
 
         do {
             try {
@@ -68,11 +68,10 @@ public class ConsoleGame {
     /**
      * Prints every player in their rank order
      *
-     * @param game
-     *            The game to gather players
+     * @param game The game to gather players
      */
     static private void printRankings(Playable game) {
-        Vector<Player> scores = new Vector<Player>(game.getPlayers());
+        ArrayList<Player> scores = new ArrayList<>(game.getPlayers());
         Collections.sort(scores);
         Collections.reverse(scores);
 
@@ -80,20 +79,20 @@ public class ConsoleGame {
         for (int i = 0; i < game.getPlayerNumber(); i++) {
             Field field = scores.get(i).getField();
             System.out.println("    Player " + (i + 1) + ". Field: " + field.getBigRockSum() + " menhirs; "
-                    + field.getSmallRockSum() + " seeds.");
+                               + field.getSmallRockSum() + " seeds.");
         }
     }
 
-    private Playable       game              = null;
-    private GameType       gameType          = null;
-    private int            playerNumber      = 0;
-    private int            iaNumber          = -1;
-    private String         currentSeasonName = "";
-    private Player         currentPlayer     = null;
-    private Player         targetPlayer      = null;
-    private IAPlayer       ia                = null;
-    private Vector<Player> otherPlayers      = null;
-    private Round          currentRound      = null;
+    private Playable game                  = null;
+    private GameType gameType              = null;
+    private int playerNumber               = 0;
+    private int iaNumber                   = -1;
+    private String currentSeasonName       = "";
+    private Player currentPlayer           = null;
+    private Player targetPlayer            = null;
+    private IAPlayer ia                    = null;
+    private ArrayList<Player> otherPlayers = null;
+    private Round currentRound             = null;
 
     private int previousRoundNumber = 0;
 
@@ -122,12 +121,12 @@ public class ConsoleGame {
         do {
             ConsoleGame.clearConsole();
             this.currentSeasonName = this.game.getActualSeason().toString();
-            this.currentPlayer = this.game.getCurrentPlayer();
-            this.targetPlayer = null;
-            this.card = null;
-            this.ia = this.currentPlayer.ia();
-            this.otherPlayers = (Vector<Player>) this.game.getPlayers().clone();
-            this.otherPlayers.removeElement(this.currentPlayer);
+            this.currentPlayer     = this.game.getCurrentPlayer();
+            this.targetPlayer      = null;
+            this.card              = null;
+            this.ia                = this.currentPlayer.ia();
+            this.otherPlayers      = (ArrayList<Player>) this.game.getPlayers().clone();
+            this.otherPlayers.remove(this.currentPlayer);
 
             if (this.gameType == GameType.GAME) {
                 this.printGameState();
@@ -165,7 +164,7 @@ public class ConsoleGame {
 
         System.out.println(System.lineSeparator() + "Choose an action Number(1 for Giant...):");
 
-        int actionId = 0;
+        int actionId    = 0;
         int maxActionId = ActionType.values().length;
         do {
             actionId = ConsoleGame.getIntInput();
@@ -190,10 +189,9 @@ public class ConsoleGame {
      * @param player
      */
     private void chooseAlliedCards() {
-        int choice = 0;
+        int choice;
 
         for (int i = 0; i < this.playerNumber; i++) {
-            choice = 0;
             System.out.println("Player " + (i + 1) + ", choose either seeds or allied card (1, 2): ");
 
             do {
@@ -218,15 +216,15 @@ public class ConsoleGame {
      */
     private void chooseCard() {
         System.out.println(System.lineSeparator() + "Choose a card number:");
-        int cardId = 0;
-        int maxCardNumber = this.currentPlayer.getCards().size();
+        int cardId;
+        int maxCardNumber  = this.currentPlayer.getCards().size();
         int maxACardNumber = this.currentPlayer.getAlliedCards().size();
 
         do {
             cardId = ConsoleGame.getIntInput();
 
             if (((cardId < 1) || (cardId > maxCardNumber))
-                    && ((cardId < maxCardNumber) || (cardId > (maxCardNumber + maxACardNumber)))) {
+                && ((cardId < maxCardNumber) || (cardId > (maxCardNumber + maxACardNumber)))) {
                 System.out.println("Card number incorrect");
             } else {
                 if (cardId <= maxCardNumber) {
@@ -234,7 +232,7 @@ public class ConsoleGame {
                 } else {
                     this.card = this.currentPlayer.getAlliedCardById(cardId - 1 - maxCardNumber);
                 }
-                if (this.card.getType().toString().indexOf("DOG") != -1) {
+                if (this.card.getType().toString().contains("DOG")) {
                     System.out.println("You must wait for a hobgoblin attack");
                     this.card = null;
                 }
@@ -247,15 +245,15 @@ public class ConsoleGame {
      */
     private void chooseGameType() {
         System.out.println("Type 1 for a simple game, 2 for enhanced: ");
-        int gameType = 0;
+        int chosenGameType;
 
         do {
-            gameType = ConsoleGame.getIntInput();
+            chosenGameType = ConsoleGame.getIntInput();
 
-            if ((gameType < 1) || (gameType > 2)) {
+            if ((chosenGameType < 1) || (chosenGameType > 2)) {
                 System.out.println("Choice must be either 1 or 2");
             } else {
-                this.gameType = (gameType == 1) ? GameType.ROUND : GameType.GAME;
+                this.gameType = (chosenGameType == 1) ? GameType.ROUND : GameType.GAME;
             }
         } while (this.gameType == null);
     }
@@ -265,15 +263,15 @@ public class ConsoleGame {
      */
     private void chooseIANumber() {
         System.out.println("Choose the IA number: ");
-        int iaNumber = 0;
+        int chosenIANumber;
 
         do {
-            iaNumber = ConsoleGame.getIntInput();
+            chosenIANumber = ConsoleGame.getIntInput();
 
-            if ((iaNumber < 0) || (iaNumber > 5)) {
+            if ((chosenIANumber < 0) || (chosenIANumber > 5)) {
                 System.out.println("IA number must be between 0 and 5 included");
             } else {
-                this.iaNumber = iaNumber;
+                this.iaNumber = chosenIANumber;
             }
         } while (this.iaNumber == -1);
     }
@@ -283,23 +281,23 @@ public class ConsoleGame {
      */
     private void choosePlayerNumber() {
         System.out.println("Choose the player number: ");
-        int playerNumber = 0;
+        int chosenPlayerNumber;
 
         do {
-            playerNumber = ConsoleGame.getIntInput();
+            chosenPlayerNumber = ConsoleGame.getIntInput();
 
-            if ((playerNumber == 1) && (this.iaNumber == 0)) {
+            if ((chosenPlayerNumber == 1) && (this.iaNumber == 0)) {
                 System.out.println("You can't play alone !");
                 continue;
             }
             try {
                 if (this.gameType == GameType.ROUND) {
-                    this.game = new Round(playerNumber, this.iaNumber);
+                    this.game = new Round(chosenPlayerNumber, this.iaNumber);
                 } else if (this.gameType == GameType.GAME) {
-                    this.game = new Game(playerNumber, this.iaNumber);
+                    this.game = new Game(chosenPlayerNumber, this.iaNumber);
                 }
 
-                this.playerNumber = playerNumber;
+                this.playerNumber = chosenPlayerNumber;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -331,8 +329,8 @@ public class ConsoleGame {
      */
     private void makeIAChoice() {
         this.ia.makeChoice();
-        this.card = Card.getCard(this.ia.getCard()); // TODO: refactor
-        this.action = this.ia.getAction();
+        this.card         = Card.getCard(this.ia.getCard()); // TODO: refactor
+        this.action       = this.ia.getAction();
         this.targetPlayer = this.ia.getTarget();
     }
 
@@ -389,8 +387,8 @@ public class ConsoleGame {
      */
     private void printGameState() {
         this.previousRoundNumber = (this.currentRound == null) ? 0 : this.currentRound.getNumber();
-        this.currentRound = (((Game) this.game).getCurrentRound());
-        int currentRoundNumber = this.currentRound.getNumber();
+        this.currentRound        = (((Game) this.game).getCurrentRound());
+        int currentRoundNumber   = this.currentRound.getNumber();
 
         if (currentRoundNumber != this.previousRoundNumber) {
             System.out.println(System.lineSeparator() + "Round is finished");
@@ -408,8 +406,8 @@ public class ConsoleGame {
         System.out.println("Actual player : " + this.currentPlayer);
 
         System.out.println(System.lineSeparator() + "Other players :");
-        for (int i = 0; i < this.otherPlayers.size(); i++) {
-            System.out.println(this.otherPlayers.get(i));
+        for (Player otherPlayer : this.otherPlayers) {
+            System.out.println(otherPlayer);
         }
         System.out.println();
     }

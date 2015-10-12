@@ -2,7 +2,7 @@ package core;
 
 
 import java.util.Random;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Represent a player (alive or not)
@@ -11,9 +11,9 @@ public class Player implements Comparable<Player> {
     /**
      * Player cards and field
      */
-    protected Vector<Card>       cards;
-    protected Vector<AlliedCard> alliedCards;
-    protected Field              field;
+    protected ArrayList<Card> cards;
+    protected ArrayList<AlliedCard> alliedCards;
+    protected Field field;
 
     /**
      * Player index
@@ -32,22 +32,22 @@ public class Player implements Comparable<Player> {
 
     /**
      * Create a new player
-     * 
-     * @param game
-     *            Playable reference
-     * @param number
-     *            Player index
+     *
+     * @param game   Playable reference
+     * @param number Player index
      */
     public Player(Playable game, int number) {
-        this.cards = new Vector<Card>();
-        this.alliedCards = new Vector<AlliedCard>();
-        this.field = new Field();
-        this.number = number;
-        this.game = game;
+        this.cards       = new ArrayList<Card>();
+        this.alliedCards = new ArrayList<AlliedCard>();
+        this.field       = new Field();
+        this.number      = number;
+        this.game        = game;
     }
 
     /**
      * Compare two player's scores by their fields
+     *
+     * @param comparePlayer The player to compare with
      */
     @Override
     public int compareTo(Player comparePlayer) {
@@ -72,9 +72,6 @@ public class Player implements Comparable<Player> {
 
     /**
      * Make the player get random cards
-     * 
-     * @param cardNumber
-     *            Amount of cards to get
      */
     protected void drawCards() {
         for (int i = 0; i < Round.CARDS_IN_HAND; i++) {
@@ -96,18 +93,17 @@ public class Player implements Comparable<Player> {
 
     /**
      * The the player allied cards (taupe or dogs)
-     * 
+     *
      * @return The player allied cards
      */
-    public Vector<AlliedCard> getAlliedCards() {
+    public ArrayList<AlliedCard> getAlliedCards() {
         return this.alliedCards;
     }
 
     /**
      * Get one card given the index
-     * 
-     * @param cardId
-     *            The card index
+     *
+     * @param cardId The card index
      * @return The card
      */
     public Card getCardById(int cardId) {
@@ -116,16 +112,16 @@ public class Player implements Comparable<Player> {
 
     /**
      * Get the player cards
-     * 
+     *
      * @return The player cards
      */
-    public Vector<Card> getCards() {
+    public ArrayList<Card> getCards() {
         return this.cards;
     }
 
     /**
      * Get the player field
-     * 
+     *
      * @return The player field
      */
     public Field getField() {
@@ -134,7 +130,7 @@ public class Player implements Comparable<Player> {
 
     /**
      * Get the ref game
-     * 
+     *
      * @return The ref game
      */
     public Playable getGame() {
@@ -143,7 +139,7 @@ public class Player implements Comparable<Player> {
 
     /**
      * Get the player index
-     * 
+     *
      * @return The player index
      */
     public int getNumber() {
@@ -152,7 +148,7 @@ public class Player implements Comparable<Player> {
 
     /**
      * Get the IA player behind this player
-     * 
+     *
      * @return The IA player or null
      */
     public IAPlayer ia() {
@@ -165,13 +161,10 @@ public class Player implements Comparable<Player> {
 
     /**
      * Play a card
-     * 
-     * @param card
-     *            The card to play
-     * @param action
-     *            The action to play
-     * @param target
-     *            The optional target
+     *
+     * @param card   The card to play
+     * @param action The action to play
+     * @param target The optional target
      */
     public void playCard(Card card, ActionType action, Player target) {
         int actionValue = card.getValue(action, this.game.getActualSeason());
@@ -199,7 +192,7 @@ public class Player implements Comparable<Player> {
         }
 
         if (card instanceof AlliedCard) {
-            this.alliedCards.remove(card);
+            this.alliedCards.remove((AlliedCard) card);
         } else {
             this.cards.remove(card);
         }

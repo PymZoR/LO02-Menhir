@@ -1,7 +1,7 @@
 package core;
 
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Base Strategy class
@@ -17,7 +17,7 @@ abstract class Strategy {
     /**
      * All the players
      */
-    Vector<Player> allPlayers;
+    ArrayList<Player> allPlayers;
 
     /**
      * Chosen player to attack
@@ -28,25 +28,23 @@ abstract class Strategy {
      * Strategy choices
      */
     ActionType action;
-    CardType   card;
-    CardType   alliedCard;
+    CardType card;
+    CardType alliedCard;
 
     /**
      * Create a new strategy for a given player
-     * 
-     * @param self
-     *            The actual player
-     * @param allPlayers
-     *            All the players
+     *
+     * @param self The actual player
+     * @param allPlayers All the players
      */
-    public Strategy(Player self, Vector<Player> allPlayers) {
-        this.self = self;
+    public Strategy(Player self, ArrayList<Player> allPlayers) {
+        this.self       = self;
         this.allPlayers = allPlayers;
     }
 
     /**
      * Get the chosen action
-     * 
+     *
      * @return The action
      */
     public ActionType getAction() {
@@ -55,7 +53,7 @@ abstract class Strategy {
 
     /**
      * Get the optional played allied card
-     * 
+     *
      * @return The allied card
      */
     public CardType getAlliedCard() {
@@ -64,7 +62,7 @@ abstract class Strategy {
 
     /**
      * Get the chosen card
-     * 
+     *
      * @return The card id
      */
     public CardType getCard() {
@@ -73,7 +71,7 @@ abstract class Strategy {
 
     /**
      * Get the optional target
-     * 
+     *
      * @return The target
      */
     public Player getTarget() {

@@ -1,7 +1,7 @@
 package core;
 
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import helpers.StringUtils;
 
@@ -17,13 +17,12 @@ public class AlliedCard extends Card {
     /**
      * Allied cards are unique
      */
-    static public Vector<AlliedCard> cardList = null;
+    static public ArrayList<AlliedCard> cardList = null;
 
     /**
      * Get an allied card by its identifier
      *
-     * @param identifier
-     *            The identifier
+     * @param identifier The identifier
      * @return The card
      */
     static public AlliedCard getCard(CardType identifier) {
@@ -38,21 +37,21 @@ public class AlliedCard extends Card {
      * Create all the allied cards
      */
     static private void init() {
-        AlliedCard.cardList = new Vector<AlliedCard>();
+        AlliedCard.cardList = new ArrayList<>();
 
-        int[] taupe1Values = { 1, 1, 1, 1 };
-        int[] taupe2Values = { 0, 2, 2, 0 };
-        int[] taupe3Values = { 0, 1, 2, 1 };
-        int[] dog1Values = { 2, 0, 2, 0 };
-        int[] dog2Values = { 1, 2, 0, 1 };
-        int[] dog3Values = { 0, 1, 3, 0 };
+        int[] taupe1Values = {1, 1, 1, 1};
+        int[] taupe2Values = {0, 2, 2, 0};
+        int[] taupe3Values = {0, 1, 2, 1};
+        int[] dog1Values   = {2, 0, 2, 0};
+        int[] dog2Values   = {1, 2, 0, 1};
+        int[] dog3Values   = {0, 1, 3, 0};
 
         AlliedCard.cardList.add(CardType.TAUPE1.ordinal() - Card.CARD_NUMBER,
-                new AlliedCard(taupe1Values, CardType.TAUPE1));
+                                new AlliedCard(taupe1Values, CardType.TAUPE1));
         AlliedCard.cardList.add(CardType.TAUPE2.ordinal() - Card.CARD_NUMBER,
-                new AlliedCard(taupe2Values, CardType.TAUPE2));
+                                new AlliedCard(taupe2Values, CardType.TAUPE2));
         AlliedCard.cardList.add(CardType.TAUPE3.ordinal() - Card.CARD_NUMBER,
-                new AlliedCard(taupe3Values, CardType.TAUPE3));
+                                new AlliedCard(taupe3Values, CardType.TAUPE3));
         AlliedCard.cardList.add(CardType.DOG1.ordinal() - Card.CARD_NUMBER, new AlliedCard(dog1Values, CardType.DOG1));
         AlliedCard.cardList.add(CardType.DOG2.ordinal() - Card.CARD_NUMBER, new AlliedCard(dog2Values, CardType.DOG2));
         AlliedCard.cardList.add(CardType.DOG3.ordinal() - Card.CARD_NUMBER, new AlliedCard(dog3Values, CardType.DOG3));
@@ -61,21 +60,19 @@ public class AlliedCard extends Card {
     /**
      * Card type
      */
-    private CardType type;
+    private final CardType type;
 
     /**
      * Create an allied card
      *
-     * @param values
-     *            The allied card values
-     * @param type
-     *            The card type
+     * @param values The allied card values
+     * @param type   The card type
      */
     private AlliedCard(int[] values, CardType type) {
         super(null, null);
-        this.valueMatrix = new int[1][4];
+        this.valueMatrix    = new int[1][4];
         this.valueMatrix[0] = values;
-        this.type = type;
+        this.type           = type;
     }
 
     /**
@@ -90,6 +87,8 @@ public class AlliedCard extends Card {
 
     /**
      * Get value to current season
+     *
+     * @return value
      */
     @Override
     public int getValue(ActionType action, SeasonType season) {
@@ -99,19 +98,18 @@ public class AlliedCard extends Card {
     /**
      * Render a card
      *
-     * @param cardN
-     *            The card index
+     * @param cardN The card index
      * @return A string representation
      */
     @Override
     public String toASCII(int cardN) {
         String result = "--------------" + System.lineSeparator();
-        result += "| Card  .    |" + System.lineSeparator();
-        result += "|------------|" + System.lineSeparator();
-        result += "|   s S F W  |" + System.lineSeparator();
-        result += "|   . . . .  |" + System.lineSeparator();
-        result += "|            |" + System.lineSeparator();
-        if (this.getType().toString().indexOf("TAUPE") != -1) {
+        result       += "| Card  .    |" + System.lineSeparator();
+        result       += "|------------|" + System.lineSeparator();
+        result       += "|   s S F W  |" + System.lineSeparator();
+        result       += "|   . . . .  |" + System.lineSeparator();
+        result       += "|            |" + System.lineSeparator();
+        if (this.getType().toString().contains("TAUPE")) {
             result += "|    TAUPE   |" + System.lineSeparator();
         } else {
             result += "|     DOG    |" + System.lineSeparator();

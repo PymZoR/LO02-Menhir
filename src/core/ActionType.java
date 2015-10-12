@@ -15,8 +15,7 @@ public enum ActionType {
     /**
      * Store the real action name
      *
-     * @param s
-     *            The real action name
+     * @param s The real action name
      */
     private ActionType(String s) {
         this.name = s;
@@ -25,8 +24,7 @@ public enum ActionType {
     /**
      * Check for equality between two actions
      *
-     * @param otherName
-     *            The other action name
+     * @param otherName The other action name
      * @return True if equals
      */
     public boolean equalsName(String otherName) {

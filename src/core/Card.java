@@ -1,7 +1,7 @@
 package core;
 
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import helpers.StringUtils;
 
@@ -17,13 +17,12 @@ public class Card {
     /**
      * Cards are singletons
      */
-    static public Vector<Card> cardList;
+    static public ArrayList<Card> cardList;
 
     /**
      * Get a card by its identifier
      *
-     * @param identifier
-     *            The identifier
+     * @param identifier The identifier
      * @return The card
      */
     static public Card getCard(CardType identifier) {
@@ -48,32 +47,32 @@ public class Card {
      * Create all the cards
      */
     static private void init() {
-        Card.cardList = new Vector<Card>();
+        Card.cardList = new ArrayList<>();
 
-        int[][] moon1Values = { { 1, 1, 1, 1 }, { 2, 0, 1, 1 }, { 2, 0, 2, 0 } };
-        int[][] moon2Values = { { 2, 0, 1, 1 }, { 1, 3, 0, 0 }, { 0, 1, 2, 1 } };
-        int[][] moon3Values = { { 0, 0, 4, 0 }, { 0, 2, 2, 0 }, { 0, 0, 1, 3 } };
-        int[][] mermaid1Values = { { 1, 3, 1, 0 }, { 1, 2, 1, 1 }, { 1, 0, 4, 0 } };
-        int[][] mermaid2Values = { { 2, 1, 1, 1 }, { 1, 0, 2, 2 }, { 3, 0, 0, 2 } };
-        int[][] mermaid3Values = { { 1, 2, 2, 0 }, { 1, 1, 2, 1 }, { 2, 0, 1, 2 } };
-        int[][] dryad1Values = { { 2, 1, 1, 2 }, { 1, 1, 1, 3 }, { 2, 0, 2, 2 } };
-        int[][] dryad2Values = { { 0, 3, 0, 3 }, { 2, 1, 3, 0 }, { 1, 1, 3, 1 } };
-        int[][] dryad3Values = { { 1, 2, 1, 2 }, { 1, 0, 1, 4 }, { 2, 4, 0, 0 } };
-        int[][] foutain1Values = { { 1, 3, 1, 2 }, { 2, 1, 2, 2 }, { 0, 0, 3, 4 } };
-        int[][] foutain2Values = { { 2, 2, 0, 3 }, { 1, 1, 4, 1 }, { 1, 2, 1, 3 } };
-        int[][] foutain3Values = { { 2, 2, 3, 1 }, { 2, 3, 0, 3 }, { 1, 1, 3, 3 } };
-        int[][] gold1Values = { { 2, 2, 3, 1 }, { 2, 3, 0, 3 }, { 1, 1, 3, 3 } };
-        int[][] gold2Values = { { 2, 2, 2, 2 }, { 0, 4, 4, 0 }, { 1, 3, 2, 2 } };
-        int[][] gold3Values = { { 3, 1, 3, 1 }, { 1, 4, 2, 1 }, { 2, 4, 1, 1 } };
-        int[][] rainbow1Values = { { 4, 1, 1, 1 }, { 1, 2, 1, 3 }, { 1, 2, 2, 2 } };
-        int[][] rainbow2Values = { { 2, 3, 2, 0 }, { 0, 4, 3, 0 }, { 2, 1, 1, 3 } };
-        int[][] rainbow3Values = { { 2, 2, 3, 0 }, { 1, 1, 1, 4 }, { 2, 0, 3, 2 } };
-        int[][] dolmen1Values = { { 3, 1, 4, 1 }, { 2, 1, 3, 3 }, { 2, 3, 2, 2 } };
-        int[][] dolmen2Values = { { 2, 4, 1, 2 }, { 2, 2, 2, 3 }, { 1, 4, 3, 1 } };
-        int[][] dolmen3Values = { { 3, 3, 3, 0 }, { 1, 3, 3, 2 }, { 2, 3, 1, 3 } };
-        int[][] fairy1Values = { { 1, 2, 2, 1 }, { 1, 2, 3, 0 }, { 0, 2, 2, 2 } };
-        int[][] fairy2Values = { { 4, 0, 1, 1 }, { 1, 1, 3, 1 }, { 0, 0, 3, 3 } };
-        int[][] fairy3Values = { { 2, 0, 3, 1 }, { 0, 3, 0, 3 }, { 1, 2, 2, 1 } };
+        int[][] moon1Values    = {{1, 1, 1, 1}, {2, 0, 1, 1}, {2, 0, 2, 0}};
+        int[][] moon2Values    = {{2, 0, 1, 1}, {1, 3, 0, 0}, {0, 1, 2, 1}};
+        int[][] moon3Values    = {{0, 0, 4, 0}, {0, 2, 2, 0}, {0, 0, 1, 3}};
+        int[][] mermaid1Values = {{1, 3, 1, 0}, {1, 2, 1, 1}, {1, 0, 4, 0}};
+        int[][] mermaid2Values = {{2, 1, 1, 1}, {1, 0, 2, 2}, {3, 0, 0, 2}};
+        int[][] mermaid3Values = {{1, 2, 2, 0}, {1, 1, 2, 1}, {2, 0, 1, 2}};
+        int[][] dryad1Values   = {{2, 1, 1, 2}, {1, 1, 1, 3}, {2, 0, 2, 2}};
+        int[][] dryad2Values   = {{0, 3, 0, 3}, {2, 1, 3, 0}, {1, 1, 3, 1}};
+        int[][] dryad3Values   = {{1, 2, 1, 2}, {1, 0, 1, 4}, {2, 4, 0, 0}};
+        int[][] foutain1Values = {{1, 3, 1, 2}, {2, 1, 2, 2}, {0, 0, 3, 4}};
+        int[][] foutain2Values = {{2, 2, 0, 3}, {1, 1, 4, 1}, {1, 2, 1, 3}};
+        int[][] foutain3Values = {{2, 2, 3, 1}, {2, 3, 0, 3}, {1, 1, 3, 3}};
+        int[][] gold1Values    = {{2, 2, 3, 1}, {2, 3, 0, 3}, {1, 1, 3, 3}};
+        int[][] gold2Values    = {{2, 2, 2, 2}, {0, 4, 4, 0}, {1, 3, 2, 2}};
+        int[][] gold3Values    = {{3, 1, 3, 1}, {1, 4, 2, 1}, {2, 4, 1, 1}};
+        int[][] rainbow1Values = {{4, 1, 1, 1}, {1, 2, 1, 3}, {1, 2, 2, 2}};
+        int[][] rainbow2Values = {{2, 3, 2, 0}, {0, 4, 3, 0}, {2, 1, 1, 3}};
+        int[][] rainbow3Values = {{2, 2, 3, 0}, {1, 1, 1, 4}, {2, 0, 3, 2}};
+        int[][] dolmen1Values  = {{3, 1, 4, 1}, {2, 1, 3, 3}, {2, 3, 2, 2}};
+        int[][] dolmen2Values  = {{2, 4, 1, 2}, {2, 2, 2, 3}, {1, 4, 3, 1}};
+        int[][] dolmen3Values  = {{3, 3, 3, 0}, {1, 3, 3, 2}, {2, 3, 1, 3}};
+        int[][] fairy1Values   = {{1, 2, 2, 1}, {1, 2, 3, 0}, {0, 2, 2, 2}};
+        int[][] fairy2Values   = {{4, 0, 1, 1}, {1, 1, 3, 1}, {0, 0, 3, 3}};
+        int[][] fairy3Values   = {{2, 0, 3, 1}, {0, 3, 0, 3}, {1, 2, 2, 1}};
 
         Card.cardList.add(CardType.MOON1.ordinal(), new Card(moon1Values, CardType.MOON1));
         Card.cardList.add(CardType.MOON2.ordinal(), new Card(moon2Values, CardType.MOON2));
@@ -122,7 +121,7 @@ public class Card {
     /**
      * Card type
      */
-    private CardType type;
+    private final CardType type;
 
     /**
      * Has the card been attributed to a player yet ?
@@ -132,14 +131,12 @@ public class Card {
     /**
      * Create a card
      *
-     * @param valueMatrix
-     *            The card values
-     * @param type
-     *            The card type
+     * @param valueMatrix The card values
+     * @param type The card type
      */
     protected Card(int[][] valueMatrix, CardType type) {
         this.valueMatrix = valueMatrix;
-        this.type = type;
+        this.type        = type;
     }
 
     /**
@@ -154,10 +151,8 @@ public class Card {
     /**
      * Get the card value
      *
-     * @param action
-     *            The action (equivalent to the row)
-     * @param season
-     *            The season (equivalent to the column)
+     * @param action The action (equivalent to the row)
+     * @param season The season (equivalent to the column)
      * @return The amount of the matrix
      */
     public int getValue(ActionType action, SeasonType season) {
@@ -185,8 +180,7 @@ public class Card {
     /**
      * Update the card attribution status
      *
-     * @param drawed
-     *            New value
+     * @param drawed New value
      */
     public void setDrawed(boolean drawed) {
         this.drawed = drawed;
@@ -195,19 +189,18 @@ public class Card {
     /**
      * Render a card
      *
-     * @param cardN
-     *            The card index
+     * @param cardN The card index
      * @return A string representation
      */
     public String toASCII(int cardN) {
         String result = "--------------" + System.lineSeparator();
-        result += "| Card  .    |" + System.lineSeparator();
-        result += "|------------|" + System.lineSeparator();
-        result += "|   s S F W  |" + System.lineSeparator();
-        result += "| G . . . .  |" + System.lineSeparator();
-        result += "| F . . . .  |" + System.lineSeparator();
-        result += "| H . . . .  |" + System.lineSeparator();
-        result += "|------------|" + System.lineSeparator();
+        result       += "| Card  .    |" + System.lineSeparator();
+        result       += "|------------|" + System.lineSeparator();
+        result       += "|   s S F W  |" + System.lineSeparator();
+        result       += "| G . . . .  |" + System.lineSeparator();
+        result       += "| F . . . .  |" + System.lineSeparator();
+        result       += "| H . . . .  |" + System.lineSeparator();
+        result       += "|------------|" + System.lineSeparator();
 
         result = StringUtils.replaceCharAt(result, 23, Integer.toString(cardN + 1));
         result = StringUtils.replaceCharAt(result, 64, Integer.toString(this.valueMatrix[0][0]));

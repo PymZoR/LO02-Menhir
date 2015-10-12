@@ -14,9 +14,8 @@ public enum SeasonType {
 
     /**
      * Store the real season name
-     * 
-     * @param s
-     *            The real season name
+     *
+     * @param s The real season name
      */
     private SeasonType(String s) {
         this.name = s;
@@ -24,9 +23,8 @@ public enum SeasonType {
 
     /**
      * Check for equality between two seasons
-     * 
-     * @param otherName
-     *            The other season name
+     *
+     * @param otherName The other season name
      * @return True if equals
      */
     public boolean equalsName(String otherName) {
@@ -35,7 +33,7 @@ public enum SeasonType {
 
     /**
      * Get the real season name
-     * 
+     *
      * @return The real season name
      */
     @Override

@@ -32,7 +32,7 @@ public class IAPlayer extends Player {
 
     /**
      * Get the chosen action
-     * 
+     *
      * @return The action
      */
     public ActionType getAction() {
@@ -41,7 +41,7 @@ public class IAPlayer extends Player {
 
     /**
      * Get the optional played allied card
-     * 
+     *
      * @return The allied card
      */
     public CardType getAlliedCard() {
@@ -50,7 +50,7 @@ public class IAPlayer extends Player {
 
     /**
      * Get the chosen card
-     * 
+     *
      * @return The card id
      */
     public CardType getCard() {
@@ -59,7 +59,7 @@ public class IAPlayer extends Player {
 
     /**
      * Get the optional target
-     * 
+     *
      * @return The target
      */
     public Player getTarget() {

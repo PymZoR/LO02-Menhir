@@ -26,45 +26,44 @@ public class Field extends AbsoluteJPanel implements MouseListener {
     /**
      * URLs
      */
-    private static URL rockURL       = Field.class.getResource("/images/rock.png");
-    private static URL menhirURL     = Field.class.getResource("/images/menhir.png");
-    private static URL computerURL   = Field.class.getResource("/images/computer.png");
+    private static final URL rockURL     = Field.class.getResource("/images/rock.png");
+    private static final URL menhirURL   = Field.class.getResource("/images/menhir.png");
+    private static final URL computerURL = Field.class.getResource("/images/computer.png");
     /**
      * Big and small rocks amounts
      */
-    private int        bigRockNumber = 0;
+    private int bigRockNumber = 0;
 
-    private int    smallRockNumber = 0;
-    private String playerName;
+    private int smallRockNumber = 0;
+    private final String playerName;
 
     /**
      * Parent panel reference
      */
-    private RoundPanel parentPanel;
-    private Playable   game;
+    private final RoundPanel parentPanel;
+    private final Playable game;
 
     /**
      * Player
      */
-    private Player  player;
-    private boolean isSelfPlayer;
+    private final Player player;
+    private final boolean isSelfPlayer;
 
     /**
      * Create a field
-     * 
-     * @param parentPanel
-     *            Parent reference
-     * @param playerName
-     *            Player name
+     *
+     * @param parentPanel Parent reference
+     * @param player Player reference
+     * @param playerName Player name
      */
     public Field(final RoundPanel parentPanel, Player player, String playerName) {
         super();
 
-        this.game = parentPanel.getGame();
-        this.parentPanel = parentPanel;
-        this.playerName = playerName;
-        this.player = player;
-        this.bigRockNumber = player.getField().getBigRockNumber();
+        this.game            = parentPanel.getGame();
+        this.parentPanel     = parentPanel;
+        this.playerName      = playerName;
+        this.player          = player;
+        this.bigRockNumber   = player.getField().getBigRockNumber();
         this.smallRockNumber = player.getField().getSmallRockNumber();
 
         this.isSelfPlayer = (this.game.getCurrentPlayer() == player);
@@ -72,12 +71,12 @@ public class Field extends AbsoluteJPanel implements MouseListener {
         this.setPreferredSize(new Dimension(100, 100));
 
         if ((Field.rockURL != null) && (Field.menhirURL != null) && (Field.computerURL != null)) {
-            ImageIcon rockImage = new ImageIcon(Field.rockURL);
-            ImageIcon menhirImage = new ImageIcon(Field.menhirURL);
+            ImageIcon rockImage     = new ImageIcon(Field.rockURL);
+            ImageIcon menhirImage   = new ImageIcon(Field.menhirURL);
             ImageIcon computerImage = new ImageIcon(Field.computerURL);
 
-            JLabel rock = new JLabel(String.valueOf(this.smallRockNumber), rockImage, JLabel.LEFT);
-            JLabel menhir = new JLabel(String.valueOf(this.bigRockNumber), menhirImage, JLabel.LEFT);
+            JLabel rock     = new JLabel(String.valueOf(this.smallRockNumber), rockImage, JLabel.LEFT);
+            JLabel menhir   = new JLabel(String.valueOf(this.bigRockNumber), menhirImage, JLabel.LEFT);
             JLabel computer = new JLabel(computerImage);
 
             this.addAbsolute(rock, 22, 30);
@@ -97,7 +96,7 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 
     /**
      * Get the player that owns this field
-     * 
+     *
      * @return The player
      */
     public Player getPlayer() {
@@ -106,6 +105,7 @@ public class Field extends AbsoluteJPanel implements MouseListener {
 
     /**
      * Mouse events
+     * @param e The mouse event
      */
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -139,7 +139,7 @@ public class Field extends AbsoluteJPanel implements MouseListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                                               RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.setRenderingHints(rh);
 
         // Draw background first

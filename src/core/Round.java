@@ -1,7 +1,7 @@
 package core;
 
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * The small game
@@ -15,21 +15,21 @@ public class Round implements Playable {
     public static final int INIT_SMALL_ROCK_NUMBER = 2;
 
     /**
-     * Round state (started, playing player, all players, playing player index
-     * and actual season)
+     * Round state (started, playing player, all players, playing player index and actual season)
      */
-    private boolean        running       = false;
-    private Player         currentPlayer = null;
-    private Vector<Player> players;
-    private int            playerNumber  = 0;
-    private SeasonType     actualSeason  = SeasonType.values()[0];
-    private int            number        = 0;
+    private boolean running         = false;
+    private Player currentPlayer    = null;
+    private ArrayList<Player> players;
+    private int playerNumber        = 0;
+    private SeasonType actualSeason = SeasonType.values()[0];
+    private int number              = 0;
 
     /**
      * Create a new game with given player count
-     * 
-     * @param playerNumber
-     *            The amount of players
+     *
+     * @param playerNumber The amount of players
+     * @param iaPlayers    The IA count
+     * @throws java.lang.Exception
      */
     public Round(int playerNumber, int iaPlayers) throws Exception {
         if (playerNumber < 1) {
@@ -39,10 +39,10 @@ public class Round implements Playable {
             throw new Exception("Too many players !");
         }
 
-        this.players = new Vector<Player>();
+        this.players      = new ArrayList<>();
         this.playerNumber = playerNumber;
         for (int i = 0; i < playerNumber; i++) {
-            Player newPlayer = null;
+            Player newPlayer;
             if (i >= (playerNumber - iaPlayers)) {
                 newPlayer = new IAPlayer(this, i);
             } else {
@@ -54,21 +54,19 @@ public class Round implements Playable {
 
     /**
      * Create a full game round
-     * 
-     * @param players
-     *            Existing players
-     * @param number
-     *            Round index
+     *
+     * @param players Existing players
+     * @param number  Round index
      */
-    public Round(Vector<Player> players, int number) {
-        this.players = players;
+    public Round(ArrayList<Player> players, int number) {
+        this.players      = players;
         this.playerNumber = this.players.size();
-        this.number = number;
+        this.number       = number;
     }
 
     /**
      * Get the actual season
-     * 
+     *
      * @return The actual season
      */
     @Override
@@ -78,7 +76,7 @@ public class Round implements Playable {
 
     /**
      * Get the current player
-     * 
+     *
      * @return The current player
      */
     @Override
@@ -88,7 +86,7 @@ public class Round implements Playable {
 
     /**
      * Get the round number
-     * 
+     *
      * @return The round number
      */
     public int getNumber() {
@@ -97,9 +95,8 @@ public class Round implements Playable {
 
     /**
      * Get a player from its index
-     * 
-     * @param playerId
-     *            The index
+     *
+     * @param playerId The index
      * @return The player
      */
     @Override
@@ -109,7 +106,7 @@ public class Round implements Playable {
 
     /**
      * Get the number of players
-     * 
+     *
      * @return The number of players
      */
     @Override
@@ -119,17 +116,17 @@ public class Round implements Playable {
 
     /**
      * Get the player list
-     * 
+     *
      * @return The player list
      */
     @Override
-    public Vector<Player> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return this.players;
     }
 
     /**
      * Get the game status
-     * 
+     *
      * @return True if the game is started, false otherwise
      */
     @Override
@@ -139,13 +136,10 @@ public class Round implements Playable {
 
     /**
      * Make a player play the card and get to the next turn
-     * 
-     * @param card
-     *            The played card
-     * @param action
-     *            The played action
-     * @param player
-     *            The player
+     *
+     * @param card   The played card
+     * @param action The played action
+     * @param player The player
      */
     @Override
     public void nextTurn(Card card, ActionType action, Player player) {
@@ -173,11 +167,9 @@ public class Round implements Playable {
 
     /**
      * Make a player play a fertilizer card
-     * 
-     * @param source
-     *            Source player
-     * @param fertilizeNumber
-     *            Amount of small rocks to evolve
+     *
+     * @param source          Source player
+     * @param fertilizeNumber Amount of small rocks to evolve
      */
     @Override
     public void playFertilizer(Player source, int fertilizeNumber) {
@@ -193,11 +185,9 @@ public class Round implements Playable {
 
     /**
      * Make a player play a giant trade card
-     * 
-     * @param source
-     *            Source player
-     * @param smallRockNumber
-     *            Amount of small rocks to get
+     *
+     * @param source          Source player
+     * @param smallRockNumber Amount of small rocks to get
      */
     @Override
     public void playGiant(Player source, int smallRockNumber) {
@@ -206,11 +196,9 @@ public class Round implements Playable {
 
     /**
      * Make a player play a hobgoblin card
-     * 
-     * @param target
-     *            The target
-     * @param hobgoblinNumber
-     *            Amount of rocks to steal
+     *
+     * @param target          The target
+     * @param hobgoblinNumber Amount of rocks to steal
      */
     @Override
     public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
@@ -225,7 +213,9 @@ public class Round implements Playable {
             targetField.addSmallRockNumber(-hobgoblinNumber);
         }
 
-    };
+    }
+
+    ;
 
     @Override
     public void playTaupe(Player source, Player target, int bigRockNumber) {
@@ -240,9 +230,8 @@ public class Round implements Playable {
 
     /**
      * Set the round number
-     * 
-     * @param number
-     *            The round number
+     *
+     * @param number The round number
      */
     public void setNumber(int number) {
         this.number = number;
@@ -261,6 +250,6 @@ public class Round implements Playable {
         }
 
         this.currentPlayer = this.players.get(0);
-        this.running = true;
+        this.running       = true;
     }
 }
