@@ -2,6 +2,7 @@ package gui;
 
 
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.lang.reflect.Constructor;
@@ -9,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 
 import core.Playable;
 
@@ -39,7 +41,8 @@ public class MainWindow extends JDialog {
      * Create the dialog.
      */
     public MainWindow() {
-        this.setTitle("Menhir");
+        super(null, "Menhir", Dialog.ModalityType.MODELESS);
+
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
