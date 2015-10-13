@@ -1,14 +1,16 @@
 package core;
 
 
-import java.util.Random;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game implements Playable {
     private boolean running         = false;
     private ArrayList<Round> rounds = null;
     private Round currentRound      = null;
     private int roundNumber         = 0;
+
+    private ArrayList<DogListener> listeners = new ArrayList<>();
 
     public Game(int playerNumber, int iaNumber) throws Exception {
         this.rounds      = new ArrayList<>();
@@ -37,6 +39,15 @@ public class Game implements Playable {
             System.out.println("choosed 2seeds");
             source.getField().addSmallRockNumber(2);
         }
+    }
+
+    /**
+     * Add a dog listener
+     *
+     * @param l The dog listener
+     */
+    public void addDogListener(DogListener l) {
+        this.listeners.add(l);
     }
 
     @Override
@@ -113,6 +124,14 @@ public class Game implements Playable {
     public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
         this.currentRound.playHobgoblin(source, target, hobgoblinNumber);
 
+        for (AlliedCard alliedCard : target.getAlliedCards()) {
+            if (alliedCard.getType() == CardType.DOG1
+                || alliedCard.getType() == CardType.DOG2
+                || alliedCard.getType() == CardType.DOG3) {
+                this.triggerDogListener(target, hobgoblinNumber);
+            }
+        }
+
     }
 
     @Override
@@ -124,5 +143,17 @@ public class Game implements Playable {
     public void start() {
         this.currentRound.start();
         this.running = true;
+    }
+
+    /**
+     * Calls dog listeners to ask them if they want to play dogs
+     *
+     * @param p               The target player
+     * @param hobgoblinNumber The amount of hobgoblins launched
+     */
+    private void triggerDogListener(Player p, int hobgoblinNumber) {
+        for (DogListener listener : this.listeners) {
+            listener.wouldPlayerPlayDog(p, hobgoblinNumber);
+        }
     }
 }
