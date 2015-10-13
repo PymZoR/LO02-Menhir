@@ -122,13 +122,15 @@ public class Game implements Playable {
 
     @Override
     public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
+        int seedsBefore = target.getField().getSmallRockNumber();
         this.currentRound.playHobgoblin(source, target, hobgoblinNumber);
+        int stolenSeeds = seedsBefore - target.getField().getSmallRockNumber();
 
         for (AlliedCard alliedCard : target.getAlliedCards()) {
             if (alliedCard.getType() == CardType.DOG1
                 || alliedCard.getType() == CardType.DOG2
                 || alliedCard.getType() == CardType.DOG3) {
-                this.triggerDogListener(target, hobgoblinNumber);
+                this.triggerDogListener(target, stolenSeeds);
             }
         }
 
@@ -148,12 +150,12 @@ public class Game implements Playable {
     /**
      * Calls dog listeners to ask them if they want to play dogs
      *
-     * @param p               The target player
-     * @param hobgoblinNumber The amount of hobgoblins launched
+     * @param p           The target player
+     * @param stolenSeeds The amount of seeds stolen
      */
-    private void triggerDogListener(Player p, int hobgoblinNumber) {
+    private void triggerDogListener(Player p, int stolenSeeds) {
         for (DogListener listener : this.listeners) {
-            listener.wouldPlayerPlayDog(p, hobgoblinNumber);
+            listener.wouldPlayerPlayDog(p, stolenSeeds);
         }
     }
 }
