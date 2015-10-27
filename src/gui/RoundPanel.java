@@ -19,6 +19,7 @@ import core.CardType;
 import core.IAPlayer;
 import core.Playable;
 import core.Player;
+import core.StrategyResult;
 
 /**
  * Round game panel
@@ -134,14 +135,14 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
         // Check for IA
         IAPlayer ia = this.player.ia();
         if (ia != null) {
-            ia.makeChoice();
-            CardType iaCardType = ia.getCardType();
+            StrategyResult result = ia.makeChoice();
+            CardType iaCardType = result.cardType;
             System.out.print(iaCardType.toString() + " ");
             System.out.print(iaCardType.ordinal());
             System.out.println("throws");
             core.Card iaCard    = core.Card.getCard(iaCardType);
-            ActionType iaAction = ia.getAction();
-            Player iaTarget     = ia.getTarget();
+            ActionType iaAction = result.type;
+            Player iaTarget     = result.target;
 
             int strength   = iaCard.getValue(iaAction, this.game.getActualSeason());
             String message = "Joueur " + String.valueOf(ia.getNumber() + 1);

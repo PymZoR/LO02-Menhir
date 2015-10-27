@@ -7,6 +7,8 @@ import java.util.Random;
  * Computer-powered player
  */
 public class IAPlayer extends Player {
+    static public final int STRATEGY_COUNT = 1;
+
     /**
      * IA
      */
@@ -17,59 +19,23 @@ public class IAPlayer extends Player {
 
         this.isIA = true;
 
-        int strategyNumber = (new Random()).nextInt(Strategy.STRATEGY_COUNT + 1);
+        int strategyNumber = (new Random()).nextInt(STRATEGY_COUNT + 1);
 
         System.out.print("Player " + String.valueOf(this.number + 1) + " is ");
 
         if (strategyNumber == 0) {
             System.out.println("safe");
-            this.strategy = new SafeStrategy(this, this.game.getPlayers());
+            this.strategy = new SafeStrategy();
         } else if (strategyNumber == 1) {
             System.out.println("aggressive");
-            this.strategy = new HarassStrategy(this, this.game.getPlayers());
+            this.strategy = new HarassStrategy();
         }
-    }
-
-    /**
-     * Get the chosen action
-     *
-     * @return The action
-     */
-    public ActionType getAction() {
-        return this.strategy.action;
-    }
-
-    /**
-     * Get the optional played allied card
-     *
-     * @return The allied card
-     */
-    public CardType getAlliedCard() {
-        return this.strategy.alliedCardType;
-    }
-
-    /**
-     * Get the chosen card type
-     *
-     * @return The card type
-     */
-    public CardType getCardType() {
-        return this.strategy.cardType;
-    }
-
-    /**
-     * Get the optional target
-     *
-     * @return The target
-     */
-    public Player getTarget() {
-        return this.strategy.target;
     }
 
     /**
      * Make the strategy choice
      */
-    public void makeChoice() {
-        this.strategy.makeChoice();
+    public StrategyResult makeChoice() {
+        return this.strategy.makeChoice(this, this.game.getPlayers());
     }
 }

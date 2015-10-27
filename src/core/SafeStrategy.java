@@ -6,39 +6,32 @@ import java.util.ArrayList;
 /**
  * Safe strategy : transforms small rocks, or get more
  */
-public class SafeStrategy extends Strategy {
-    /**
-     * Create a new strategy for a given player
-     *
-     * @param self       The actual player
-     * @param allPlayers All the players
-     */
-    public SafeStrategy(Player self, ArrayList<Player> allPlayers) {
-        super(self, allPlayers);
-    }
-
+public class SafeStrategy implements Strategy {
     /**
      * Make the choice
+     * @param  self       The actual player
+     * @param  allPlayers All the players
+     * @return The choosen triplet {cardType,target,alliedCardType}
      */
     @Override
-    public void makeChoice() {
-        this.action   = null;
-        this.cardType = null;
-        this.target   = null;
+    public StrategyResult makeChoice(Player self, ArrayList<Player> allPlayers) {
+        ActionType action   = null;
+        CardType cardType = null;
+        Player target   = null;
 
-        int smallRocks            = this.self.getField().getSmallRockNumber();
-        ArrayList<Card> selfCards = this.self.getCards();
-        SeasonType actualSeason   = this.self.getGame().getActualSeason();
+        int smallRocks            = self.getField().getSmallRockNumber();
+        ArrayList<Card> selfCards = self.getCards();
+        SeasonType actualSeason   = self.getGame().getActualSeason();
 
         if (smallRocks < 2) {
             // Less than two small rocks : play the first giant possible
             for (Card selfCard : selfCards) {
                 if (selfCard.getValue(ActionType.GIANT, actualSeason) > 0) {
-                    this.cardType = this.self.getCards().get(0).getType();
+                    cardType = self.getCards().get(0).getType();
                 }
             }
 
-            this.action = ActionType.GIANT;
+            action = ActionType.GIANT;
         } else {
             // More than two rocks : try to fertilize it using the lowest card
             // possible (to not waste)
@@ -58,15 +51,17 @@ public class SafeStrategy extends Strategy {
                 // Can't find a proper fertilizer, back to giant
                 for (Card selfCard : selfCards) {
                     if (selfCard.getValue(ActionType.GIANT, actualSeason) > 0) {
-                        this.cardType = this.self.getCards().get(0).getType();
+                        cardType = self.getCards().get(0).getType();
                     }
                 }
 
-                this.action = ActionType.GIANT;
+                action = ActionType.GIANT;
             } else {
-                this.cardType = maxCard.getType();
-                this.action   = ActionType.FERTILIZER;
+                cardType = maxCard.getType();
+                action   = ActionType.FERTILIZER;
             }
         }
+
+        return new StrategyResult(cardType, action, target, null);
     }
 }

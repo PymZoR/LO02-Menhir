@@ -13,6 +13,7 @@ import core.IAPlayer;
 import core.Playable;
 import core.Player;
 import core.Round;
+import core.StrategyResult;
 import helpers.StringUtils;
 
 /**
@@ -328,10 +329,10 @@ public class ConsoleGame {
      * Get the current IA choice
      */
     private void makeIAChoice() {
-        this.ia.makeChoice();
-        this.card         = Card.getCard(this.ia.getCardType());
-        this.action       = this.ia.getAction();
-        this.targetPlayer = this.ia.getTarget();
+        StrategyResult result = this.ia.makeChoice();
+        this.card         = Card.getCard(result.cardType);
+        this.action       = result.type;
+        this.targetPlayer = result.target;
     }
 
     /**
