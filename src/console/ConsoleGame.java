@@ -330,9 +330,9 @@ public class ConsoleGame {
      */
     private void makeIAChoice() {
         StrategyResult result = this.ia.makeChoice();
-        this.card         = Card.getCard(result.cardType);
-        this.action       = result.type;
-        this.targetPlayer = result.target;
+        this.card             = Card.getCard(result.cardType);
+        this.action           = result.type;
+        this.targetPlayer     = result.target;
     }
 
     /**
