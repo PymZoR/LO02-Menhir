@@ -28,8 +28,8 @@ abstract class Strategy {
      * Strategy choices
      */
     ActionType action;
-    CardType card;
-    CardType alliedCard;
+    CardType cardType;
+    CardType alliedCardType;
 
     /**
      * Create a new strategy for a given player
@@ -52,21 +52,21 @@ abstract class Strategy {
     }
 
     /**
-     * Get the optional played allied card
+     * Get the optional played allied card type
      *
-     * @return The allied card
+     * @return The allied card type
      */
-    public CardType getAlliedCard() {
-        return this.alliedCard;
+    public CardType getAlliedCardType() {
+        return this.alliedCardType;
     }
 
     /**
-     * Get the chosen card
+     * Get the chosen card type
      *
-     * @return The card id
+     * @return The card type
      */
-    public CardType getCard() {
-        return this.card;
+    public CardType getCardType() {
+        return this.cardType;
     }
 
     /**

@@ -22,9 +22,9 @@ public class HarassStrategy extends Strategy {
      */
     @Override
     public void makeChoice() {
-        this.action = null;
-        this.card   = null;
-        this.target = null;
+        this.action   = null;
+        this.cardType = null;
+        this.target   = null;
 
         Playable game = this.self.game;
 
@@ -57,8 +57,8 @@ public class HarassStrategy extends Strategy {
             int hobgoblinPower = selfCard.getValue(ActionType.HOBGOBLIN, game.getActualSeason());
             // Try hobgoblin against best player
             if (hobgoblinPower <= this.target.getField().getSmallRockNumber()) {
-                this.card   = selfCard.getType();
-                this.action = ActionType.HOBGOBLIN;
+                this.cardType = selfCard.getType();
+                this.action   = ActionType.HOBGOBLIN;
                 break;
             }
             // Try hobgoblin against other
@@ -68,8 +68,8 @@ public class HarassStrategy extends Strategy {
                     continue;
                 }
                 if (hobgoblinPower <= p.getField().getSmallRockNumber()) {
-                    this.card   = selfCard.getType();
-                    this.action = ActionType.HOBGOBLIN;
+                    this.cardType = selfCard.getType();
+                    this.action   = ActionType.HOBGOBLIN;
                     break;
                 }
             }
@@ -80,18 +80,18 @@ public class HarassStrategy extends Strategy {
             SafeStrategy ss = new SafeStrategy(this.self, this.allPlayers);
             this.target = null;
             ss.makeChoice();
-            this.card   = ss.getCard();
-            this.action = ss.getAction();
+            this.cardType = ss.getCardType();
+            this.action   = ss.getAction();
         }
 
         // If playing hobgobblin with strength = 0, back to Safe
         if ((this.action == ActionType.HOBGOBLIN)
-            && (Card.getCard(this.card).getValue(this.action, game.getActualSeason()) == 0)) {
+            && (Card.getCard(this.cardType).getValue(this.action, game.getActualSeason()) == 0)) {
             SafeStrategy ss = new SafeStrategy(this.self, this.allPlayers);
             this.target = null;
             ss.makeChoice();
-            this.card   = ss.getCard();
-            this.action = ss.getAction();
+            this.cardType = ss.getCardType();
+            this.action   = ss.getAction();
         }
 
         // If has taupe and best player has > 1 big rock; play taupe
@@ -102,7 +102,7 @@ public class HarassStrategy extends Strategy {
                     case TAUPE1:
                     case TAUPE2:
                     case TAUPE3:
-                        this.alliedCard = alliedCards.get(i).getType();
+                        this.alliedCardType = alliedCards.get(i).getType();
                         break;
                     default:
                         break;

@@ -45,16 +45,16 @@ public class IAPlayer extends Player {
      * @return The allied card
      */
     public CardType getAlliedCard() {
-        return this.strategy.alliedCard;
+        return this.strategy.alliedCardType;
     }
 
     /**
-     * Get the chosen card
+     * Get the chosen card type
      *
-     * @return The card id
+     * @return The card type
      */
-    public CardType getCard() {
-        return this.strategy.card;
+    public CardType getCardType() {
+        return this.strategy.cardType;
     }
 
     /**

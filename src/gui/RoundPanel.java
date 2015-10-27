@@ -135,7 +135,7 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
         IAPlayer ia = this.player.ia();
         if (ia != null) {
             ia.makeChoice();
-            CardType iaCardType = ia.getCard();
+            CardType iaCardType = ia.getCardType();
             System.out.print(iaCardType.toString() + " ");
             System.out.print(iaCardType.ordinal());
             System.out.println("throws");

@@ -329,7 +329,7 @@ public class ConsoleGame {
      */
     private void makeIAChoice() {
         this.ia.makeChoice();
-        this.card         = Card.getCard(this.ia.getCard()); // TODO: refactor
+        this.card         = Card.getCard(this.ia.getCardType());
         this.action       = this.ia.getAction();
         this.targetPlayer = this.ia.getTarget();
     }

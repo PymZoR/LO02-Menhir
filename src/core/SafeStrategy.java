@@ -22,9 +22,9 @@ public class SafeStrategy extends Strategy {
      */
     @Override
     public void makeChoice() {
-        this.action = null;
-        this.card   = null;
-        this.target = null;
+        this.action   = null;
+        this.cardType = null;
+        this.target   = null;
 
         int smallRocks            = this.self.getField().getSmallRockNumber();
         ArrayList<Card> selfCards = this.self.getCards();
@@ -34,7 +34,7 @@ public class SafeStrategy extends Strategy {
             // Less than two small rocks : play the first giant possible
             for (Card selfCard : selfCards) {
                 if (selfCard.getValue(ActionType.GIANT, actualSeason) > 0) {
-                    this.card = this.self.getCards().get(0).getType();
+                    this.cardType = this.self.getCards().get(0).getType();
                 }
             }
 
@@ -58,14 +58,14 @@ public class SafeStrategy extends Strategy {
                 // Can't find a proper fertilizer, back to giant
                 for (Card selfCard : selfCards) {
                     if (selfCard.getValue(ActionType.GIANT, actualSeason) > 0) {
-                        this.card = this.self.getCards().get(0).getType();
+                        this.cardType = this.self.getCards().get(0).getType();
                     }
                 }
 
                 this.action = ActionType.GIANT;
             } else {
-                this.card   = maxCard.getType();
-                this.action = ActionType.FERTILIZER;
+                this.cardType = maxCard.getType();
+                this.action   = ActionType.FERTILIZER;
             }
         }
     }
