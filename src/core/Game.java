@@ -2,6 +2,7 @@ package core;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 public class Game implements Playable {
@@ -10,7 +11,7 @@ public class Game implements Playable {
     private Round currentRound      = null;
     private int roundNumber         = 0;
 
-    private ArrayList<DogListener> listeners = new ArrayList<>();
+    private HashSet<DogListener> listeners = new HashSet<>();
 
     public Game(int playerNumber, int iaNumber) throws Exception {
         this.rounds      = new ArrayList<>();
