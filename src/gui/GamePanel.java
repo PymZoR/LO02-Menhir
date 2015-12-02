@@ -32,17 +32,20 @@ public class GamePanel extends RoundPanel {
      * Class that will listen for the dog query
      */
     public class WaitForDogs implements DogListener {
-        final private GamePanel parent;
-
-        public WaitForDogs(GamePanel parent) {
-            this.parent = parent;
+        public WaitForDogs() {
         }
 
         @Override
         public void wouldPlayerPlayDog(Player player, int stolenSeeds) {
-            System.out.println("EHO");
+            JOptionPane.showMessageDialog(GamePanel.parent, "Joueur " + player.getNumber() + 1 + ", voulez vous vous défendre ?");
         }
     }
+    
+    /**
+     * Unique listener
+     */
+    private static WaitForDogs dogsListener;
+    private static MainWindow parent;
 
     /**
      * Create the same window that RoundPanel
@@ -51,6 +54,11 @@ public class GamePanel extends RoundPanel {
      */
     public GamePanel(MainWindow parentWindow) {
         super(parentWindow);
+        GamePanel.parent = parentWindow;
+        
+        if (GamePanel.dogsListener == null) {
+            GamePanel.dogsListener = new WaitForDogs();
+        }
 
         this.remove(this.totalBigRocks);
         this.remove(this.totalBigRocks);
@@ -58,7 +66,7 @@ public class GamePanel extends RoundPanel {
         int totalScore     = this.game.getCurrentPlayer().getField().getBigRockSum();
         this.totalBigRocks = new JLabel("Score total : " + String.valueOf(totalScore));
 
-        ((Game) this.game).addDogListener(new WaitForDogs(this));
+        ((Game) this.game).addDogListener(GamePanel.dogsListener);
 
         String thisRound = String.valueOf((((Game) this.game).getCurrentRound()).getNumber() + 1);
         String maxRounds = String.valueOf(this.game.getPlayerNumber());
@@ -102,7 +110,7 @@ public class GamePanel extends RoundPanel {
     public Card getAlliedCard() {
         return this.alliedCard;
     }
-    
+
     /**
      * Play the card in the round. Will be overrided to play the card in the game
      * @param card The selected card
