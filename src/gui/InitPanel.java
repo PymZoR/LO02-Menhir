@@ -1,18 +1,16 @@
 package gui;
 
 
+import core.Game;
+import core.Playable;
+import core.Round;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
-
-import core.Game;
-import core.Playable;
-import core.Round;
 
 public class InitPanel extends JPanel {
     /**
@@ -81,7 +79,7 @@ public class InitPanel extends JPanel {
                 Playable game;
                 
                 if (rapidGame) {
-                    game = new Round(players, iaPlayers);
+                    game = new Round(players, iaPlayers, null);
                     
                     game.start();
                     InitPanel.this.parentWindow.setGame(game);

@@ -1,19 +1,17 @@
 package gui;
 
 
+import core.DogListener;
+import core.Game;
+import core.Player;
+import core.SeasonType;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.Random;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import core.DogListener;
-import core.Game;
-import core.Player;
-import core.SeasonType;
 
 /**
  * Full game GUI
@@ -103,6 +101,18 @@ public class GamePanel extends RoundPanel {
      */
     public Card getAlliedCard() {
         return this.alliedCard;
+    }
+    
+    /**
+     * Play the card in the round. Will be overrided to play the card in the game
+     * @param card The selected card
+     * @param action The selected action
+     * @param target The selected target
+     */
+    @Override
+    protected void playCard(core.Card card, core.ActionType action, core.Player target) {
+        System.out.println(this.game.getClass());
+        ((core.Game) this.game).nextTurn(card, action, target);
     }
 
     /**

@@ -17,6 +17,7 @@ public class Round implements Playable {
     /**
      * Round state (started, playing player, all players, playing player index and actual season)
      */
+    private Playable parent         = null;
     private boolean running         = false;
     private Player currentPlayer    = null;
     private ArrayList<Player> players;
@@ -29,9 +30,10 @@ public class Round implements Playable {
      *
      * @param playerNumber The amount of players
      * @param iaPlayers    The IA count
+     * @param parent       The parent game
      * @throws java.lang.Exception
      */
-    public Round(int playerNumber, int iaPlayers) throws Exception {
+    public Round(int playerNumber, int iaPlayers, Game parent) throws Exception {
         if (playerNumber < 1) {
             throw new Exception("You can't play alone");
         }
@@ -39,14 +41,16 @@ public class Round implements Playable {
             throw new Exception("Too many players !");
         }
 
+        this.parent = (parent == null) ? this : parent;
+        
         this.players      = new ArrayList<>();
         this.playerNumber = playerNumber;
         for (int i = 0; i < playerNumber; i++) {
             Player newPlayer;
             if (i >= (playerNumber - iaPlayers)) {
-                newPlayer = new IAPlayer(this, i);
+                newPlayer = new IAPlayer(this.parent, i);
             } else {
-                newPlayer = new Player(this, i);
+                newPlayer = new Player(this.parent, i);
             }
             this.players.add(newPlayer);
         }
@@ -137,9 +141,9 @@ public class Round implements Playable {
     /**
      * Make a player play the card and get to the next turn
      *
-     * @param card   The played card
-     * @param action The played action
-     * @param player The player
+     * @param card     The played card
+     * @param action   The played action
+     * @param player   The player
      */
     @Override
     public void nextTurn(Card card, ActionType action, Player player) {

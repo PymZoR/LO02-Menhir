@@ -16,7 +16,7 @@ public class Game implements Playable {
         this.rounds      = new ArrayList<>();
         this.roundNumber = playerNumber;
 
-        this.rounds.add(new Round(playerNumber, iaNumber));
+        this.rounds.add(new Round(playerNumber, iaNumber, this));
         this.currentRound = this.rounds.get(0);
         this.currentRound.setNumber(0);
 
@@ -122,6 +122,7 @@ public class Game implements Playable {
 
     @Override
     public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
+        System.out.println("Playing hob");
         int seedsBefore = target.getField().getSmallRockNumber();
         this.currentRound.playHobgoblin(source, target, hobgoblinNumber);
         int stolenSeeds = seedsBefore - target.getField().getSmallRockNumber();

@@ -1,25 +1,23 @@
 package gui;
 
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Collections;
-import java.util.ArrayList;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import core.ActionType;
 import core.CardType;
 import core.IAPlayer;
 import core.Playable;
 import core.Player;
 import core.StrategyResult;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  * Round game panel
@@ -230,8 +228,18 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
             target = this.targetField.getPlayer();
         }
 
-        this.game.nextTurn(selectedCoreCard, action, target);
+        this.playCard(selectedCoreCard, action, target);
         this.goNextTurn();
+    }
+    
+    /**
+     * Play the card in the round. Will be overrided to play the card in the game
+     * @param card The selected card
+     * @param action The selected action
+     * @param target The selected target
+     */
+    protected void playCard(core.Card card, core.ActionType action, core.Player target) {
+        this.game.nextTurn(card, action, target);
     }
 
     /**

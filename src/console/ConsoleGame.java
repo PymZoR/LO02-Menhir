@@ -1,9 +1,6 @@
 package console;
 
 
-import java.util.Collections;
-import java.util.ArrayList;
-
 import core.ActionType;
 import core.AlliedCard;
 import core.Card;
@@ -15,6 +12,8 @@ import core.Player;
 import core.Round;
 import core.StrategyResult;
 import helpers.StringUtils;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Console-based game
@@ -293,7 +292,7 @@ public class ConsoleGame {
             }
             try {
                 if (this.gameType == GameType.ROUND) {
-                    this.game = new Round(chosenPlayerNumber, this.iaNumber);
+                    this.game = new Round(chosenPlayerNumber, this.iaNumber, null);
                 } else if (this.gameType == GameType.GAME) {
                     this.game = new Game(chosenPlayerNumber, this.iaNumber);
                 }
