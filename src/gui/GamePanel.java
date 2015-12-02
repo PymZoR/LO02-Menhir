@@ -10,7 +10,9 @@ import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import core.DogListener;
 import core.Game;
+import core.Player;
 import core.SeasonType;
 
 /**
@@ -29,6 +31,22 @@ public class GamePanel extends RoundPanel {
     private Card alliedCard = null;
 
     /**
+     * Class that will listen for the dog query
+     */
+    public class WaitForDogs implements DogListener {
+        final private GamePanel parent;
+
+        public WaitForDogs(GamePanel parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        public void wouldPlayerPlayDog(Player player, int stolenSeeds) {
+            System.out.println("EHO");
+        }
+    }
+
+    /**
      * Create the same window that RoundPanel
      *
      * @param parentWindow Parent window reference
@@ -41,6 +59,8 @@ public class GamePanel extends RoundPanel {
 
         int totalScore     = this.game.getCurrentPlayer().getField().getBigRockSum();
         this.totalBigRocks = new JLabel("Score total : " + String.valueOf(totalScore));
+
+        ((Game) this.game).addDogListener(new WaitForDogs(this));
 
         String thisRound = String.valueOf((((Game) this.game).getCurrentRound()).getNumber() + 1);
         String maxRounds = String.valueOf(this.game.getPlayerNumber());
