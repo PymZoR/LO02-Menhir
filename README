@@ -1,0 +1,21 @@
+Installation
+============
+
+Require Java 8 (arrow functions)
+Build with Eclipse/Netbeans/... (main is in launcher/Main)
+
+The application will determinate if it's launched from console or from graphic
+
+Console
+=======
+
+Start console (cmd/bash/...)
+
+cd bin/
+java launcher.Main
+
+GUI
+===
+
+Launch with Eclipse/Netbeans or with double click on executable
+
