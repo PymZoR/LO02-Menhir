@@ -5,10 +5,10 @@ package core;
  * Lists four seasons
  */
 public enum SeasonType {
-    SPRING("Été"),
-    SUMMER("Printemps"),
-    FALL("Automne"),
-    WINTER("Hiver");
+    SPRING("Spring"),
+    SUMMER("Summer"),
+    FALL("Fall"),
+    WINTER("Winter");
 
     private final String name;
 

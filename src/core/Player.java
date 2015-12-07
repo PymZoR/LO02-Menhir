@@ -31,6 +31,11 @@ public class Player implements Comparable<Player> {
     protected Playable game;
 
     /**
+     * Protection anti-hobgoblin granted when a Dog card is used
+     */
+    protected int protection;
+
+    /**
      * Create a new player
      *
      * @param game   Playable reference
@@ -42,6 +47,7 @@ public class Player implements Comparable<Player> {
         this.field       = new Field();
         this.number      = number;
         this.game        = game;
+        this.protection  = 0;
     }
 
     /**
@@ -147,6 +153,24 @@ public class Player implements Comparable<Player> {
     }
 
     /**
+     * Get the player protection number
+     *
+     * @return The protection number
+     */
+    public int getProtection() {
+        return this.protection;
+    }
+
+    /**
+     * Set the player protection
+     *
+     * @param newProtection The new protection number
+     */
+    public void setProtection(int newProtection) {
+        this.protection = newProtection;
+    }
+
+    /**
      * Get the IA player behind this player
      *
      * @return The IA player or null
@@ -187,7 +211,7 @@ public class Player implements Comparable<Player> {
                 break;
 
             case DOG:
-                this.game.playDog(this);
+                this.protection = card.getValue(null, this.game.getActualSeason());
                 break;
         }
 

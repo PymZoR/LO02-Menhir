@@ -11,6 +11,7 @@ import core.Playable;
 import core.Player;
 import core.Round;
 import core.StrategyResult;
+import core.DogListener;
 import helpers.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,9 +20,58 @@ import java.util.Collections;
  * Console-based game
  */
 public class ConsoleGame {
+    /**
+     * Types of game
+     */
     public enum GameType {
         ROUND,
         GAME
+    }
+
+    /**
+     * Class that will listen for the dog query
+     */
+    public class WaitForDogs implements DogListener {
+        private ConsoleGame consoleGame;
+
+        public WaitForDogs(ConsoleGame consoleGame) {
+            this.consoleGame = consoleGame;
+        }
+
+        @Override
+        public void wouldPlayerPlayDog(Player player, int stolenSeeds) {
+            ConsoleGame.clearConsole();
+
+            AlliedCard dogCard = player.getAlliedCards().get(0);
+            int value          = dogCard.getValue(null, this.consoleGame.game.getActualSeason());
+
+            if (value == 0 || stolenSeeds == 0) {
+                return;
+            }
+
+
+            int seedsToSave    = stolenSeeds;
+            if (value < stolenSeeds) {
+                seedsToSave = value;
+            }
+
+            System.out.println("Player " + (player.getNumber() + 1) + ", do you want to protect " +
+                seedsToSave + " seeds ? (0 no, 1 yes)");
+
+            int choice = -1;
+            do {
+                choice = ConsoleGame.getIntInput();
+
+                if (choice != 0 && choice != 1) {
+                    System.out.println("Choice must either be 0 (no) or 1 (yes)");
+                    choice = -1;
+                }
+            } while (choice == -1);
+
+            if (choice == 1) {
+                player.playCard(player.getAlliedCards().get(0), ActionType.DOG, null);
+            }
+        }
     }
 
     /**
@@ -83,6 +133,11 @@ public class ConsoleGame {
         }
     }
 
+    /**
+     * Unique listener
+     */
+    private static WaitForDogs dogsListener;
+
     private Playable game                  = null;
     private GameType gameType              = null;
     private int playerNumber               = 0;
@@ -93,18 +148,19 @@ public class ConsoleGame {
     private IAPlayer ia                    = null;
     private ArrayList<Player> otherPlayers = null;
     private Round currentRound             = null;
-
-    private int previousRoundNumber = 0;
-
-    private Card card = null;
-
-    private ActionType action = null;
+    private int previousRoundNumber        = 0;
+    private Card card                      = null;
+    private ActionType action              = null;
 
     /**
      * Start a console-based game
      */
     @SuppressWarnings("unchecked")
     public ConsoleGame() {
+        if (ConsoleGame.dogsListener == null) {
+            ConsoleGame.dogsListener = new WaitForDogs(this);
+        }
+
         this.chooseGameType();
         this.chooseIANumber();
         this.choosePlayerNumber();
@@ -203,9 +259,9 @@ public class ConsoleGame {
                 }
 
                 if (choice == 1) {
-                    ((Game) this.game).chooseAlliedCards(this.game.getPlayer(i), true);
-                } else {
                     ((Game) this.game).chooseAlliedCards(this.game.getPlayer(i), false);
+                } else {
+                    ((Game) this.game).chooseAlliedCards(this.game.getPlayer(i), true);
                 }
             } while (choice == 0);
         }
@@ -290,6 +346,8 @@ public class ConsoleGame {
                 System.out.println("You can't play alone !");
                 continue;
             }
+            chosenPlayerNumber += this.iaNumber;
+
             try {
                 if (this.gameType == GameType.ROUND) {
                     this.game = new Round(chosenPlayerNumber, this.iaNumber, null);
@@ -298,6 +356,8 @@ public class ConsoleGame {
                 }
 
                 this.playerNumber = chosenPlayerNumber;
+                // Attach event listener
+                ((Game) this.game).addDogListener(ConsoleGame.dogsListener);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -305,7 +365,7 @@ public class ConsoleGame {
     }
 
     /**
-     * TODO
+     * Ask the user to choose a target player
      */
     private void chooseTargetPlayer() {
         do {

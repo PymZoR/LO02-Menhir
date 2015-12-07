@@ -42,7 +42,7 @@ public class Round implements Playable {
         }
 
         this.parent = (parent == null) ? this : parent;
-        
+
         this.players      = new ArrayList<>();
         this.playerNumber = playerNumber;
         for (int i = 0; i < playerNumber; i++) {
@@ -165,10 +165,6 @@ public class Round implements Playable {
         }
     }
 
-    @Override
-    public void playDog(Player source) {
-    }
-
     /**
      * Make a player play a fertilizer card
      *
@@ -208,6 +204,13 @@ public class Round implements Playable {
     public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
         Field targetField = target.getField();
         Field sourceField = source.getField();
+
+        hobgoblinNumber -= target.getProtection();
+        target.setProtection(0);
+
+        if (hobgoblinNumber <= 0) {
+            return;
+        }
 
         if (targetField.getSmallRockNumber() <= hobgoblinNumber) {
             sourceField.addSmallRockNumber(targetField.getSmallRockNumber());

@@ -31,13 +31,10 @@ public class Game implements Playable {
     }
 
     public void chooseAlliedCards(Player source, boolean allied) {
-        System.out.print(source);
         if (allied) {
-            System.out.println("choosed allied");
             int randomBoolean = (new Random()).nextInt(2);
             source.drawAlliedCards((randomBoolean == 1));
         } else {
-            System.out.println("choosed 2seeds");
             source.getField().addSmallRockNumber(2);
         }
     }
@@ -105,11 +102,6 @@ public class Game implements Playable {
     }
 
     @Override
-    public void playDog(Player source) {
-        this.currentRound.playDog(source);
-    }
-
-    @Override
     public void playFertilizer(Player source, int fertilizeNumber) {
         this.currentRound.playFertilizer(source, fertilizeNumber);
 
@@ -123,19 +115,27 @@ public class Game implements Playable {
 
     @Override
     public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
-        System.out.println("Playing hob");
         int seedsBefore = target.getField().getSmallRockNumber();
-        this.currentRound.playHobgoblin(source, target, hobgoblinNumber);
-        int stolenSeeds = seedsBefore - target.getField().getSmallRockNumber();
+        int stolenSeeds = hobgoblinNumber;
 
+        if (seedsBefore < hobgoblinNumber) {
+            stolenSeeds = seedsBefore;
+        }
+
+        boolean dogFound = false;
         for (AlliedCard alliedCard : target.getAlliedCards()) {
             if (alliedCard.getType() == CardType.DOG1
                 || alliedCard.getType() == CardType.DOG2
                 || alliedCard.getType() == CardType.DOG3) {
-                this.triggerDogListener(target, stolenSeeds);
+                dogFound = true;
             }
         }
 
+        if (dogFound) {
+            this.triggerDogListener(target, stolenSeeds);
+        }
+
+        this.currentRound.playHobgoblin(source, target, hobgoblinNumber);
     }
 
     @Override

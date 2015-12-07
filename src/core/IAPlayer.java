@@ -21,13 +21,13 @@ public class IAPlayer extends Player {
 
         int strategyNumber = (new Random()).nextInt(STRATEGY_COUNT + 1);
 
-        System.out.print("Player " + String.valueOf(this.number + 1) + " is ");
+        System.out.print("IA Player " + String.valueOf(this.number + 1) + " is ");
 
         if (strategyNumber == 0) {
-            System.out.println("safe");
+            System.out.println("safe.");
             this.strategy = new SafeStrategy();
         } else if (strategyNumber == 1) {
-            System.out.println("aggressive");
+            System.out.println("aggressive.");
             this.strategy = new HarassStrategy();
         }
     }
