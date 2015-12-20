@@ -4,6 +4,7 @@ package console;
 import core.ActionType;
 import core.AlliedCard;
 import core.Card;
+import core.DogListener;
 import core.Field;
 import core.Game;
 import core.IAPlayer;
@@ -11,7 +12,6 @@ import core.Playable;
 import core.Player;
 import core.Round;
 import core.StrategyResult;
-import core.DogListener;
 import helpers.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -248,7 +248,7 @@ public class ConsoleGame {
         int choice;
 
         for (int i = 0; i < this.playerNumber; i++) {
-            System.out.println("Player " + (i + 1) + ", choose either seeds or allied card (1, 2): ");
+            System.out.println("Player " + (i + 1) + ", choose either seeds or allied card (1 : seeds, 2 : allied card): ");
 
             do {
                 choice = ConsoleGame.getIntInput();
