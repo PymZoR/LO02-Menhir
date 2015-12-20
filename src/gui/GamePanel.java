@@ -1,6 +1,7 @@
 package gui;
 
 
+import core.ActionType;
 import core.DogListener;
 import core.Game;
 import core.Player;
@@ -32,15 +33,30 @@ public class GamePanel extends RoundPanel {
      * Class that will listen for the dog query
      */
     public class WaitForDogs implements DogListener {
-        public WaitForDogs() {
+        GamePanel parent;
+
+        public WaitForDogs(GamePanel parent) {
+            this.parent = parent;
         }
 
         @Override
         public void wouldPlayerPlayDog(Player player, int stolenSeeds) {
-            JOptionPane.showMessageDialog(GamePanel.parent, "Joueur " + player.getNumber() + 1 + ", voulez vous vous défendre ?");
+            String playerN          = String.valueOf(player.getNumber() + 1);
+            SeasonType actualSeason = this.parent.getGame().getActualSeason();
+            int dogForce            = player.getAlliedCards().get(0).getValue(ActionType.DOG, actualSeason);
+            
+            int result = JOptionPane.showConfirmDialog(GamePanel.parent, "Joueur " + playerN +
+                ", vous êtes attaqué par un farfadet (force: " + stolenSeeds + "). Voulez-vous vous défendre " +
+                " en utilisant votre carte Chien (force : " + String.valueOf(dogForce) + ") ?",
+                "Attaque de farfadets",
+                JOptionPane.YES_NO_OPTION);
+            
+            if (result == JOptionPane.YES_OPTION) {
+                player.playCard(player.getAlliedCards().get(0), ActionType.DOG, null);
+            }
         }
     }
-    
+
     /**
      * Unique listener
      */
@@ -55,9 +71,9 @@ public class GamePanel extends RoundPanel {
     public GamePanel(MainWindow parentWindow) {
         super(parentWindow);
         GamePanel.parent = parentWindow;
-        
+
         if (GamePanel.dogsListener == null) {
-            GamePanel.dogsListener = new WaitForDogs();
+            GamePanel.dogsListener = new WaitForDogs(this);
         }
 
         this.remove(this.totalBigRocks);

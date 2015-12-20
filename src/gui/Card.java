@@ -1,21 +1,25 @@
 package gui;
 
 
+import core.ActionType;
+import core.CardType;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
+import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import core.ActionType;
-import core.CardType;
 
 /**
  * Card GUI representation
@@ -30,6 +34,14 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
      * Parent panel reference
      */
     private final RoundPanel parentPanel;
+
+    /**
+     * URLs
+     */
+    private static final URL fallURL   = Field.class.getResource("/images/fall.png");
+    private static final URL summerURL = Field.class.getResource("/images/summer.png");
+    private static final URL springURL = Field.class.getResource("/images/spring.png");
+    private static final URL winterURL = Field.class.getResource("/images/winter.png");
 
     /**
      * Card value
@@ -168,6 +180,10 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
         if (this.parentPanel.lockingCards && !this.isAllied) {
             return;
         }
+        
+        if (this.type == CardType.DOG1 || this.type == CardType.DOG2 || this.type == CardType.DOG3) {
+            return;
+        }
 
         if ((e.getY() >= 38) && (e.getY() < 58)) {
             this.rowSelected = 0;
@@ -222,11 +238,25 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
                     break;
             }
         }
+        
+        Image springImage = null;
+        Image summerImage = null;
+        Image winterImage = null;
+        Image fallImage = null;
 
-        g2.drawString("s", 30, 30);
-        g2.drawString("S", 45, 30);
-        g2.drawString("F", 60, 30);
-        g2.drawString("W", 75, 30);
+        try {
+            springImage = ImageIO.read(Card.springURL).getScaledInstance(12, 12, Image.SCALE_SMOOTH);
+            summerImage = ImageIO.read(Card.summerURL).getScaledInstance(12, 12, Image.SCALE_SMOOTH);
+            winterImage = ImageIO.read(Card.winterURL).getScaledInstance(12, 12, Image.SCALE_SMOOTH);
+            fallImage   = ImageIO.read(Card.fallURL).getScaledInstance(12, 12, Image.SCALE_SMOOTH);
+        } catch (IOException ex) {
+            Logger.getLogger(Card.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        g2.drawImage(springImage, 27, 20, this);
+        g2.drawImage(summerImage, 45, 20, this);
+        g2.drawImage(fallImage, 60, 20, this);
+        g2.drawImage(winterImage, 75, 20, this);
 
         if (this.rowSelected >= 0) {
             g.setColor(Color.red);
