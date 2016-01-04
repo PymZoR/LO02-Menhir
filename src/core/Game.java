@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
+/**
+ * The game (contains rounds)
+ */
 public class Game implements Playable {
     private boolean running         = false;
     private ArrayList<Round> rounds = null;
@@ -13,6 +16,13 @@ public class Game implements Playable {
 
     private HashSet<DogListener> listeners = new HashSet<>();
 
+    /**
+     * Create a game
+     * 
+     * @param playerNumber Amount of players
+     * @param iaNumber Amount of IA players
+     * @throws Exception See Round constructor
+     */
     public Game(int playerNumber, int iaNumber) throws Exception {
         this.rounds      = new ArrayList<>();
         this.roundNumber = playerNumber;
@@ -30,6 +40,12 @@ public class Game implements Playable {
         }
     }
 
+    /**
+     * Execute the player choice (seeds or allied cards)
+     * 
+     * @param source
+     * @param allied 
+     */
     public void chooseAlliedCards(Player source, boolean allied) {
         if (allied) {
             int randomBoolean = (new Random()).nextInt(2);
@@ -58,6 +74,11 @@ public class Game implements Playable {
         return this.currentRound.getCurrentPlayer();
     }
 
+    /**
+     * Get the current round
+     * 
+     * @return The current round
+     */
     public Round getCurrentRound() {
         return this.currentRound;
     }
@@ -77,6 +98,11 @@ public class Game implements Playable {
         return this.currentRound.getPlayers();
     }
 
+    /**
+     * Get the rounds amount
+     * 
+     * @return The rounds amount
+     */
     public int getRoundNumber() {
         return this.roundNumber;
     }

@@ -1,8 +1,8 @@
 package core;
 
 
-import java.util.Random;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Represent a player (alive or not)
@@ -50,16 +50,16 @@ public class Player implements Comparable<Player> {
         this.protection  = 0;
     }
 
-    /**
-     * Compare two player's scores by their fields
-     *
-     * @param comparePlayer The player to compare with
-     */
     @Override
     public int compareTo(Player comparePlayer) {
         return this.getField().compareTo(comparePlayer.getField());
     }
 
+    /**
+     * Draw the allied cards
+     * 
+     * @param taupe True if taupe, false if dogs
+     */
     public void drawAlliedCards(boolean taupe) {
         int offset = taupe ? 0 : 3;
 
@@ -93,6 +93,12 @@ public class Player implements Comparable<Player> {
         }
     }
 
+    /**
+     * Get the allied card
+     * 
+     * @param cardId The allied card index
+     * @return The card
+     */
     public AlliedCard getAlliedCardById(int cardId) {
         return this.alliedCards.get(cardId);
     }
@@ -230,9 +236,6 @@ public class Player implements Comparable<Player> {
         this.field.reset();
     }
 
-    /**
-     * Format player to string
-     */
     @Override
     public String toString() {
         return "Player " + (this.number + 1) + ". " + this.field;

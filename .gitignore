@@ -6,3 +6,4 @@ build.xml
 .project
 .classpath
 manifest.mf
+/dist/

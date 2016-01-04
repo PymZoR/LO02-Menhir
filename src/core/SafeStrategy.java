@@ -7,17 +7,11 @@ import java.util.ArrayList;
  * Safe strategy : transforms small rocks, or get more
  */
 public class SafeStrategy implements Strategy {
-    /**
-     * Make the choice
-     * @param  self       The actual player
-     * @param  allPlayers All the players
-     * @return The choosen triplet {cardType,target,alliedCardType}
-     */
     @Override
     public StrategyResult makeChoice(Player self, ArrayList<Player> allPlayers) {
-        ActionType action   = null;
+        ActionType action;
         CardType cardType = null;
-        Player target   = null;
+        Player target     = null;
 
         int smallRocks            = self.getField().getSmallRockNumber();
         ArrayList<Card> selfCards = self.getCards();

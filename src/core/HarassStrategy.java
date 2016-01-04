@@ -7,12 +7,6 @@ import java.util.ArrayList;
  * Aggressive strategy
  */
 public class HarassStrategy implements Strategy {
-    /**
-     * Make the choice
-     * @param  self       The actual player
-     * @param  allPlayers All the players
-     * @return The choosen triplet {cardType,target,alliedCardType}
-     */
     @Override
     public StrategyResult makeChoice(Player self, ArrayList<Player> allPlayers) {
         ActionType action       = null;

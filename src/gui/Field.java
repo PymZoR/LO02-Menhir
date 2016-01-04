@@ -1,6 +1,8 @@
 package gui;
 
 
+import core.Playable;
+import core.Player;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -10,13 +12,12 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import core.Playable;
-import core.Player;
-
+/**
+ * GUI Field representation
+ */
 public class Field extends AbsoluteJPanel implements MouseListener {
     /**
      * Java UID
@@ -103,10 +104,6 @@ public class Field extends AbsoluteJPanel implements MouseListener {
         return this.player;
     }
 
-    /**
-     * Mouse events
-     * @param e The mouse event
-     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (this.parentPanel.choosingTarget && !this.isSelfPlayer) {
@@ -132,9 +129,6 @@ public class Field extends AbsoluteJPanel implements MouseListener {
     public void mouseReleased(MouseEvent e) {
     }
 
-    /**
-     * Draw the field
-     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;

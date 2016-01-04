@@ -31,11 +31,6 @@ public enum SeasonType {
         return (otherName == null) ? false : this.name.equals(otherName);
     }
 
-    /**
-     * Get the real season name
-     *
-     * @return The real season name
-     */
     @Override
     public String toString() {
         return this.name;

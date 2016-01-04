@@ -1,18 +1,19 @@
 package gui;
 
 
+import core.Playable;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import core.Playable;
-
+/**
+ * Main window
+ */
 public class MainWindow extends JDialog {
     /**
      * Java UID

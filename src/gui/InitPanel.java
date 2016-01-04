@@ -12,6 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
+/**
+ * First panel
+ */
 public class InitPanel extends JPanel {
     /**
      * Java UID

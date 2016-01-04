@@ -31,11 +31,6 @@ public enum ActionType {
         return (otherName == null) ? false : this.name.equals(otherName);
     }
 
-    /**
-     * Get the real action name
-     *
-     * @return The real action name
-     */
     @Override
     public String toString() {
         return this.name;

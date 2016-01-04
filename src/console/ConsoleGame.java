@@ -34,6 +34,11 @@ public class ConsoleGame {
     public class WaitForDogs implements DogListener {
         private ConsoleGame consoleGame;
 
+        /**
+         * Constructor. Set the console
+         * 
+         * @param consoleGame 
+         */
         public WaitForDogs(ConsoleGame consoleGame) {
             this.consoleGame = consoleGame;
         }

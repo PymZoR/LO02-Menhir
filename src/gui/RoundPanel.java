@@ -187,11 +187,6 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
         this.nextRound.addActionListener(this);
     }
 
-    /**
-     * Choose a card
-     *
-     * @param e The clck event
-     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // Give back focus to window (to re handle escapes)
@@ -288,9 +283,6 @@ public class RoundPanel extends AbsoluteJPanel implements ActionListener {
         this.repaint();
     }
 
-    /**
-     * Draw the panel
-     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2     = (Graphics2D) g;

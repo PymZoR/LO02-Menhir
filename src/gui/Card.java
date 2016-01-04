@@ -170,11 +170,6 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
     public void mouseDragged(MouseEvent e) {
     }
 
-    /**
-     * Detect mouse position and update selection rect
-     *
-     * @param e The mouse event
-     */
     @Override
     public void mouseMoved(MouseEvent e) {
         if (this.parentPanel.lockingCards && !this.isAllied) {
@@ -199,9 +194,6 @@ public class Card extends AbsoluteJPanel implements MouseMotionListener {
         this.revalidate();
     }
 
-    /**
-     * Draw the card
-     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;

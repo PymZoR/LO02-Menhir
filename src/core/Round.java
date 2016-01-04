@@ -68,21 +68,11 @@ public class Round implements Playable {
         this.number       = number;
     }
 
-    /**
-     * Get the actual season
-     *
-     * @return The actual season
-     */
     @Override
     public SeasonType getActualSeason() {
         return this.actualSeason;
     }
 
-    /**
-     * Get the current player
-     *
-     * @return The current player
-     */
     @Override
     public Player getCurrentPlayer() {
         return this.currentPlayer;
@@ -97,54 +87,26 @@ public class Round implements Playable {
         return this.number;
     }
 
-    /**
-     * Get a player from its index
-     *
-     * @param playerId The index
-     * @return The player
-     */
     @Override
     public Player getPlayer(int playerId) {
         return this.players.get(playerId);
     }
 
-    /**
-     * Get the number of players
-     *
-     * @return The number of players
-     */
     @Override
     public int getPlayerNumber() {
         return this.playerNumber;
     }
 
-    /**
-     * Get the player list
-     *
-     * @return The player list
-     */
     @Override
     public ArrayList<Player> getPlayers() {
         return this.players;
     }
 
-    /**
-     * Get the game status
-     *
-     * @return True if the game is started, false otherwise
-     */
     @Override
     public boolean isRunning() {
         return this.running;
     }
 
-    /**
-     * Make a player play the card and get to the next turn
-     *
-     * @param card     The played card
-     * @param action   The played action
-     * @param player   The player
-     */
     @Override
     public void nextTurn(Card card, ActionType action, Player player) {
         this.currentPlayer.playCard(card, action, player);
@@ -165,12 +127,6 @@ public class Round implements Playable {
         }
     }
 
-    /**
-     * Make a player play a fertilizer card
-     *
-     * @param source          Source player
-     * @param fertilizeNumber Amount of small rocks to evolve
-     */
     @Override
     public void playFertilizer(Player source, int fertilizeNumber) {
         Field field = source.getField();
@@ -183,23 +139,11 @@ public class Round implements Playable {
         field.addBigRockNumber(fertilizeNumber);
     }
 
-    /**
-     * Make a player play a giant trade card
-     *
-     * @param source          Source player
-     * @param smallRockNumber Amount of small rocks to get
-     */
     @Override
     public void playGiant(Player source, int smallRockNumber) {
         source.getField().addSmallRockNumber(smallRockNumber);
     }
 
-    /**
-     * Make a player play a hobgoblin card
-     *
-     * @param target          The target
-     * @param hobgoblinNumber Amount of rocks to steal
-     */
     @Override
     public void playHobgoblin(Player source, Player target, int hobgoblinNumber) {
         Field targetField = target.getField();
@@ -222,8 +166,6 @@ public class Round implements Playable {
 
     }
 
-    ;
-
     @Override
     public void playTaupe(Player source, Player target, int bigRockNumber) {
         Field field = target.getField();
@@ -244,9 +186,6 @@ public class Round implements Playable {
         this.number = number;
     }
 
-    /**
-     * Start the game
-     */
     @Override
     public void start() {
         Card.resetCards();

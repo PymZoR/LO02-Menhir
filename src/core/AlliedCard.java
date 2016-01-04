@@ -1,9 +1,8 @@
 package core;
 
 
-import java.util.ArrayList;
-
 import helpers.StringUtils;
+import java.util.ArrayList;
 
 /**
  * Allied card (taupe or dog) representation
@@ -75,32 +74,16 @@ public class AlliedCard extends Card {
         this.type           = type;
     }
 
-    /**
-     * Get the card type
-     *
-     * @return The card type
-     */
     @Override
     public CardType getType() {
         return this.type;
     }
 
-    /**
-     * Get value to current season
-     *
-     * @return value
-     */
     @Override
     public int getValue(ActionType action, SeasonType season) {
         return this.valueMatrix[0][season.ordinal()];
     }
 
-    /**
-     * Render a card
-     *
-     * @param cardN The card index
-     * @return A string representation
-     */
     @Override
     public String toASCII(int cardN) {
         String result = "--------------" + System.lineSeparator();

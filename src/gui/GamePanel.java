@@ -35,6 +35,11 @@ public class GamePanel extends RoundPanel {
     public class WaitForDogs implements DogListener {
         GamePanel parent;
 
+        /**
+         * Constructor. Set the parent
+         * 
+         * @param parent The parent panel
+         */
         public WaitForDogs(GamePanel parent) {
             this.parent = parent;
         }
@@ -127,29 +132,17 @@ public class GamePanel extends RoundPanel {
         return this.alliedCard;
     }
 
-    /**
-     * Play the card in the round. Will be overrided to play the card in the game
-     * @param card The selected card
-     * @param action The selected action
-     * @param target The selected target
-     */
     @Override
     protected void playCard(core.Card card, core.ActionType action, core.Player target) {
         System.out.println(this.game.getClass());
         ((core.Game) this.game).nextTurn(card, action, target);
     }
 
-    /**
-     * Load the next turn panel
-     */
     @Override
     protected void goNextTurn() {
         this.parentWindow.switchPanel("GamePanel", 710, 450);
     }
 
-    /**
-     * Draw the panel
-     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;

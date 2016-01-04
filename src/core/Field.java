@@ -40,11 +40,6 @@ public class Field implements Comparable<Field> {
         this.smallRockSum    += number;
     }
 
-    /**
-     * Compare a Field to another to find which is bigger
-     *
-     * @param compareField field to compare
-     */
     @Override
     public int compareTo(Field compareField) {
         if (compareField.getBigRockSum() == this.getBigRockSum()) {

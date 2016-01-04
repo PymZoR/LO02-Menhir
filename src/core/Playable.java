@@ -36,6 +36,11 @@ public interface Playable {
      */
     public int getPlayerNumber();
 
+    /**
+     * Get the players
+     * 
+     * @return The players list
+     */
     public ArrayList<Player> getPlayers();
 
     /**
