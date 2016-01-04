@@ -43,8 +43,8 @@ public class Game implements Playable {
     /**
      * Execute the player choice (seeds or allied cards)
      * 
-     * @param source
-     * @param allied 
+     * @param source The source player
+     * @param allied True if allied card
      */
     public void chooseAlliedCards(Player source, boolean allied) {
         if (allied) {

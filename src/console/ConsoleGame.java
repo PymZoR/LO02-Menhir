@@ -37,7 +37,7 @@ public class ConsoleGame {
         /**
          * Constructor. Set the console
          * 
-         * @param consoleGame 
+         * @param consoleGame The parent console game
          */
         public WaitForDogs(ConsoleGame consoleGame) {
             this.consoleGame = consoleGame;

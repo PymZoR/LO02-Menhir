@@ -31,7 +31,7 @@ public class Round implements Playable {
      * @param playerNumber The amount of players
      * @param iaPlayers    The IA count
      * @param parent       The parent game
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception Throw when player amount is bad
      */
     public Round(int playerNumber, int iaPlayers, Game parent) throws Exception {
         if (playerNumber < 1) {

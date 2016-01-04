@@ -14,6 +14,12 @@ public class IAPlayer extends Player {
      */
     private Strategy strategy = null;
 
+    /**
+     * Create a new IA Player
+     * 
+     * @param game   The game
+     * @param number The player index
+     */
     public IAPlayer(Playable game, int number) {
         super(game, number);
 
@@ -34,6 +40,8 @@ public class IAPlayer extends Player {
 
     /**
      * Make the strategy choice
+     * 
+     * @return The result
      */
     public StrategyResult makeChoice() {
         return this.strategy.makeChoice(this, this.game.getPlayers());

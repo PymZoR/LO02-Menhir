@@ -101,7 +101,7 @@ public class MainWindow extends JDialog {
      * Set the next IA message. If there is already a message, append it. If iaMessage is "empty", empty the ia message
      * queue
      *
-     * @param iaMessage
+     * @param iaMessage The next ia message
      */
     public void addIAMessage(String iaMessage) {
         if ("empty".equals(iaMessage)) {
